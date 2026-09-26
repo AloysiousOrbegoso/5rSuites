@@ -1,0 +1,85 @@
+---
+// Every CMS page. "/" is the page with slug "home".
+import { env } from 'cloudflare:workers';
+import Section from '../components/Section.astro';
+import Base from '../layouts/Base.astro';
+import { cacheTagsFor, setEdgeCache, setNoStore } from '../lib/cache.js';
+import { getNav, getPage } from '../lib/content.js';
+import { sectionBg } from '../lib/section-bg.js';
+
+const raw = Astro.params.slug;
+if (raw === 'home') return Astro.redirect('/', 301);
+const slug = raw ?? 'home';
+
+const db = env.DB;
+const [content, nav] = await Promise.all([/^[a-z0-9][a-z0-9-]*$/.test(slug) ? getPage(db, slug) : null, getNav(db)]);
+
+if (!content) {
+  Astro.response.status = 404;
+  setNoStore(Astro.response.headers);
+}
+
+const siteUrl = env.SITE_URL || 'https://www.5rsuites.com';
+const bookingUrl = env.BOOKING_URL || 'https://5rsuites.holidayfuture.com';
+
+let jsonLd = [];
+if (content) {
+  setEdgeCache(Astro.response.headers, cacheTagsFor(content.page, content.sections));
+
+  // schema.org structured data on Home, Register Property and FAQ.
+  const org = {
+    '@type': 'LodgingBusiness',
+    '@id': `${siteUrl}/#organization`,
+    name: '5R Suites',
+    url: siteUrl,
+    logo: `${siteUrl}/favicon.svg`,
+    description: content.page.slug === 'home' ? content.page.meta_description : undefined,
+  };
+  if (slug === 'home') {
+    jsonLd.push({ '@context': 'https://schema.org', ...org });
+    jsonLd.push({ '@context': 'https://schema.org', '@type': 'WebSite', name: '5R Suites', url: siteUrl });
+  }
+  if (slug === 'register-property') {
+    jsonLd.push({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Property registration and free rental market report',
+      serviceType: 'Corporate housing property management',
+      provider: { '@id': `${siteUrl}/#organization`, '@type': 'LodgingBusiness', name: '5R Suites', url: siteUrl },
+      url: `${siteUrl}/register-property`,
+      description: content.page.meta_description,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', description: 'Free short-term rental market report' },
+    });
+  }
+  if (content.faqs.length && slug === 'faq') {
+    jsonLd.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: content.faqs.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
+    });
+  }
+}
+
+const ctx = content ? { media: content.media, faqs: content.faqs, units: content.units, bookingUrl } : null;
+const startsWithHero = content?.sections[0]?.type === 'hero';
+---
+{content ? (
+  <Base title={content.page.title} description={content.page.meta_description} nav={nav} currentSlug={slug} jsonLd={jsonLd}>
+    {!startsWithHero && <h1 class="visually-hidden">{content.page.title}</h1>}
+    {content.sections.map((section, i, all) => (
+      <Section section={section} ctx={ctx} isFirst={i === 0}
+        prevBg={i > 0 ? sectionBg(all[i - 1]) : '#ffffff'}
+        nextBg={i < all.length - 1 ? sectionBg(all[i + 1]) : '#ffffff'} />
+    ))}
+  </Base>
+) : (
+  <Base title="Page not found" nav={nav} noindex>
+    <section class="section center">
+      <div class="container narrow">
+        <h1>Page not found</h1>
+        <p>Sorry, we couldn’t find that page.</p>
+        <p><a class="btn btn-navy" href="/">Go to the home page</a></p>
+      </div>
+    </section>
+  </Base>
+)}

@@ -1,0 +1,32 @@
+---
+// Dispatches a section to its renderer. One renderer per block type in packages/blocks.
+import AmenityGrid from './blocks/AmenityGrid.astro';
+import ContactStrip from './blocks/ContactStrip.astro';
+import CtaBanner from './blocks/CtaBanner.astro';
+import FaqList from './blocks/FaqList.astro';
+import Form from './blocks/Form.astro';
+import Hero from './blocks/Hero.astro';
+import ImageGallery from './blocks/ImageGallery.astro';
+import Quote from './blocks/Quote.astro';
+import RichText from './blocks/RichText.astro';
+import TravelerGrid from './blocks/TravelerGrid.astro';
+import UnitGrid from './blocks/UnitGrid.astro';
+
+const RENDERERS = {
+  hero: Hero,
+  rich_text: RichText,
+  image_gallery: ImageGallery,
+  traveler_grid: TravelerGrid,
+  amenity_grid: AmenityGrid,
+  cta_banner: CtaBanner,
+  quote: Quote,
+  contact_strip: ContactStrip,
+  faq_list: FaqList,
+  unit_grid: UnitGrid,
+  form: Form,
+};
+
+const { section, ctx, isFirst, prevBg, nextBg } = Astro.props;
+const Renderer = RENDERERS[section.type];
+---
+{Renderer && <Renderer data={section.data} ctx={ctx} isFirst={isFirst} prevBg={prevBg} nextBg={nextBg} />}

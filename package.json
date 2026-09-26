@@ -1,0 +1,21 @@
+{
+  "name": "5rsuites",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:site": "npm run dev -w apps/site",
+    "dev:admin": "npm run dev -w apps/admin",
+    "build": "npm run build -w apps/site && npm run build -w apps/admin",
+    "test": "node --test 'packages/*/test/*.test.js' 'apps/*/test/*.test.js'",
+    "db:migrate:local": "npm run db:migrate:local -w apps/admin",
+    "db:migrate:remote": "npm run db:migrate:remote -w apps/admin",
+    "create-owner": "node scripts/create-owner.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

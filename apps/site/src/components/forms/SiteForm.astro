@@ -1,0 +1,130 @@
+---
+import { env } from 'cloudflare:workers';
+import { FORMS } from '../../lib/form-specs.js';
+
+// Turnstile + honeypot on every public form. Submits with fetch when JS is available,
+// and falls back to a normal POST otherwise.
+const { type, heading = '', intro = '' } = Astro.props;
+const spec = FORMS[type];
+if (!spec) return null;
+const hasFile = spec.fields.some((f) => f.type === 'file');
+const id = (f) => `${type}-${f.name}`;
+
+// Consecutive checkbox groups are laid out side by side in columns.
+const rows = [];
+for (const f of spec.fields) {
+  const last = rows[rows.length - 1];
+  if (f.group && last?.group) last.fields.push(f);
+  else rows.push(f.group ? { group: true, fields: [f] } : f);
+}
+---
+<div class="form-card">
+  {heading && <h2>{heading}</h2>}
+  {intro && <p class="intro">{intro}</p>}
+  <form class="site-form" method="post" action={`/api/forms/${type}`} enctype={hasFile ? 'multipart/form-data' : undefined} data-success={spec.success}>
+    <div class="form-grid">
+      {rows.map((f) =>
+        f.group ? (
+          <div class="checkbox-cols">
+            {f.fields.map((g) => (
+              <fieldset class="field" style="border:0;padding:0;margin:0">
+                <legend class="group-label">{g.label}{g.required ? ' *' : ''}</legend>
+                <div class="options">
+                  {g.options.map((o) => <label><input type="checkbox" name={g.name} value={o} />{o}</label>)}
+                </div>
+              </fieldset>
+            ))}
+          </div>
+        ) : f.type === 'heading' ? (
+          <h3>{f.label}</h3>
+        ) : f.type === 'consent' ? (
+          <label class="consent full"><input type="checkbox" name={f.name} value="yes" />{f.label}</label>
+        ) : f.type === 'radio' ? (
+          <fieldset class="field" style="border:0;padding:0;margin:0">
+            <legend class="group-label">{f.label}{f.required ? ' *' : ''}</legend>
+            <div class="options inline">
+              {f.options.map((o) => <label><input type="radio" name={f.name} value={o} required={f.required} />{o}</label>)}
+            </div>
+          </fieldset>
+        ) : f.type === 'file' ? (
+          <div class:list={['field', type !== 'careers' && 'full']}>
+            <label class:list={['file-btn', type === 'careers' && 'pill']}>
+              <input type="file" name={f.name} accept={f.accept} required={f.required} data-file-input />
+              {f.label}{type !== 'careers' && ' +'}
+            </label>
+            <div class="file-name" data-file-name></div>
+          </div>
+        ) : (
+          <div class:list={['field', (f.full || f.type === 'textarea') && 'full']}>
+            <label class="visually-hidden" for={id(f)}>{f.label}</label>
+            {f.type === 'textarea' ? (
+              <textarea id={id(f)} name={f.name} placeholder={f.label} required={f.required} maxlength={f.max} />
+            ) : f.type === 'select' ? (
+              <select id={id(f)} name={f.name} required={f.required} autocomplete={f.autocomplete}>
+                <option value="" disabled selected>{f.label}</option>
+                {f.options.map((o) => <option value={o}>{o}</option>)}
+              </select>
+            ) : (
+              <input id={id(f)} name={f.name} type={f.type === 'date' ? 'text' : f.type || 'text'} placeholder={f.label}
+                required={f.required} maxlength={f.max} autocomplete={f.autocomplete}
+                inputmode={f.type === 'number' ? 'decimal' : undefined}
+                onfocus={f.type === 'date' ? "this.type='date'" : undefined} />
+            )}
+          </div>
+        ),
+      )}
+    </div>
+
+    <!-- Honeypot: hidden from people, tempting to bots. -->
+    <div class="hp-field" aria-hidden="true">
+      <label for={`hp-${type}`}>Website</label>
+      <input id={`hp-${type}`} name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="cf-turnstile" data-sitekey={env.TURNSTILE_SITE_KEY} data-theme="light"></div>
+    <div class="form-actions">
+      <button class:list={['btn', type === 'careers' ? 'btn-navy' : 'btn-gold']} type="submit">{spec.submitLabel}</button>
+    </div>
+    <p class="form-status" role="status" aria-live="polite" hidden></p>
+  </form>
+</div>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+  for (const input of document.querySelectorAll<HTMLInputElement>('[data-file-input]')) {
+    input.addEventListener('change', () => {
+      const out = input.closest('.field')?.querySelector('[data-file-name]');
+      if (out) out.textContent = input.files?.[0]?.name || '';
+    });
+  }
+  for (const form of document.querySelectorAll<HTMLFormElement>('form.site-form')) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = form.querySelector<HTMLElement>('.form-status')!;
+      const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      button.disabled = true;
+      status.hidden = true;
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const out = await res.json();
+        status.hidden = false;
+        if (out.ok) {
+          status.className = 'form-status ok';
+          status.textContent = out.message || form.dataset.success || 'Thanks!';
+          form.querySelectorAll('.form-grid, .cf-turnstile, .form-actions').forEach((el) => el.remove());
+          (window as any).gtag?.('event', 'generate_lead', { form_id: form.action.split('/').pop() });
+          return;
+        }
+        status.className = 'form-status err';
+        status.textContent = out.error || 'Something went wrong. Please try again.';
+      } catch {
+        status.hidden = false;
+        status.className = 'form-status err';
+        status.textContent = 'Network error. Please check your connection and try again.';
+      }
+      // Turnstile tokens are single-use.
+      (window as any).turnstile?.reset(form.querySelector('.cf-turnstile'));
+      button.disabled = false;
+    });
+  }
+</script>

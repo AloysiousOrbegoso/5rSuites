@@ -1,0 +1,41 @@
+/* 5R Suites design tokens — taken from the previous Wix site. */
+:root {
+  --navy: #183b5f;
+  --navy-deep: #122e4b;
+  --gold: #d4c284;
+  --gold-deep: #b9a45f;
+  --brown: #846438;
+  --cream: #f3ecd9;
+  --ink: #111111;
+  --ink-soft: #4a4f55;
+  --muted: #6f757c;
+  --line: #d9dde2;
+  --surface: #ffffff;
+  --surface-alt: #f6f7f9;
+
+  /* Legacy aliases used by the admin */
+  --color-ink: #16202c;
+  --color-ink-soft: #475467;
+  --color-muted: #667085;
+  --color-line: #e4e7ec;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f3f5f8;
+  --color-brand: var(--navy);
+  --color-brand-contrast: #ffffff;
+  --color-accent: var(--gold);
+  --color-accent-contrast: var(--navy);
+  --color-danger: #b42318;
+  --color-success: #067647;
+
+  --font-heading: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-heading);
+
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --shadow: 0 2px 6px rgb(0 0 0 / 4%), 0 12px 32px rgb(0 0 0 / 7%);
+
+  --container: 1160px;
+  --container-narrow: 820px;
+}

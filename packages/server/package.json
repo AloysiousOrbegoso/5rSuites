@@ -1,0 +1,11 @@
+{
+  "name": "@5rsuites/server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Server-side helpers shared by the site Worker and the admin Pages Functions.",
+  "exports": {
+    "./email": "./email.js",
+    "./ratelimit": "./ratelimit.js"
+  }
+}

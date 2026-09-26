@@ -1,0 +1,25 @@
+{
+  "name": "@5rsuites/admin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite build && wrangler pages dev --persist-to ../../.wrangler/state",
+    "dev:ui": "vite",
+    "build": "vite build",
+    "db:migrate:local": "wrangler d1 migrations apply 5rsuites --local --persist-to ../../.wrangler/state",
+    "db:migrate:remote": "wrangler d1 migrations apply 5rsuites --remote"
+  },
+  "dependencies": {
+    "@5rsuites/blocks": "*",
+    "@5rsuites/design": "*",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "@5rsuites/server": "*"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.1",
+    "wrangler": "^4.125.0"
+  }
+}

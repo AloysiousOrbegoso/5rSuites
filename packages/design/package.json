@@ -1,0 +1,10 @@
+{
+  "name": "@5rsuites/design",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./styles.css": "./styles.css",
+    "./tokens.css": "./tokens.css",
+    "./assets/*": "./assets/*"
+  }
+}

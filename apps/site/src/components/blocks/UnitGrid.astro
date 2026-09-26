@@ -1,0 +1,28 @@
+---
+import Title from '../Title.astro';
+const { data, ctx } = Astro.props;
+let units = data.city ? ctx.units.filter((u) => u.city.toLowerCase() === data.city.toLowerCase()) : ctx.units;
+if (data.limit > 0) units = units.slice(0, data.limit);
+const beds = (n) => (n === 0 ? 'Studio' : `${n} bed${n === 1 ? '' : 's'}`);
+---
+{units.length > 0 && (
+  <section class="section bg-cream">
+    <div class="container">
+      <Title heading={data.heading} intro={data.intro} center />
+      <div class="units">
+        {units.map((u) => (
+          <article class="unit">
+            {u.image_key && <img src={`/${u.image_key}`} alt={u.image_alt || u.name} width={u.image_width ?? undefined} height={u.image_height ?? undefined} loading="lazy" decoding="async" />}
+            <div class="body">
+              <p class="meta">{[u.neighborhood, u.city].filter(Boolean).join(', ')}</p>
+              <h3>{u.name}</h3>
+              <p class="meta">{beds(u.bedrooms)} · {u.bathrooms} bath · sleeps {u.sleeps}</p>
+              {u.description && <p>{u.description}</p>}
+            </div>
+            <div class="foot"><a class="btn btn-navy" href={u.booking_url || ctx.bookingUrl}>Check Availability</a></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

@@ -1,0 +1,18 @@
+---
+// Renders a media-library image by id. Missing/deleted images render nothing.
+const { id, media, class: className, eager = false, alt: altOverride, sizes } = Astro.props;
+const m = id ? media.get(id) : null;
+---
+{m && (
+  <img
+    src={`/${m.r2_key}`}
+    alt={altOverride ?? m.alt}
+    width={m.width ?? undefined}
+    height={m.height ?? undefined}
+    class={className}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+    decoding="async"
+    sizes={sizes}
+  />
+)}

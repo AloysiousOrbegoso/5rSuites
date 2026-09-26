@@ -1,0 +1,22 @@
+---
+import Img from '../Img.astro';
+import Title from '../Title.astro';
+const { data, ctx } = Astro.props;
+const items = data.items || [];
+const withText = items.some((i) => i.description);
+---
+<section class:list={['section', data.background === 'cream' && 'bg-cream']}>
+  <div class="container">
+    {data.heading && <div class="title center"><h2 class="caps">{data.heading}</h2>{data.intro && <p class="intro">{data.intro}</p>}</div>}
+    <div class:list={['numbered', withText && 'with-text']}>
+      {items.map((item, i) => (
+        <article class="ncard">
+          <span class="num">{String(i + 1).padStart(2, '0')}</span>
+          {item.image && <Img id={item.image} media={ctx.media} class="icon" alt="" />}
+          <h3>{item.title}</h3>
+          {item.description && <p>{item.description}</p>}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

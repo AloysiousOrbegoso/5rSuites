@@ -1,0 +1,7 @@
+---
+// Soft wave edge used on the hero and colour bands (matches the previous site).
+const { position = 'bottom', color = '#fff' } = Astro.props;
+---
+<svg class={`wave ${position}`} viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+  <path style={`fill:${color}`} d="M0,58 C240,96 420,20 720,40 C1020,60 1200,92 1440,52 L1440,90 L0,90 Z" />
+</svg>

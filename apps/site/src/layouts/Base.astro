@@ -1,0 +1,123 @@
+---
+// Fonts are self-hosted (bundled from npm) — no Google Fonts dependency.
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins/700.css';
+import '@5rsuites/design/styles.css';
+import { env } from 'cloudflare:workers';
+import SocialIcon from '../components/SocialIcon.astro';
+import { siteInfo } from '../lib/site-info.js';
+
+const { title, description = '', nav = [], currentSlug = '', jsonLd = [], noindex = false } = Astro.props;
+const info = siteInfo(env);
+const canonical = new URL(Astro.url.pathname, info.siteUrl).toString().replace(/\/$/, '') || info.siteUrl;
+const fullTitle = currentSlug === 'home' ? '5R Suites | Luxury Fully-Furnished Apartments' : `${title} | 5R Suites`;
+const ga = env.GA4_MEASUREMENT_ID;
+const year = new Date().getFullYear();
+const tel = `tel:${info.phone.replace(/[^\d+]/g, '')}`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="5R Suites" />
+    <meta property="og:title" content={fullTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data).replace(/</g, '\\u003c')} />)}
+    {ga && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>
+        <script is:inline define:vars={{ ga }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', ga);
+        </script>
+      </>
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="topbar">
+      <div class="container">
+        {info.mailingAddress && <span class="item left"><SocialIcon name="pin" />Mailing Address: {info.mailingAddress}</span>}
+        <span class="right">
+          {info.phone && <a class="item" href={tel}><SocialIcon name="phone" />Phone: {info.phone}</a>}
+          {info.email && <a class="item" href={`mailto:${info.email}`}><SocialIcon name="mail" />Email: {info.email}</a>}
+        </span>
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container bar">
+        <a href="/" class="brand" aria-label="5R Suites home">
+          <img src="/logo.svg" alt="" width="64" height="64" />
+          <span><span class="name">5R SUITES</span><span class="tagline">Luxury Fully-Furnished Apartments</span></span>
+        </a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+        </button>
+        <nav id="site-nav" class="nav" aria-label="Main">
+          {nav.map((item) => <a href={item.href} aria-current={item.slug === currentSlug ? 'page' : undefined}>{item.title}</a>)}
+          <a href={info.bookingUrl} class="btn btn-outline">Book Now</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-top">
+          <a href="/" class="brand">
+            <img src="/logo.svg" alt="" width="64" height="64" />
+            <span><span class="name">5R SUITES</span><span class="tagline">Luxury Fully-Furnished Apartments</span></span>
+          </a>
+          <div class="contact">
+            <div class="socials">
+              {info.socials.map((s) => <a href={s.url} rel="noopener" target="_blank" aria-label={s.label}><SocialIcon name={s.name} /></a>)}
+            </div>
+            {info.phone && <a href={tel}><SocialIcon name="phone" />Phone: {info.phone}</a>}
+            {info.email && <a href={`mailto:${info.email}`}><SocialIcon name="mail" />Email: {info.email}</a>}
+          </div>
+        </div>
+        <div class="footer-mid">
+          <span>{info.mailingAddress && `Mailing Address: ${info.mailingAddress}`}</span>
+          <nav class="footer-nav" aria-label="Footer">
+            {nav.map((item) => <a href={item.href} aria-current={item.slug === currentSlug ? 'page' : undefined}>{item.title}</a>)}
+          </nav>
+        </div>
+        <div class="footer-bottom">
+          <span>© {year} by 5R Suites All Rights Reserved</span>
+          <nav aria-label="Legal">
+            {info.privacyUrl && <a href={info.privacyUrl}>Privacy Policy</a>}
+            {info.termsUrl && <a href={info.termsUrl}>Terms &amp; Conditions</a>}
+          </nav>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.getElementById('site-nav');
+      toggle?.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(open));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+---
+import SocialIcon from '../SocialIcon.astro';
+import Title from '../Title.astro';
+const { data } = Astro.props;
+const tel = data.phone ? `tel:${data.phone.replace(/[^\d+]/g, '')}` : '';
+const style = data.style || 'brown';
+// Google Maps embed built from a plain text query — no API key, no arbitrary HTML.
+const map = data.map_query ? `https://maps.google.com/maps?q=${encodeURIComponent(data.map_query)}&z=11&output=embed` : '';
+---
+<section class="section">
+  <div class="container">
+    <Title heading={data.heading} center />
+    <div class:list={['contact-layout', !map && 'no-map']} style={!map ? 'justify-content:center' : undefined}>
+      <div class:list={['contact-card', style]}>
+        <dl>
+          {data.address && <div class="row"><SocialIcon name="pin" /><div><dt>Address</dt><dd>{data.address}</dd></div></div>}
+          {data.phone && <div class="row"><SocialIcon name="phone" /><div><dt>Phone Number</dt><dd><a href={tel}>{data.phone}</a></dd></div></div>}
+          {data.email && <div class="row"><SocialIcon name="mail" /><div><dt>Email</dt><dd><a href={`mailto:${data.email}`}>{data.email}</a></dd></div></div>}
+          {data.hours && <div class="row"><SocialIcon name="phone" /><div><dt>Hours</dt><dd>{data.hours}</dd></div></div>}
+        </dl>
+      </div>
+      {map && <iframe class="map" src={map} title={`Map of ${data.map_query}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>}
+    </div>
+  </div>
+</section>

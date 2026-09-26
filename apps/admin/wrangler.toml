@@ -1,0 +1,26 @@
+# Cloudflare Pages project: admin.5rsuites.com
+# Root directory in the Pages dashboard: apps/admin   Build command: npm run build   Output: dist
+name = "5rsuites-admin"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-09-01"
+
+[vars]
+SITE_URL = "https://www.5rsuites.com"
+EMAIL_FROM = "5R Suites <no-reply@5rsuites.com>"
+
+# Same D1 database and R2 bucket as the public site (apps/site/wrangler.jsonc).
+# Replace database_id with the id printed by `wrangler d1 create 5rsuites`.
+[[d1_databases]]
+binding = "DB"
+database_name = "5rsuites"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "5rsuites-media"
+
+# Secrets (set in the Cloudflare dashboard or with `wrangler pages secret put`; never commit):
+#   RESEND_API_KEY     Resend API key
+#   TEAM_ALERT_EMAIL   where security alerts go
+#   PURGE_SECRET       shared with the site Worker; authorizes cache purges

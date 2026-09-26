@@ -1,0 +1,25 @@
+---
+// Simple line icons for the amenity grid. Names match ICONS in packages/blocks.
+const { name } = Astro.props;
+const paths = {
+  wifi: 'M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0M12 19h.01',
+  kitchen: 'M4 3h16v18H4zM4 10h16M8 6h.01M8 14v3',
+  laundry: 'M4 3h16v18H4zM4 7h16M12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+  parking: 'M5 3h14v18H5zM10 17V7h3a3 3 0 0 1 0 6h-3',
+  workspace: 'M3 5h18v11H3zM8 20h8M12 16v4',
+  tv: 'M3 6h18v12H3zM8 3l4 3 4-3',
+  gym: 'M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12',
+  pool: 'M2 18c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M8 15V5a2 2 0 0 1 4 0M16 15V5a2 2 0 0 0-4 0M8 9h8',
+  pets: 'M12 20c-3 0-5-2-5-4s2-4 5-4 5 2 5 4-2 4-5 4zM5 10a1.5 2 0 1 0 0-.01M19 10a1.5 2 0 1 0 0-.01M9 6a1.5 2 0 1 0 0-.01M15 6a1.5 2 0 1 0 0-.01',
+  cleaning: 'M12 3v8M8 11h8l1 10H7zM10 16v5M14 16v5',
+  linens: 'M3 10h18v8H3zM5 10V6h14v4M3 18v3M21 18v3M8 8h3',
+  utilities: 'M13 2 4 14h7l-1 8 9-12h-7z',
+  security: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4',
+  support: 'M4 14v-2a8 8 0 0 1 16 0v2M4 14h3v5H4zM17 14h3v5h-3zM20 19c0 1.5-2 2.5-5 2.5',
+  location: 'M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12zM12 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
+  calendar: 'M4 5h16v16H4zM4 10h16M8 3v4M16 3v4',
+};
+---
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d={paths[name] || paths.support} />
+</svg>

@@ -1,0 +1,21 @@
+---
+import Img from '../Img.astro';
+import Wave from '../Wave.astro';
+const { data, ctx, prevBg = '#fff', nextBg = '#fff' } = Astro.props;
+const tone = data.tone || 'gold';
+const large = data.size === 'large';
+const button = tone === 'gold' ? 'btn-white' : 'btn-gold';
+---
+<section class:list={['banner', `tone-${tone}`, large && 'size-large']}>
+  {tone === 'photo' && <Img id={data.image} media={ctx.media} class="bg" alt="" />}
+  {large && <Wave position="top" color={prevBg} />}
+  <div class="container">
+    <h2>{data.heading}</h2>
+    {!large && <span class="divider" aria-hidden="true"></span>}
+    {data.body && <p class="body">{data.body}</p>}
+    {data.button_label && data.button_url && (
+      <div class="actions center"><a class:list={['btn', button]} href={data.button_url}>{data.button_label}</a></div>
+    )}
+  </div>
+  {large && <Wave color={nextBg} />}
+</section>

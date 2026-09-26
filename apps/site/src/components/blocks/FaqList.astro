@@ -1,0 +1,39 @@
+---
+import Title from '../Title.astro';
+const { data, ctx } = Astro.props;
+let items = data.category ? ctx.faqs.filter((f) => f.category === data.category) : ctx.faqs;
+if (data.limit > 0) items = items.slice(0, data.limit);
+// Without a fixed category, show one tab per category (like the previous site).
+const categories = data.category ? [] : [...new Set(items.map((f) => f.category).filter(Boolean))];
+const tabbed = categories.length > 1;
+---
+<section class="section">
+  <div class="container">
+    <Title heading={data.heading} intro={data.subheading} center />
+    {tabbed && (
+      <div class="faq-tabs" role="tablist">
+        {categories.map((c, i) => <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-cat={c}>{c}</button>)}
+      </div>
+    )}
+    <div class="faq">
+      {items.map((f) => (
+        <details data-cat={f.category} hidden={tabbed && f.category !== categories[0]}>
+          <summary>{f.question}</summary>
+          <div class="answer">{f.answer.split(/\n{2,}/).map((p) => <p>{p}</p>)}</div>
+        </details>
+      ))}
+      {items.length === 0 && <p class="empty-note">No questions yet.</p>}
+    </div>
+  </div>
+</section>
+<script>
+  for (const tabs of document.querySelectorAll<HTMLElement>('.faq-tabs')) {
+    const list = tabs.nextElementSibling as HTMLElement;
+    tabs.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('button');
+      if (!btn) return;
+      tabs.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', String(b === btn)));
+      list.querySelectorAll<HTMLElement>('details').forEach((d) => (d.hidden = d.dataset.cat !== btn.dataset.cat));
+    });
+  }
+</script>

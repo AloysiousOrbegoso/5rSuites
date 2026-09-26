@@ -1,0 +1,11 @@
+---
+// Section heading with the double-line divider used throughout the site.
+const { heading, intro = '', center = false, caps = false, as: Tag = 'h2' } = Astro.props;
+---
+{(heading || intro) && (
+  <div class:list={['title', center && 'center']}>
+    {heading && <Tag class:list={[caps && 'caps']}>{heading}</Tag>}
+    {heading && <span class="divider" aria-hidden="true"></span>}
+    {intro && <p class="intro">{intro}</p>}
+  </div>
+)}

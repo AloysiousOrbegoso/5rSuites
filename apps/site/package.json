@@ -1,0 +1,26 @@
+{
+  "name": "@5rsuites/site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro build && wrangler dev --persist-to ../../.wrangler/state",
+    "deploy": "astro build && wrangler deploy",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@5rsuites/blocks": "*",
+    "@5rsuites/design": "*",
+    "@5rsuites/server": "*",
+    "@astrojs/cloudflare": "^14.3.3",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
+    "astro": "^7.3.5",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "wrangler": "^4.125.0"
+  }
+}

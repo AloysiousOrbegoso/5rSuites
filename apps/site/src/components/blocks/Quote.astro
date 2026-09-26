@@ -1,0 +1,18 @@
+---
+import Wave from '../Wave.astro';
+const { data, prevBg = '#fff', nextBg = '#fff' } = Astro.props;
+const tone = data.tone || 'brown';
+const band = tone !== 'white';
+---
+<section class:list={['quote-band', `tone-${tone}`]}>
+  {band && <Wave position="top" color={prevBg} />}
+  <div class="container">
+    <figure>
+      <blockquote>“{data.quote}”</blockquote>
+      {(data.attribution || data.role) && (
+        <figcaption>- {[data.attribution, data.role].filter(Boolean).join(', ')}</figcaption>
+      )}
+    </figure>
+  </div>
+  {band && <Wave color={nextBg} />}
+</section>

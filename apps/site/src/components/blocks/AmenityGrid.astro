@@ -1,0 +1,19 @@
+---
+import Icon from '../Icon.astro';
+import Title from '../Title.astro';
+const { data } = Astro.props;
+---
+<section class="section">
+  <div class="container">
+    <Title heading={data.heading} intro={data.intro} center />
+    <div class="amenities">
+      {(data.items || []).map((item) => (
+        <div class="amenity">
+          <Icon name={item.icon} />
+          <h3>{item.label}</h3>
+          {item.description && <p>{item.description}</p>}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

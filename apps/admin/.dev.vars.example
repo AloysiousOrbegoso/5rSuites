@@ -1,0 +1,5 @@
+# Copy to .dev.vars for local development. Leave RESEND_API_KEY empty to log emails instead of sending.
+RESEND_API_KEY=
+TEAM_ALERT_EMAIL=
+PURGE_SECRET=local-dev-purge-secret
+SITE_URL=http://localhost:8787

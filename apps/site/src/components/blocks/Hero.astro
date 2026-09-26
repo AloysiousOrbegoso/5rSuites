@@ -1,0 +1,23 @@
+---
+import Img from '../Img.astro';
+import Wave from '../Wave.astro';
+const { data, ctx, isFirst, nextBg = '#fff' } = Astro.props;
+const Heading = isFirst ? 'h1' : 'h2';
+const full = data.variant !== 'title';
+---
+<section class:list={['hero', full ? 'full' : 'title']}>
+  <Img id={data.image} media={ctx.media} class="hero-bg" eager={isFirst} alt="" />
+  <div class="container">
+    {full && data.eyebrow && <p class="eyebrow-pill">{data.eyebrow}</p>}
+    <Heading>{data.heading}</Heading>
+    {full && <span class="divider" aria-hidden="true"></span>}
+    {data.subheading && <p class="lead">{data.subheading}</p>}
+    {(data.cta_label && data.cta_url) || (data.secondary_label && data.secondary_url) ? (
+      <div class="actions">
+        {data.cta_label && data.cta_url && <a class="btn btn-gold" href={data.cta_url}>{data.cta_label}</a>}
+        {data.secondary_label && data.secondary_url && <a class="btn btn-white" href={data.secondary_url}>{data.secondary_label}</a>}
+      </div>
+    ) : null}
+  </div>
+  {full && <Wave color={nextBg} />}
+</section>
