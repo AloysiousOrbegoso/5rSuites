@@ -4,6 +4,7 @@
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "5rsuites-site",
+  "account_id": "2fa73ef66e6e9ceb2cf05410dfd187a3",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
   // "main" and "assets" are filled in by @astrojs/cloudflare at build time.

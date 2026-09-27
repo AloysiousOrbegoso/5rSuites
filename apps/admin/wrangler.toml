@@ -19,7 +19,7 @@ migrations_dir = "../../migrations"
 [[r2_buckets]]
 binding = "BUCKET"
 bucket_name = "5rsuites-media"
-
+account_id = "2fa73ef66e6e9ceb2cf05410dfd187a3"
 # Secrets (set in the Cloudflare dashboard or with `wrangler pages secret put`; never commit):
 #   RESEND_API_KEY     Resend API key
 #   TEAM_ALERT_EMAIL   where security alerts go
