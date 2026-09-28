@@ -7,8 +7,8 @@ const { data } = Astro.props;
   <div class="container">
     <Title heading={data.heading} intro={data.intro} center />
     <div class="amenities">
-      {(data.items || []).map((item) => (
-        <div class="amenity">
+      {(data.items || []).map((item, i) => (
+        <div class="amenity" data-reveal style={`--i:${i % 6}`}>
           <Icon name={item.icon} />
           <h3>{item.label}</h3>
           {item.description && <p>{item.description}</p>}

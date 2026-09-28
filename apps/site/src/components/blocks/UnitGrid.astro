@@ -10,8 +10,8 @@ const beds = (n) => (n === 0 ? 'Studio' : `${n} bed${n === 1 ? '' : 's'}`);
     <div class="container">
       <Title heading={data.heading} intro={data.intro} center />
       <div class="units">
-        {units.map((u) => (
-          <article class="unit">
+        {units.map((u, i) => (
+          <article class="unit" data-reveal style={`--i:${i % 3}`}>
             {u.image_key && <img src={`/${u.image_key}`} alt={u.image_alt || u.name} width={u.image_width ?? undefined} height={u.image_height ?? undefined} loading="lazy" decoding="async" />}
             <div class="body">
               <p class="meta">{[u.neighborhood, u.city].filter(Boolean).join(', ')}</p>

@@ -12,7 +12,7 @@ const dark = data.background === 'navy';
 <section class:list={['section', data.background && data.background !== 'white' && `bg-${data.background}`, center && 'center']}>
   <div class:list={['container', !hasImage && center && 'narrow']}>
     <div class:list={[hasImage && 'split', hasImage && data.image_side === 'left' && 'photo-left']}>
-      <div>
+      <div data-reveal={hasImage ? (data.image_side === 'left' ? 'right' : 'left') : 'up'}>
         <Title heading={data.heading} center={center && !hasImage} />
         <div class:list={['prose', center && !hasImage && 'center']}><Fragment set:html={html} /></div>
         {data.button_label && data.button_url && (
@@ -21,7 +21,7 @@ const dark = data.background === 'navy';
           </div>
         )}
       </div>
-      {hasImage && <div class="split-media"><Img id={data.image} media={ctx.media} /></div>}
+      {hasImage && <div class="split-media" data-reveal={data.image_side === 'left' ? 'left' : 'right'}><Img id={data.image} media={ctx.media} /></div>}
     </div>
   </div>
 </section>

@@ -3,7 +3,7 @@ import SiteForm from '../forms/SiteForm.astro';
 const { data } = Astro.props;
 ---
 <section class="section" id={`form-${data.form}`}>
-  <div class="container">
+  <div class="container" data-reveal>
     <SiteForm type={data.form} heading={data.heading} intro={data.intro} />
   </div>
 </section>

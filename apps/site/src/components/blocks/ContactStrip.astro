@@ -11,7 +11,7 @@ const map = data.map_query ? `https://maps.google.com/maps?q=${encodeURIComponen
   <div class="container">
     <Title heading={data.heading} center />
     <div class:list={['contact-layout', !map && 'no-map']} style={!map ? 'justify-content:center' : undefined}>
-      <div class:list={['contact-card', style]}>
+      <div class:list={['contact-card', style]} data-reveal="left">
         <dl>
           {data.address && <div class="row"><SocialIcon name="pin" /><div><dt>Address</dt><dd>{data.address}</dd></div></div>}
           {data.phone && <div class="row"><SocialIcon name="phone" /><div><dt>Phone Number</dt><dd><a href={tel}>{data.phone}</a></dd></div></div>}
@@ -19,7 +19,7 @@ const map = data.map_query ? `https://maps.google.com/maps?q=${encodeURIComponen
           {data.hours && <div class="row"><SocialIcon name="phone" /><div><dt>Hours</dt><dd>{data.hours}</dd></div></div>}
         </dl>
       </div>
-      {map && <iframe class="map" src={map} title={`Map of ${data.map_query}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>}
+      {map && <iframe class="map" data-reveal="right" src={map} title={`Map of ${data.map_query}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>}
     </div>
   </div>
 </section>

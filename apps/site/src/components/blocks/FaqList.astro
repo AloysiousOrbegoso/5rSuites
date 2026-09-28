@@ -15,7 +15,7 @@ const tabbed = categories.length > 1;
         {categories.map((c, i) => <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-cat={c}>{c}</button>)}
       </div>
     )}
-    <div class="faq">
+    <div class="faq" data-reveal>
       {items.map((f) => (
         <details data-cat={f.category} hidden={tabbed && f.category !== categories[0]}>
           <summary>{f.question}</summary>

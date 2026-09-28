@@ -7,10 +7,10 @@ const withText = items.some((i) => i.description);
 ---
 <section class:list={['section', data.background === 'cream' && 'bg-cream']}>
   <div class="container">
-    {data.heading && <div class="title center"><h2 class="caps">{data.heading}</h2>{data.intro && <p class="intro">{data.intro}</p>}</div>}
+    {data.heading && <div class="title center" data-reveal><h2 class="caps">{data.heading}</h2>{data.intro && <p class="intro">{data.intro}</p>}</div>}
     <div class:list={['numbered', withText && 'with-text']}>
       {items.map((item, i) => (
-        <article class="ncard">
+        <article class="ncard" data-reveal style={`--i:${i}`}>
           <span class="num">{String(i + 1).padStart(2, '0')}</span>
           {item.image && <Img id={item.image} media={ctx.media} class="icon" alt="" />}
           <h3>{item.title}</h3>

@@ -263,3 +263,35 @@ strong { font-weight: 600; color: var(--ink); }
 .form-status.err { background: #fef3f2; color: var(--color-danger); }
 
 .empty-note { color: var(--muted); text-align: center; }
+
+/* Motion — scroll reveals (elements marked data-reveal) and the hero entrance.
+   Only runs when the visitor hasn't asked for reduced motion, and only after the
+   script in Base.astro adds .motion to <html>; without JS everything is simply visible. */
+main { overflow-x: clip; }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes settle { from { transform: scale(1.08); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .motion [data-reveal] {
+    --ease: cubic-bezier(0.2, 0.65, 0.3, 1);
+    --delay: calc(var(--i, 0) * 90ms);
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.8s var(--ease) var(--delay), transform 0.8s var(--ease) var(--delay), translate 0.3s ease, box-shadow 0.3s ease;
+  }
+  .motion [data-reveal='left'] { transform: translateX(-48px); }
+  .motion [data-reveal='right'] { transform: translateX(48px); }
+  .motion [data-reveal='zoom'] { transform: scale(0.94); }
+  .motion [data-reveal].in { opacity: 1; transform: none; }
+
+  .hero .container > * { animation: rise 0.9s cubic-bezier(0.2, 0.65, 0.3, 1) both; }
+  .hero .container > :nth-child(2) { animation-delay: 0.12s; }
+  .hero .container > :nth-child(3) { animation-delay: 0.24s; }
+  .hero .container > :nth-child(4) { animation-delay: 0.36s; }
+  .hero .container > :nth-child(5) { animation-delay: 0.48s; }
+  .hero-bg { animation: settle 2.4s ease-out both; }
+
+  /* Cards lift on hover (uses `translate`, separate from the reveal's `transform`). */
+  .ncard:hover, .amenity:hover, .unit:hover { translate: 0 -6px; box-shadow: 0 4px 10px rgb(0 0 0 / 6%), 0 20px 44px rgb(0 0 0 / 11%); }
+  .gallery figure { overflow: hidden; border-radius: var(--radius); }
+  .gallery img { transition: scale 0.6s ease; }
+  .gallery figure:hover img { scale: 1.04; }
+}
