@@ -1,0 +1,21 @@
+---
+// A large photo filling the left half with two framed photos overlapping on the right,
+// as the old site had under the Home hero and on About. Geometry matches the Wix layout
+// at desktop widths; below 1000px it stacks.
+import Img from '../Img.astro';
+const { data, ctx } = Astro.props;
+const [main, top, bottom] = (data.photos || []).map((p) => p?.image);
+---
+{main && (
+  <section class:list={['collage', data.background === 'cream' && 'on-cream']}>
+    <div class="collage-band">
+      <div class="collage-main" data-reveal="left"><Img id={main} media={ctx.media} sizes="(min-width: 1000px) 50vw, 100vw" /></div>
+    </div>
+    {(top || bottom) && (
+      <div class="collage-frames">
+        {top && <div class="frame top" data-reveal="right"><Img id={top} media={ctx.media} sizes="(min-width: 1000px) 473px, 50vw" /></div>}
+        {bottom && <div class="frame bottom" data-reveal="right" style="--i:3"><Img id={bottom} media={ctx.media} sizes="(min-width: 1000px) 348px, 50vw" /></div>}
+      </div>
+    )}
+  </section>
+)}

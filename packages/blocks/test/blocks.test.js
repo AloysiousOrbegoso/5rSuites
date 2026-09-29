@@ -4,9 +4,14 @@ import { BLOCK_TYPES, validateSection, defaultData, collectImageIds, ValidationE
 import { renderMarkdown } from '../markdown.js';
 
 test('block types match the schema CHECK constraint', async () => {
-  const { readFile } = await import('node:fs/promises');
-  const sql = await readFile(new URL('../../../migrations/0001_init.sql', import.meta.url), 'utf8');
-  const check = sql.match(/type\s+IN \(([\s\S]*?)\)\)/)[1];
+  const { readFile, readdir } = await import('node:fs/promises');
+  // The latest migration that (re)defines the sections table holds the current list.
+  const dir = new URL('../../../migrations/', import.meta.url);
+  let check;
+  for (const f of (await readdir(dir)).filter((n) => n.endsWith('.sql')).sort()) {
+    const m = (await readFile(new URL(f, dir), 'utf8')).match(/type\s+IN \(([\s\S]*?)\)\)/);
+    if (m) check = m[1];
+  }
   const fromSql = [...check.matchAll(/'([a-z_]+)'/g)].map((m) => m[1]);
   assert.deepEqual([...fromSql].sort(), [...BLOCK_TYPES].sort());
 });

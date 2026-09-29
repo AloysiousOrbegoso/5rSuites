@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // Imports the photos carried over from the old Wix site (scripts/wix-import/) into the media
 // library and places each one in its section, per scripts/wix-import/map.json. Also applies
-// the few layout settings (photo side, map) where the starter content differed from Wix.
+// the few layout settings (photo side, map) where the starter content differed from Wix, and
+// adds the photo collages Wix has on Home and About. Run `npm run db:migrate:local` (or
+// :remote) first so the database knows the photo_collage section type.
 //
 //   npm run import-wix-images                 # local database + storage (.wrangler/state)
 //   npm run import-wix-images -- --remote     # production D1 + R2
@@ -48,7 +50,11 @@ function wrangler(args, opts = {}) {
 const q = (v) => (v === null || v === undefined ? 'NULL' : typeof v === 'number' ? String(v) : `'${String(v).replace(/'/g, "''")}'`);
 const mediaId = (file) => `(SELECT id FROM media WHERE r2_key = ${q(keyOf(file))})`;
 const pageId = (slug) => `(SELECT id FROM pages WHERE slug = ${q(slug)})`;
-const match = (p) => `page_id = ${pageId(p.page)} AND type = ${q(p.type)} AND json_extract(data, '$.heading') = ${q(p.heading)}`;
+const byHeading = (page, type, heading) => `page_id = ${pageId(page)} AND type = ${q(type)} AND json_extract(data, '$.heading') = ${q(heading)}`;
+// Sections added by the import (insert_after) have no heading; they're the page's first of their type.
+const match = (p) => (p.insert_after
+  ? `id = (SELECT id FROM sections WHERE page_id = ${pageId(p.page)} AND type = ${q(p.type)} ORDER BY position LIMIT 1)`
+  : byHeading(p.page, p.type, p.heading));
 
 // Reuse the admin's revision SQL; it's written for D1 prepared statements, so inline the binds.
 function snapshotSql(slug, note) {
@@ -62,6 +68,19 @@ function snapshotSql(slug, note) {
 function placementSql(p) {
   const set = (expr) => `UPDATE sections SET data = ${expr}, updated_at = datetime('now') WHERE ${match(p)};`;
   const fields = Object.entries(p.set || {}).map(([k, v]) => set(`json_set(data, ${q(`$.${k}`)}, ${q(v)})`));
+  if (p.insert_after) {
+    // Add the section once, right after its anchor, shifting the sections below it down.
+    const a = p.insert_after;
+    const anchor = `(SELECT position FROM sections WHERE ${byHeading(p.page, a.type, a.heading)} LIMIT 1)`;
+    const absent = `NOT EXISTS (SELECT 1 FROM sections WHERE page_id = ${pageId(p.page)} AND type = ${q(p.type)})`;
+    const photos = p.photos.map((f) => `json_object('image', ${mediaId(f)})`).join(', ');
+    return [
+      `UPDATE sections SET position = position + 1 WHERE page_id = ${pageId(p.page)} AND position > ${anchor} AND ${absent};`,
+      `INSERT INTO sections (page_id, position, type, data) SELECT ${pageId(p.page)}, ${anchor} + 1, ${q(p.type)}, '{}' WHERE ${anchor} IS NOT NULL AND ${absent};`,
+      ...fields,
+      set(`json_set(data, '$.photos', json_array(${photos}))`),
+    ];
+  }
   if (p.image) return [...fields, set(`json_set(data, '$.image', ${mediaId(p.image)})`)];
   if (!p.gallery && !p.items) return fields;
   if (p.gallery) {
@@ -113,11 +132,12 @@ runSql(sql);
 
 // 3. Report what landed and what was skipped.
 const checks = placements.flatMap((p) => {
-  const label = `${p.page} / ${p.heading || p.type}`;
+  const label = p.insert_after ? `${p.page} / photo collage after "${p.insert_after.heading}"` : `${p.page} / ${p.heading || p.type}`;
   if (p.items) return Object.keys(p.items).map((t) => ({ label: `${label} / ${t} icon`, p, path: `(SELECT json_extract(value, '$.image') FROM json_each(data, '$.items') WHERE json_extract(value, '$.title') = ${q(t)})` }));
   const fields = Object.entries(p.set || {}).map(([k, v]) => ({ label: `${label} / ${k} = ${v}`, p, path: `json_extract(data, ${q(`$.${k}`)}) = ${q(v)}` }));
-  if (!p.image && !p.gallery) return fields;
-  return [...fields, { label, p, path: p.gallery ? `json_array_length(data, '$.images')` : `json_extract(data, '$.image')` }];
+  if (!p.image && !p.gallery && !p.photos) return fields;
+  const path = p.photos ? `json_array_length(data, '$.photos')` : p.gallery ? `json_array_length(data, '$.images')` : `json_extract(data, '$.image')`;
+  return [...fields, { label, p, path }];
 });
 const report = `SELECT json_array(${checks.map((c) => `(SELECT ${c.path} FROM sections WHERE ${match(c.p)})`).join(', ')}) AS v;`;
 const values = JSON.parse(JSON.parse(runSql(report, { json: true })).at(-1).results[0].v);

@@ -147,6 +147,7 @@ export function sectionSummary(type, data) {
     traveler_grid: count(data?.items, 'card'),
     amenity_grid: count(data?.items, 'amenity').replace('amenitys', 'amenities'),
     image_gallery: count(data?.images, data?.variant === 'logo_strip' ? 'logo' : 'image'),
+    photo_collage: count(data?.photos, 'photo'),
     form: { contact: 'Contact form', register_property: 'Register Property form', careers: 'Careers form' }[data?.form],
   }[type];
   const text = [heading.length > 70 ? `${heading.slice(0, 70)}…` : heading, extra].filter(Boolean).join(' · ');

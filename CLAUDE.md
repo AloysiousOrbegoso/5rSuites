@@ -61,7 +61,7 @@ Every page is an ordered list of `sections`. Each has a `type` and a JSON
 `data` payload. Valid types:
 
 ```
-hero, rich_text, image_gallery, traveler_grid, amenity_grid,
+hero, rich_text, image_gallery, photo_collage, traveler_grid, amenity_grid,
 cta_banner, quote, contact_strip, faq_list, unit_grid, form
 ```
 

@@ -1,5 +1,5 @@
 {
- "_about": "Photos from the old Wix site and the sections they belong in. Read by scripts/import-wix-images.mjs. Sections are matched by page, type and heading. \"set\" applies other field values so the section matches the Wix layout.",
+ "_about": "Photos from the old Wix site and the sections they belong in. Read by scripts/import-wix-images.mjs. Sections are matched by page, type and heading. \"set\" applies other field values so the section matches the Wix layout. \"insert_after\" adds the section (once) right after the named one.",
  "media": [
   {
    "file": "home-hero.jpg",
@@ -175,6 +175,27 @@
    "width": 220,
    "height": 89,
    "wix_source": "46dd91_d86a651f2b094c3ab5d64626d4c8a5d7~mv2.jpg"
+  },
+  {
+   "file": "collage-bathroom.jpg",
+   "alt": "Hotel-style bathroom with a marble walk-in shower",
+   "width": 1600,
+   "height": 900,
+   "wix_source": "11062b_5e94eb7bacf74bb49e4349b4688f0ee6~mv2.jpg"
+  },
+  {
+   "file": "collage-living-room.jpg",
+   "alt": "Loft living room with a record shelf",
+   "width": 1300,
+   "height": 867,
+   "wix_source": "11062b_95b8ff86e0674d85828c2ee4a5415dbf~mv2_d_5774_3849_s_4_2.jpg"
+  },
+  {
+   "file": "collage-leather-sofa.jpg",
+   "alt": "Living room with a leather sofa",
+   "width": 1300,
+   "height": 867,
+   "wix_source": "11062b_fc499e7dc10e4d9b84e3140b6de5fbd9~mv2_d_4708_3139_s_4_2.jpg"
   }
  ],
  "placements": [
@@ -283,6 +304,38 @@
    "heading": "Contact Info",
    "set": {
     "map_query": "Tacoma, WA"
+   }
+  },
+  {
+   "page": "home",
+   "type": "photo_collage",
+   "insert_after": {
+    "type": "hero",
+    "heading": "Design Your Stay"
+   },
+   "photos": [
+    "collage-bathroom.jpg",
+    "collage-living-room.jpg",
+    "collage-leather-sofa.jpg"
+   ],
+   "set": {
+    "background": "cream"
+   }
+  },
+  {
+   "page": "about",
+   "type": "photo_collage",
+   "insert_after": {
+    "type": "rich_text",
+    "heading": "Redefining Hospitality."
+   },
+   "photos": [
+    "collage-bathroom.jpg",
+    "collage-living-room.jpg",
+    "collage-leather-sofa.jpg"
+   ],
+   "set": {
+    "background": "white"
    }
   }
  ]

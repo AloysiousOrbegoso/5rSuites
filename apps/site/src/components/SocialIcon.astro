@@ -9,5 +9,28 @@ const paths = {
   pin: 'M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12zm0-9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
 };
 const filled = ['facebook', 'instagram', 'youtube', 'phone', 'pin'].includes(name);
+// Social links render as round badges like the old site: a currentColor disc with the
+// brand mark in the background colour (--badge-cutout) so it reads as cut out.
+const badge = ['facebook', 'instagram', 'youtube'].includes(name);
 ---
-<svg viewBox="0 0 24 24" aria-hidden="true" fill={filled ? 'currentColor' : 'none'} stroke={filled ? 'none' : 'currentColor'} stroke-width="1.6" fill-rule="evenodd"><path d={paths[name]} /></svg>
+{badge ? (
+  <svg viewBox="0 0 24 24" aria-hidden="true" class="badge">
+    <circle cx="12" cy="12" r="12" fill="currentColor" />
+    {name === 'facebook' && <path fill="var(--badge-cutout)" d="M13.3 24v-8.7h2.9l.45-3.4H13.3V9.7c0-1 .28-1.66 1.7-1.66h1.8V5a24 24 0 0 0-2.63-.13c-2.6 0-4.38 1.59-4.38 4.5v2.5H6.85v3.4h2.94V24z" />}
+    {name === 'instagram' && (
+      <g fill="none" stroke="var(--badge-cutout)" stroke-width="1.7">
+        <rect x="6.4" y="6.4" width="11.2" height="11.2" rx="3.3" />
+        <circle cx="12" cy="12" r="2.7" />
+        <circle cx="15.4" cy="8.6" r=".45" fill="var(--badge-cutout)" />
+      </g>
+    )}
+    {name === 'youtube' && (
+      <>
+        <rect x="5" y="7.5" width="14" height="9" rx="2.6" fill="var(--badge-cutout)" />
+        <path d="M10.6 9.9v4.2l3.6-2.1z" fill="currentColor" />
+      </>
+    )}
+  </svg>
+) : (
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill={filled ? 'currentColor' : 'none'} stroke={filled ? 'none' : 'currentColor'} stroke-width="1.6" fill-rule="evenodd"><path d={paths[name]} /></svg>
+)}

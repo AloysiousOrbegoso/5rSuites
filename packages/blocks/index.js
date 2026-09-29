@@ -65,6 +65,16 @@ export const BLOCKS = {
       ], { max: 40 }),
     ],
   },
+  photo_collage: {
+    label: 'Photo collage',
+    description: 'A large photo filling the left half, with two framed photos overlapping on the right.',
+    fields: [
+      list('photos', 'Photos: the 1st fills the left half, the 2nd and 3rd are framed on the right', [
+        image('image', 'Photo', { required: true }),
+      ], { max: 3 }),
+      select('background', 'Background behind the framed photos', ['white', 'cream']),
+    ],
+  },
   traveler_grid: {
     label: 'Numbered cards',
     description: 'Numbered cards (01, 02, 03…), e.g. “Ideal choice for” or partner benefits.',
