@@ -1,0 +1,289 @@
+{
+ "_about": "Photos from the old Wix site and the sections they belong in. Read by scripts/import-wix-images.mjs. Sections are matched by page, type and heading. \"set\" applies other field values so the section matches the Wix layout.",
+ "media": [
+  {
+   "file": "home-hero.jpg",
+   "alt": "Modern apartment kitchen and living room",
+   "width": 2400,
+   "height": 1211,
+   "wix_source": "11062b_0ddd359e3ec74e4ea8619f53b42eebda~mv2.jpg"
+  },
+  {
+   "file": "pnw-seattle-skyline.jpg",
+   "alt": "Seattle skyline with Mount Rainier",
+   "width": 2400,
+   "height": 1237,
+   "wix_source": "acae5a_bbd6567ff5ea492698da0d8cd2534b85~mv2.jpg"
+  },
+  {
+   "file": "loft-bedroom.jpg",
+   "alt": "Loft-style apartment bedroom",
+   "width": 1400,
+   "height": 933,
+   "wix_source": "11062b_1c8c953e6532482b974d6b30961091e2~mv2.jpg"
+  },
+  {
+   "file": "about-hero.jpg",
+   "alt": "Bright furnished living room",
+   "width": 2400,
+   "height": 901,
+   "wix_source": "acae5a_674062bb456b4ab0bed5446a0fe2ee3f~mv2.png"
+  },
+  {
+   "file": "balcony-city-view.jpg",
+   "alt": "Apartment balcony with a city view",
+   "width": 1732,
+   "height": 1155,
+   "wix_source": "11062b_bbd10b2e4ada47caaedd174e528991eb~mv2.jpg"
+  },
+  {
+   "file": "living-room-green-wall.jpg",
+   "alt": "Loft living room with a sofa",
+   "width": 1400,
+   "height": 1050,
+   "wix_source": "bc629b0bf1124c70939c96f92957ace4.jpg"
+  },
+  {
+   "file": "register-property-hero.jpg",
+   "alt": "Apartment complex with a pool",
+   "width": 2400,
+   "height": 1600,
+   "wix_source": "11062b_0c9dd172780b4c928791e77f254979ff~mv2.jpg"
+  },
+  {
+   "file": "partners-hero.jpg",
+   "alt": "Office",
+   "width": 2400,
+   "height": 1625,
+   "wix_source": "11062b_7258b42542d4465e859cd0ba37797c29~mv2.jpeg"
+  },
+  {
+   "file": "faq-hero.jpg",
+   "alt": "Shelf with decorative objects",
+   "width": 2400,
+   "height": 1579,
+   "wix_source": "11062b_cd764fd4672c4e5c9aa794f90df03256~mv2_d_5564_3661_s_4_2.jpg"
+  },
+  {
+   "file": "icon-vacation-travelers.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_ebd9bf5d011947ce86e27cbf9449fc73~mv2.png"
+  },
+  {
+   "file": "icon-travel-nurses.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_835f98d398e84308a2d27e80f730d83d~mv2.png"
+  },
+  {
+   "file": "icon-corporate-travelers.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_dd8a9e5efbd24da6b3aef2dd58cde857~mv2.png"
+  },
+  {
+   "file": "icon-military-travelers.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_4f60d4aad44d48f69304852f9323e6cb~mv2.png"
+  },
+  {
+   "file": "icon-insurance.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_4b50eb1765784a4480b49c343348d7e6~mv2.png"
+  },
+  {
+   "file": "icon-relocations.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_76967d49326c48a8b30157bef2e7eac7~mv2.png"
+  },
+  {
+   "file": "logo-napoleon.png",
+   "alt": "Napoleon",
+   "width": 200,
+   "height": 109,
+   "wix_source": "46dd91_fbb1a45a89114c2f817c49d018dc68f1~mv2.png"
+  },
+  {
+   "file": "logo-theas-landing.png",
+   "alt": "Thea's Landing",
+   "width": 194,
+   "height": 73,
+   "wix_source": "46dd91_bce7067a633649c2946182ba279aec5a~mv2.png"
+  },
+  {
+   "file": "logo-the-triangle.png",
+   "alt": "The Triangle",
+   "width": 175,
+   "height": 79,
+   "wix_source": "46dd91_e2852b40b2fe4559a61c24df2448ebd0~mv2.png"
+  },
+  {
+   "file": "logo-the-luke.png",
+   "alt": "The Luke",
+   "width": 163,
+   "height": 69,
+   "wix_source": "46dd91_47db43dc9b064209a6eb2b74336807dc~mv2.png"
+  },
+  {
+   "file": "logo-brewery-blocks.png",
+   "alt": "Brewery Blocks",
+   "width": 223,
+   "height": 143,
+   "wix_source": "46dd91_30e913ec02cc4cc78caba3905a360854~mv2.png"
+  },
+  {
+   "file": "logo-stadium-apartments.png",
+   "alt": "Stadium Apartments",
+   "width": 240,
+   "height": 99,
+   "wix_source": "46dd91_b1255b3a0c8a4214ab8c3fcaba7d9d3f~mv2.png"
+  },
+  {
+   "file": "logo-greystar.png",
+   "alt": "Greystar",
+   "width": 269,
+   "height": 60,
+   "wix_source": "46dd91_85f112a1a62741b5bfd419521a62a494~mv2.png"
+  },
+  {
+   "file": "logo-legacy-partners.png",
+   "alt": "Legacy Partners",
+   "width": 234,
+   "height": 78,
+   "wix_source": "46dd91_528d2e650051416da6648b24e9e274d5~mv2.png"
+  },
+  {
+   "file": "logo-summerfield-management.png",
+   "alt": "Summerfield Management",
+   "width": 274,
+   "height": 48,
+   "wix_source": "46dd91_f7c66f99e6a74a6e87c210fbc247b6a9~mv2.png"
+  },
+  {
+   "file": "logo-carino-and-associates.jpg",
+   "alt": "Carino and Associates",
+   "width": 220,
+   "height": 89,
+   "wix_source": "46dd91_d86a651f2b094c3ab5d64626d4c8a5d7~mv2.jpg"
+  }
+ ],
+ "placements": [
+  {
+   "page": "home",
+   "type": "hero",
+   "heading": "Design Your Stay",
+   "image": "home-hero.jpg"
+  },
+  {
+   "page": "home",
+   "type": "traveler_grid",
+   "heading": "Ideal Choice For",
+   "items": {
+    "Vacation Travelers": "icon-vacation-travelers.png",
+    "Travel Nurses": "icon-travel-nurses.png",
+    "Corporate Travelers": "icon-corporate-travelers.png",
+    "Military Travelers": "icon-military-travelers.png",
+    "Insurance": "icon-insurance.png",
+    "Relocations": "icon-relocations.png"
+   }
+  },
+  {
+   "page": "home",
+   "type": "cta_banner",
+   "heading": "PNW",
+   "image": "pnw-seattle-skyline.jpg"
+  },
+  {
+   "page": "home",
+   "type": "rich_text",
+   "heading": "Home Living With Apartment Amenities",
+   "image": "loft-bedroom.jpg"
+  },
+  {
+   "page": "about",
+   "type": "hero",
+   "heading": "About Us",
+   "image": "about-hero.jpg"
+  },
+  {
+   "page": "about",
+   "type": "rich_text",
+   "heading": "Our Mission",
+   "image": "balcony-city-view.jpg",
+   "set": {
+    "image_side": "right"
+   }
+  },
+  {
+   "page": "about",
+   "type": "rich_text",
+   "heading": "5R Suites Now",
+   "image": "living-room-green-wall.jpg"
+  },
+  {
+   "page": "register-property",
+   "type": "hero",
+   "heading": "Register Property",
+   "image": "register-property-hero.jpg"
+  },
+  {
+   "page": "partners",
+   "type": "hero",
+   "heading": "Partner With Us",
+   "image": "partners-hero.jpg"
+  },
+  {
+   "page": "partners",
+   "type": "rich_text",
+   "heading": "Your Dream Tenant",
+   "image": "balcony-city-view.jpg"
+  },
+  {
+   "page": "partners",
+   "type": "image_gallery",
+   "heading": "Our Partners",
+   "gallery": [
+    "logo-napoleon.png",
+    "logo-theas-landing.png",
+    "logo-the-triangle.png",
+    "logo-the-luke.png",
+    "logo-brewery-blocks.png",
+    "logo-stadium-apartments.png",
+    "logo-greystar.png",
+    "logo-legacy-partners.png",
+    "logo-summerfield-management.png",
+    "logo-carino-and-associates.jpg"
+   ]
+  },
+  {
+   "page": "faq",
+   "type": "hero",
+   "heading": "Frequently Asked Question",
+   "image": "faq-hero.jpg"
+  },
+  {
+   "page": "contact",
+   "type": "hero",
+   "heading": "Get In Touch",
+   "image": "balcony-city-view.jpg"
+  },
+  {
+   "page": "home",
+   "type": "contact_strip",
+   "heading": "Contact Info",
+   "set": {
+    "map_query": "Tacoma, WA"
+   }
+  }
+ ]
+}

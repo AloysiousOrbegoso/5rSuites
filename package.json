@@ -13,7 +13,8 @@
     "test": "node --test 'packages/*/test/*.test.js' 'apps/*/test/*.test.js'",
     "db:migrate:local": "npm run db:migrate:local -w apps/admin",
     "db:migrate:remote": "npm run db:migrate:remote -w apps/admin",
-    "create-owner": "node scripts/create-owner.mjs"
+    "create-owner": "node scripts/create-owner.mjs",
+    "import-wix-images": "node scripts/import-wix-images.mjs"
   },
   "engines": {
     "node": ">=22"

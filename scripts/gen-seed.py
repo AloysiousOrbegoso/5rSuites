@@ -61,7 +61,7 @@ pages = [
         items=[dict(icon=i, label=l, description='') for i, l in AMENITIES])),
    banner('Building, Owners & Developers', body='We offer buildings an opportunity to diversify inventory and maximize '
           'profitability using our streamlined processes and technology.', button_label='Partner With Us', button_url='/partners'),
-   contact(),
+   contact(map_query='Tacoma, WA'),
  ]),
  (2, 'about', 'About', 'About 5R Suites — a veteran-owned provider of luxury fully-furnished apartments for extended stays.', 10, [
    hero('About Us'),
@@ -70,7 +70,7 @@ pages = [
    text('Our Mission', 'Our Mission is to provide a premium stress-free experience for the travelling professional needing '
         'flexible term stays where every detail matters. We are dedicated to delivering remarkable service through accessible, '
         'streamlined booking and check-in processes, elegantly fully-furnished units, and around-the-clock customer service.',
-        image_side='left', button_label='Register Property', button_url='/register-property'),
+        image_side='right', button_label='Register Property', button_url='/register-property'),
    text('Our Start', 'After transitioning out of the army after 5 years of service, our CEO and Founder, Jeff Kim began to '
         'manage a small handful of apartments via Airbnb. He personally furnished each unit, moved in furniture, greeted guests '
         'with wine and walkthroughs and started to picture a new standard of corporate travel.\n\nOver the next few years, Jeff '
