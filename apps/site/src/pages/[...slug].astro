@@ -5,6 +5,7 @@ import Section from '../components/Section.astro';
 import Base from '../layouts/Base.astro';
 import { cacheTagsFor, setEdgeCache, setNoStore } from '../lib/cache.js';
 import { getNav, getPage } from '../lib/content.js';
+import { REDIRECTS } from '../lib/redirects.js';
 import { sectionBg } from '../lib/section-bg.js';
 
 const raw = Astro.params.slug;
@@ -14,6 +15,7 @@ const slug = raw ?? 'home';
 const db = env.DB;
 const [content, nav] = await Promise.all([/^[a-z0-9][a-z0-9-]*$/.test(slug) ? getPage(db, slug) : null, getNav(db)]);
 
+if (!content && Object.hasOwn(REDIRECTS, slug)) return Astro.redirect(REDIRECTS[slug], 301);
 if (!content) {
   Astro.response.status = 404;
   setNoStore(Astro.response.headers);
