@@ -7,7 +7,7 @@ function AuthCard({ title, children }) {
   return (
     <div className="center-screen">
       <div className="auth-card">
-        <div className="auth-brand"><span className="brand-mark">5R</span><span>5R Suites Admin</span></div>
+        <div className="auth-brand"><img className="brand-logo" src="/logo.png" alt="" width="40" height="40" /><span>5R Suites Admin</span></div>
         <h1>{title}</h1>
         {children}
       </div>

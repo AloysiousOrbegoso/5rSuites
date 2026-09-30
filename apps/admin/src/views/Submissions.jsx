@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { api } from '../api.js';
+import Icon from '../components/Icon.jsx';
 import { ErrorNote, Loading, formatDate, useLoad, useToast } from '../components/ui.jsx';
 import { Link } from '../router.jsx';
 
@@ -23,7 +24,13 @@ export default function Submissions() {
 
   return (
     <div>
-      <header className="page-head"><h1>Form submissions</h1></header>
+      <header className="page-head">
+        <h1>Form submissions</h1>
+        {/* Same filters as the list; "Inbox" exports new + read. */}
+        <a className="btn" href={`/api/submissions/export?${new URLSearchParams({ ...(type && { type }), ...(status && { status }) })}`} download>
+          <Icon name="download" size={16} />Export CSV
+        </a>
+      </header>
       <div className="row filters">
         <select value={type} onChange={(e) => { setType(e.target.value); setPage(0); }}>
           <option value="">All forms</option>

@@ -19,7 +19,8 @@
     "SITE_URL": "https://www.5rsuites.com",
     "EMAIL_FROM": "5R Suites <no-reply@5rsuites.com>",
     "BOOKING_URL": "https://5rsuites.holidayfuture.com",
-    // Shown in the top bar and footer.
+    // Fallbacks only: contact details, social links, booking/scheduling links and the footer
+    // legal links are edited in the admin's Site Settings screen. These apply until set there.
     "CONTACT_PHONE": "360-320-6166",
     "CONTACT_EMAIL": "info@5rsuites.com",
     "MAILING_ADDRESS": "9330 NE Van Mall Drive Suite 203 #122",
@@ -55,5 +56,6 @@
 
   // Secrets (wrangler secret put <NAME>; never commit):
   //   RESEND_API_KEY, TURNSTILE_SECRET_KEY, TEAM_ALERT_EMAIL, PURGE_SECRET,
-  //   FORM_NOTIFY_EMAIL (optional, defaults to TEAM_ALERT_EMAIL), AIRROI_API_KEY
+  //   FORM_NOTIFY_EMAIL (optional, defaults to TEAM_ALERT_EMAIL), AIRROI_API_KEY,
+  //   ANALYTICS_SECRET (optional; keys the daily visitor hash, defaults to PURGE_SECRET)
 }

@@ -6,6 +6,7 @@
   "description": "Server-side helpers shared by the site Worker and the admin Pages Functions.",
   "exports": {
     "./email": "./email.js",
-    "./ratelimit": "./ratelimit.js"
+    "./ratelimit": "./ratelimit.js",
+    "./settings": "./settings.js"
   }
 }

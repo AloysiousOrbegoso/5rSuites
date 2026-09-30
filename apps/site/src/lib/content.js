@@ -12,7 +12,7 @@ export async function getNav(db) {
 // Everything needed to render one page, in as few round trips as possible.
 export async function getPage(db, slug) {
   const page = await db
-    .prepare('SELECT id, slug, title, meta_description, updated_at FROM pages WHERE slug = ?')
+    .prepare('SELECT id, slug, title, meta_description, share_image, updated_at FROM pages WHERE slug = ?')
     .bind(slug)
     .first();
   if (!page) return null;

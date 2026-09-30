@@ -1,4 +1,5 @@
 import { escapeHtml, sendEmail, simpleEmailHtml } from '@5rsuites/server/email';
+import { loadSettings } from '@5rsuites/server/settings';
 import { estimateProperty, getCityMarket, guestsFor, parseRooms } from './airroi.js';
 import { geocode } from './geocode.js';
 import { renderReportPdf } from './pdf.js';
@@ -17,6 +18,9 @@ import { assessQuality, buildReport } from './template.js';
 // Failures are never retried automatically, so nothing is billed twice.
 
 export async function runRegisterPropertyPipeline(env, { id, data }) {
+  // “Book a call” link: Settings screen first, wrangler var as fallback.
+  const settings = await loadSettings(env.DB, env).catch(() => ({}));
+  const schedulingUrl = settings.scheduling_url || env.SCHEDULING_URL || '';
   const address = `${data.street}, ${data.city}, ${data.state} ${data.zip}`;
   let metrics = null;
   let city = null;
@@ -48,7 +52,7 @@ export async function runRegisterPropertyPipeline(env, { id, data }) {
     quality = assessQuality(metrics, { minComps: Number(env.REPORT_MIN_COMPS) || 5, city });
 
     if (quality.ok) {
-      const report = buildReport({ data, metrics, city, schedulingUrl: env.SCHEDULING_URL || '' });
+      const report = buildReport({ data, metrics, city, schedulingUrl });
       const pdf = await renderReportPdf(report);
       const sent = await sendEmail(env, {
         to: data.email,
@@ -56,8 +60,8 @@ export async function runRegisterPropertyPipeline(env, { id, data }) {
         html: simpleEmailHtml(`Your market report for ${data.street}`, [
           `Hi ${data.name}, thanks for telling us about your property.`,
           'Your short-term rental market report is attached. It shows what comparable rentals near you have earned, and how that compares with your city.',
-          env.SCHEDULING_URL ? 'When you’re ready, book a call with our team to talk through the numbers and next steps.' : 'Our team will be in touch shortly to talk through the numbers and next steps.',
-        ], env.SCHEDULING_URL ? { label: 'Book a call', url: env.SCHEDULING_URL } : undefined),
+          schedulingUrl ? 'When you’re ready, book a call with our team to talk through the numbers and next steps.' : 'Our team will be in touch shortly to talk through the numbers and next steps.',
+        ], schedulingUrl ? { label: 'Book a call', url: schedulingUrl } : undefined),
         attachments: [{ filename: '5R-Suites-Market-Report.pdf', content: toBase64(pdf) }],
       });
       status = sent.ok ? 'sent' : 'failed';
@@ -79,7 +83,7 @@ export async function runRegisterPropertyPipeline(env, { id, data }) {
       html: simpleEmailHtml('Thanks — we’re on it', [
         `Hi ${data.name}, thanks for telling us about your property at ${data.street}.`,
         'A member of our team is preparing your market report and will be in touch shortly.',
-      ], env.SCHEDULING_URL ? { label: 'Book a call', url: env.SCHEDULING_URL } : undefined),
+      ], schedulingUrl ? { label: 'Book a call', url: schedulingUrl } : undefined),
     });
     if (env.TEAM_ALERT_EMAIL) {
       await sendEmail(env, {

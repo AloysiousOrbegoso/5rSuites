@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../api.js';
 import { useCrumb, useSession } from '../App.jsx';
 import Icon from '../components/Icon.jsx';
+import { ImageField } from '../components/media.jsx';
 import SectionForm, { sectionSummary } from '../components/SectionForm.jsx';
 import { ErrorNote, Loading, Modal, useLoad, useSaveToast, useToast } from '../components/ui.jsx';
 import { Link, navigate } from '../router.jsx';
@@ -196,12 +197,13 @@ function PageSettings({ page, onClose, onSaved }) {
   const { user } = useSession();
   const owner = user.role === 'owner';
   const [error, setError] = useState(null);
+  const [shareImage, setShareImage] = useState(page.share_image ?? null);
   const toast = useToast();
 
   const submit = async (e) => {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
-    const body = { title: f.get('title'), meta_description: f.get('meta_description') };
+    const body = { title: f.get('title'), meta_description: f.get('meta_description'), share_image: shareImage };
     if (owner) Object.assign(body, { slug: f.get('slug'), show_in_nav: f.get('show_in_nav') === 'on', nav_order: Number(f.get('nav_order')) });
     if (owner && body.slug !== page.slug && !confirm('Changing the URL breaks existing links and search results pointing at the old address. Continue?')) return;
     try {
@@ -231,6 +233,10 @@ function PageSettings({ page, onClose, onSaved }) {
           <textarea name="meta_description" defaultValue={page.meta_description} maxLength={300} rows={3} />
           <span className="hint">Shown under the title in Google results. About 150 characters.</span>
         </label>
+        <div className="field">Share image
+          <ImageField value={shareImage} onChange={setShareImage} />
+          <span className="hint">Shown when this page’s link is shared on Facebook, LinkedIn or in a text. Leave empty to use the default from Settings. Best at 1200×630.</span>
+        </div>
         {owner ? (
           <>
             <label className="field">URL slug

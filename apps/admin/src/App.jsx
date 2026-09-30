@@ -4,12 +4,14 @@ import Icon from './components/Icon.jsx';
 import { Loading } from './components/ui.jsx';
 import { Link, match, navigate, useLocation } from './router.jsx';
 import Account from './views/Account.jsx';
+import Analytics from './views/Analytics.jsx';
 import Dashboard from './views/Dashboard.jsx';
 import Faq from './views/Faq.jsx';
 import { Forgot, Login, Reset } from './views/Auth.jsx';
 import History from './views/History.jsx';
 import MediaLibrary from './views/MediaLibrary.jsx';
 import PageEditor from './views/PageEditor.jsx';
+import Settings from './views/Settings.jsx';
 import Pages from './views/Pages.jsx';
 import Submissions, { SubmissionDetail } from './views/Submissions.jsx';
 import Team from './views/Team.jsx';
@@ -22,6 +24,7 @@ const PUBLIC_PATHS = ['/login', '/forgot', '/reset'];
 
 const ROUTES = [
   ['/', Dashboard],
+  ['/analytics', Analytics],
   ['/pages', Pages],
   ['/pages/:id', PageEditor],
   ['/pages/:id/history', History],
@@ -31,6 +34,7 @@ const ROUTES = [
   ['/submissions', Submissions],
   ['/submissions/:id', SubmissionDetail],
   ['/staff', Team, { ownerOnly: true }],
+  ['/settings', Settings, { ownerOnly: true }],
   ['/account', Account],
 ];
 
@@ -78,12 +82,12 @@ export default function App() {
 }
 
 const NAV = [
-  ['Core', [['/', 'Dashboard', 'dashboard'], ['/pages', 'Pages', 'pages']]],
+  ['Core', [['/', 'Dashboard', 'dashboard'], ['/analytics', 'Analytics', 'analytics'], ['/pages', 'Pages', 'pages']]],
   ['Content', [['/units', 'Units', 'units'], ['/faq', 'FAQ Items', 'faq'], ['/media', 'Media Library', 'media']]],
-  ['Operational', [['/submissions', 'Submissions', 'submissions'], ['/staff', 'Staff', 'staff', true], ['/account', 'Account', 'account']]],
+  ['Operational', [['/submissions', 'Submissions', 'submissions'], ['/staff', 'Staff', 'staff', true], ['/settings', 'Site Settings', 'settings', true], ['/account', 'Account', 'account']]],
 ];
 
-const CRUMBS = { '/': 'Dashboard', '/pages': 'Pages', '/units': 'Units', '/faq': 'FAQ Items', '/media': 'Media Library', '/submissions': 'Submissions', '/staff': 'Staff', '/account': 'Account' };
+const CRUMBS = { '/': 'Dashboard', '/analytics': 'Analytics', '/settings': 'Site Settings', '/pages': 'Pages', '/units': 'Units', '/faq': 'FAQ Items', '/media': 'Media Library', '/submissions': 'Submissions', '/staff': 'Staff', '/account': 'Account' };
 
 // Views can set a more specific breadcrumb (e.g. "Pages / Home") with useCrumb().
 const CrumbContext = createContext(() => {});
@@ -118,7 +122,7 @@ function Shell({ path, children }) {
       <div className={`shell${menuOpen ? ' menu-open' : ''}`}>
         <aside className="sidebar">
           <div className="sidebar-brand">
-            <span className="brand-mark">5R</span>
+            <img className="brand-logo" src="/logo.png" alt="" width="40" height="40" />
             <span>5R Suites Admin</span>
           </div>
           <nav onClick={() => setMenuOpen(false)}>

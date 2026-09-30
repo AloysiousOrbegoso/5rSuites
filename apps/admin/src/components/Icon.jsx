@@ -17,6 +17,9 @@ const PATHS = {
   trash: 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',
   plus: 'M12 5v14M5 12h14',
   history: 'M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2',
+  analytics: 'M4 20V4M4 20h16M8 16l4-5 3 3 5-7',
+  settings: 'M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4',
+  download: 'M12 4v11M7 10l5 5 5-5M4 20h16',
 };
 
 export default function Icon({ name, size = 18, className = '' }) {

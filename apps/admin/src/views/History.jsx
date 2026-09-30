@@ -32,7 +32,7 @@ export default function History({ params }) {
             <tr key={r.id}>
               <td>{formatDate(r.created_at)}{i === 0 && <span className="badge">Current</span>}</td>
               <td>{r.note}</td>
-              <td className="muted">{r.created_by_name || r.created_by_email || '—'}</td>
+              <td className="muted">{r.created_by_name || r.created_by_email || (/Wix import/.test(r.note || '') ? 'Wix import' : '—')}</td>
               <td>{r.section_count}</td>
               <td><button className="btn small" onClick={() => setViewing(r.id)}>View</button></td>
             </tr>

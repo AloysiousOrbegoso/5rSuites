@@ -5,6 +5,7 @@ import Section from '../components/Section.astro';
 import Base from '../layouts/Base.astro';
 import { cacheTagsFor, setEdgeCache, setNoStore } from '../lib/cache.js';
 import { getNav, getPage } from '../lib/content.js';
+import { siteInfo } from '../lib/site-info.js';
 import { REDIRECTS } from '../lib/redirects.js';
 import { sectionBg } from '../lib/section-bg.js';
 
@@ -21,8 +22,17 @@ if (!content) {
   setNoStore(Astro.response.headers);
 }
 
-const siteUrl = env.SITE_URL || 'https://www.5rsuites.com';
-const bookingUrl = env.BOOKING_URL || 'https://5rsuites.holidayfuture.com';
+const info = await siteInfo(env);
+const siteUrl = info.siteUrl;
+const bookingUrl = info.bookingUrl;
+
+// Image for link previews (Open Graph): the page's own, else the site default from Settings.
+let shareImage = null;
+const shareId = content?.page.share_image || info.shareImage;
+if (shareId) {
+  const m = await db.prepare('SELECT r2_key, alt, width, height FROM media WHERE id = ?').bind(shareId).first();
+  if (m) shareImage = { url: `${siteUrl}/${m.r2_key}`, alt: m.alt, width: m.width, height: m.height };
+}
 
 let jsonLd = [];
 if (content) {
@@ -66,7 +76,7 @@ const ctx = content ? { media: content.media, faqs: content.faqs, units: content
 const startsWithHero = content?.sections[0]?.type === 'hero';
 ---
 {content ? (
-  <Base title={content.page.title} description={content.page.meta_description} nav={nav} currentSlug={slug} jsonLd={jsonLd}>
+  <Base title={content.page.title} description={content.page.meta_description} nav={nav} currentSlug={slug} jsonLd={jsonLd} info={info} shareImage={shareImage}>
     {!startsWithHero && <h1 class="visually-hidden">{content.page.title}</h1>}
     {content.sections.map((section, i, all) => (
       <Section section={section} ctx={ctx} isFirst={i === 0}
@@ -75,7 +85,7 @@ const startsWithHero = content?.sections[0]?.type === 'hero';
     ))}
   </Base>
 ) : (
-  <Base title="Page not found" nav={nav} noindex>
+  <Base title="Page not found" nav={nav} info={info} noindex>
     <section class="section center">
       <div class="container narrow">
         <h1>Page not found</h1>

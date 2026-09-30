@@ -13,7 +13,11 @@ async function pagesUsing(db, id) {
     .bind(id)
     .all();
   const units = await db.prepare('SELECT COUNT(*) AS n FROM units WHERE image_id = ?').bind(id).first();
-  return { pages: results, units: units.n };
+  // Also counts as "in use": a page's share image, or the site default in Settings.
+  const shared = await db.prepare('SELECT id, title FROM pages WHERE share_image = ?').bind(id).all();
+  const siteDefault = await db.prepare(`SELECT 1 FROM settings WHERE key = 'share_image' AND value = ?`).bind(String(id)).first();
+  const pages = [...results, ...shared.results.filter((s) => !results.some((r) => r.id === s.id)).map((s) => ({ ...s, title: `${s.title} (share image)` }))];
+  return { pages, units: units.n, siteDefault: !!siteDefault };
 }
 
 export async function onRequestPatch({ request, env, params }) {
@@ -32,8 +36,8 @@ export async function onRequestDelete({ env, params }) {
   if (!row) throw new HttpError(404, 'Image not found.');
 
   const usage = await pagesUsing(env.DB, id);
-  if (usage.pages.length || usage.units) {
-    const where = [...usage.pages.map((p) => `“${p.title}”`), usage.units ? `${usage.units} unit(s)` : null].filter(Boolean);
+  if (usage.pages.length || usage.units || usage.siteDefault) {
+    const where = [...usage.pages.map((p) => `“${p.title}”`), usage.units ? `${usage.units} unit(s)` : null, usage.siteDefault ? 'Settings (default share image)' : null].filter(Boolean);
     throw new HttpError(409, `This image is still used on ${where.join(', ')}. Remove it there first.`);
   }
 

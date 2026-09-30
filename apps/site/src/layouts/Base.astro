@@ -13,8 +13,8 @@ import { env } from 'cloudflare:workers';
 import SocialIcon from '../components/SocialIcon.astro';
 import { siteInfo } from '../lib/site-info.js';
 
-const { title, description = '', nav = [], currentSlug = '', jsonLd = [], noindex = false } = Astro.props;
-const info = siteInfo(env);
+const { title, description = '', nav = [], currentSlug = '', jsonLd = [], noindex = false, shareImage = null } = Astro.props;
+const info = Astro.props.info ?? (await siteInfo(env));
 const canonical = new URL(Astro.url.pathname, info.siteUrl).toString().replace(/\/$/, '') || info.siteUrl;
 const fullTitle = currentSlug === 'home' ? '5R Suites | Luxury Fully-Furnished Apartments' : `${title} | 5R Suites`;
 const ga = env.GA4_MEASUREMENT_ID;
@@ -38,6 +38,15 @@ const tel = `tel:${info.phone.replace(/[^\d+]/g, '')}`;
     <meta property="og:title" content={fullTitle} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:url" content={canonical} />
+    {shareImage && (
+      <>
+        <meta property="og:image" content={shareImage.url} />
+        {shareImage.width && <meta property="og:image:width" content={String(shareImage.width)} />}
+        {shareImage.height && <meta property="og:image:height" content={String(shareImage.height)} />}
+        {shareImage.alt && <meta property="og:image:alt" content={shareImage.alt} />}
+      </>
+    )}
+    <meta name="twitter:card" content={shareImage ? 'summary_large_image' : 'summary'} />
     {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data).replace(/</g, '\\u003c')} />)}
     {ga && (
       <>
@@ -166,6 +175,17 @@ const tel = `tel:${info.phone.replace(/[^\d+]/g, '')}`;
         update();
       })();
     </script>
+    {!noindex && (
+      <script is:inline>
+        // Page-view count for the admin's Analytics screen (first-party, no cookies; see
+        // lib/analytics.js). Skipped for Do Not Track and automated browsers.
+        (() => {
+          if (navigator.doNotTrack === '1' || navigator.webdriver) return;
+          const body = JSON.stringify({ p: location.pathname, q: location.search, r: document.referrer, h: location.hostname, w: innerWidth });
+          try { fetch('/api/hit', { method: 'POST', body, keepalive: true, headers: { 'Content-Type': 'application/json' } }).catch(() => {}); } catch {}
+        })();
+      </script>
+    )}
     <script>
       const toggle = document.querySelector('.nav-toggle');
       const nav = document.getElementById('site-nav');

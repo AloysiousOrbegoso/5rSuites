@@ -42,6 +42,11 @@ export default function Dashboard() {
       </header>
 
       <div className="stats">
+        <Link to="/analytics" className="stat">
+          <span className="stat-label">Visitors, last 7 days</span>
+          <strong>{(data.visitors?.week ?? 0).toLocaleString('en-US')}</strong>
+          <span className="stat-note">{data.visitors?.views ? `${data.visitors.views.toLocaleString('en-US')} page views · see Analytics` : 'Counting starts when the site is live'}</span>
+        </Link>
         <Link to="/submissions" className="stat">
           <span className="stat-label">Unread Submissions</span>
           <strong>{unreadTotal}</strong>

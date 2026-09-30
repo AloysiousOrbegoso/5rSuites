@@ -24,6 +24,8 @@ export async function onRequestPatch({ request, env, params, data }) {
     slug: body.slug === undefined ? page.slug : cleanSlug(body.slug),
     show_in_nav: body.show_in_nav === undefined ? page.show_in_nav : body.show_in_nav ? 1 : 0,
     nav_order: body.nav_order === undefined ? page.nav_order : Number(body.nav_order) | 0,
+    // Image for link previews; null = use the site default from Settings.
+    share_image: body.share_image === undefined ? page.share_image : await cleanImageId(db, body.share_image),
   };
 
   const structural = next.slug !== page.slug || next.show_in_nav !== page.show_in_nav || next.nav_order !== page.nav_order;
@@ -32,14 +34,23 @@ export async function onRequestPatch({ request, env, params, data }) {
 
   await db.batch([
     db
-      .prepare('UPDATE pages SET title = ?, meta_description = ?, slug = ?, show_in_nav = ?, nav_order = ? WHERE id = ?')
-      .bind(next.title, next.meta_description, next.slug, next.show_in_nav, next.nav_order, id),
+      .prepare('UPDATE pages SET title = ?, meta_description = ?, slug = ?, show_in_nav = ?, nav_order = ?, share_image = ? WHERE id = ?')
+      .bind(next.title, next.meta_description, next.slug, next.show_in_nav, next.nav_order, next.share_image, id),
     ...snapshotStatements(db, id, data.user.id, 'Page settings updated'),
   ]);
 
   // Titles and slugs appear in the nav on every page.
   const purge = await purgeSite(env, ['all']);
   return json({ page: await loadPage(db, id), ...purge });
+}
+
+async function cleanImageId(db, value) {
+  if (value == null || value === '') return null;
+  const id = Number(value);
+  if (!Number.isInteger(id) || id <= 0 || !(await db.prepare('SELECT 1 FROM media WHERE id = ?').bind(id).first())) {
+    throw new HttpError(400, 'That share image no longer exists.');
+  }
+  return id;
 }
 
 // Owner only. The home page can't be deleted.
