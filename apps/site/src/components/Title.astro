@@ -3,7 +3,7 @@
 const { heading, intro = '', center = false, caps = false, as: Tag = 'h2' } = Astro.props;
 ---
 {(heading || intro) && (
-  <div class:list={['title', center && 'center']} data-reveal>
+  <div class:list={['title', center && 'center']} data-reveal="text">
     {heading && <Tag class:list={[caps && 'caps']}>{heading}</Tag>}
     {heading && <span class="divider" aria-hidden="true"></span>}
     {intro && <p class="intro">{intro}</p>}

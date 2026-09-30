@@ -8,20 +8,22 @@ const html = renderMarkdown(data.body);
 const center = data.align === 'center';
 const hasImage = data.image && ctx.media.get(data.image);
 const dark = data.background === 'navy';
+// Buttons: outlined pill on light backgrounds, white pill on gold/navy — as on the old site.
+const button = dark || data.background === 'gold' ? 'btn-white' : 'btn-outline';
 ---
 <section class:list={['section', data.background && data.background !== 'white' && `bg-${data.background}`, center && 'center']}>
   <div class:list={['container', !hasImage && center && 'narrow']}>
     <div class:list={[hasImage && 'split', hasImage && data.image_side === 'left' && 'photo-left']}>
-      <div data-reveal={hasImage ? (data.image_side === 'left' ? 'right' : 'left') : 'up'}>
+      <div data-reveal="text" data-side={hasImage && data.image_side === 'left' ? 'right' : 'left'}>
         <Title heading={data.heading} center={center && !hasImage} />
         <div class:list={['prose', center && !hasImage && 'center']}><Fragment set:html={html} /></div>
         {data.button_label && data.button_url && (
-          <div class:list={['actions', center && !hasImage && 'center']}>
-            <a class:list={['btn', dark ? 'btn-white' : 'btn-navy']} href={data.button_url}>{data.button_label}</a>
+          <div class:list={['actions', center && !hasImage && 'center']} data-reveal="button">
+            <a class:list={['btn', button]} href={data.button_url}>{data.button_label}</a>
           </div>
         )}
       </div>
-      {hasImage && <div class="split-media" data-reveal={data.image_side === 'left' ? 'left' : 'right'}><Img id={data.image} media={ctx.media} /></div>}
+      {hasImage && <div class="split-media" data-reveal="photo" data-side={data.image_side === 'left' ? 'left' : 'right'}><Img id={data.image} media={ctx.media} /></div>}
     </div>
   </div>
 </section>

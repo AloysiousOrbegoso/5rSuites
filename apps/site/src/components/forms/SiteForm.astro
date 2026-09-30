@@ -18,7 +18,7 @@ for (const f of spec.fields) {
   else rows.push(f.group ? { group: true, fields: [f] } : f);
 }
 ---
-<div class="form-card">
+<div class:list={['form-card', `form-${type}`]}>
   {heading && <h2>{heading}</h2>}
   {intro && <p class="intro">{intro}</p>}
   <form class="site-form" method="post" action={`/api/forms/${type}`} enctype={hasFile ? 'multipart/form-data' : undefined} data-success={spec.success}>
@@ -50,7 +50,7 @@ for (const f of spec.fields) {
           <div class:list={['field', type !== 'careers' && 'full']}>
             <label class:list={['file-btn', type === 'careers' && 'pill']}>
               <input type="file" name={f.name} accept={f.accept} required={f.required} data-file-input />
-              {f.label}{type !== 'careers' && ' +'}
+              {type === 'careers' && <span aria-hidden="true">+</span>}{f.label}{type !== 'careers' && ' +'}
             </label>
             <div class="file-name" data-file-name></div>
           </div>

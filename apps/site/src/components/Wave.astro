@@ -1,7 +1,12 @@
 ---
-// Soft wave edge used on the hero and colour bands (matches the previous site).
+// Curved edge on the hero and colour/photo bands. Same curve as the old Wix site's shape
+// divider, used for both edges so the band bends the same way top and bottom: the top edge
+// dips in the middle, the bottom edge bulges out in the middle.
 const { position = 'bottom', color = '#fff' } = Astro.props;
+// Curve from Wix: flat near the edges (y 12.3), smooth S-bend to the middle (y 174.3).
+const curve = 'M1920 12.3c-480 0-480 162-960 162s-480-162-960-162';
+const d = position === 'top' ? `M0 0H1920V12.3c-480 0-480 162-960 162s-480-162-960-162Z` : `${curve}V174.3H1920Z`;
 ---
-<svg class={`wave ${position}`} viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
-  <path style={`fill:${color}`} d="M0,58 C240,96 420,20 720,40 C1020,60 1200,92 1440,52 L1440,90 L0,90 Z" />
+<svg class={`wave ${position}`} viewBox="0 0 1920 174.3" preserveAspectRatio="none" aria-hidden="true">
+  <path style={`fill:${color}`} d={d} />
 </svg>

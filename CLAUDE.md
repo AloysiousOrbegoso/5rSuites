@@ -198,6 +198,17 @@ Inter body) live in `packages/design/tokens.css`. Fonts are self-hosted via
 `@fontsource` (no Google Fonts dependency). Top-bar/footer contact details and
 social links are `vars` in `apps/site/wrangler.jsonc`.
 
+The layout copies the old Wix site (980px content column, its heading sizes, card and
+button styles). `scripts/import-wix-images.mjs` + `scripts/wix-import/map.json` carry the
+Wix photos, FAQ, legal pages and per-section settings into the CMS.
+
+Motion also follows Wix and is chosen per section in the admin: every section has an
+`animation` field (`float` = the Wix behaviour: photos float up, buttons fold in, logos slide
+in, text stays put), heroes/banners have `bg_effect` (parallax / fixed / none) and the photo
+collage has `main_effect` (pan) and `bottom_effect` (bob). The scroll-driven parts run from
+the inline script in `apps/site/src/layouts/Base.astro`; the keyframes are at the end of
+`packages/design/styles.css`. Everything respects `prefers-reduced-motion`.
+
 ## Out of scope (for now — don't build unprompted)
 
 - Multi-language content

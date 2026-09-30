@@ -1,19 +1,29 @@
 ---
 import Icon from '../Icon.astro';
+import Img from '../Img.astro';
 import Title from '../Title.astro';
-const { data } = Astro.props;
+const { data, ctx } = Astro.props;
+const items = data.items || [];
+const photo = data.image && ctx.media.get(data.image) ? data.image : null;
+// With a photo tile, the old site's last row was: one wider card, the rest normal, and the
+// photo filling what's left. The grid has 20 tracks; a normal card spans 4 (5 per row).
+const rest = items.length % 5;
+const lastRow = photo ? (rest || 0) : 0;
+const firstOfLast = items.length - lastRow;
+const photoSpan = lastRow ? 20 - (6 + 4 * (lastRow - 1)) : 20;
 ---
 <section class="section">
   <div class="container">
     <Title heading={data.heading} intro={data.intro} center />
-    <div class="amenities">
-      {(data.items || []).map((item, i) => (
-        <div class="amenity" data-reveal style={`--i:${i % 6}`}>
-          <Icon name={item.icon} />
+    <div class:list={['amenities', photo && 'with-photo']}>
+      {items.map((item, i) => (
+        <div class:list={['amenity', lastRow && i === firstOfLast && 'wide']} data-reveal="text" style={`--i:${i % 5}`}>
+          {item.image && ctx.media.get(item.image) ? <Img id={item.image} media={ctx.media} class="amenity-icon" alt="" /> : <Icon name={item.icon} />}
           <h3>{item.label}</h3>
           {item.description && <p>{item.description}</p>}
         </div>
       ))}
+      {photo && <div class="photo-tile" data-reveal="photo" style={`--span:${photoSpan}`}><Img id={photo} media={ctx.media} sizes="(min-width: 900px) 480px, 100vw" /></div>}
     </div>
   </div>
 </section>

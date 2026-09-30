@@ -1,5 +1,5 @@
 {
- "_about": "Photos from the old Wix site and the sections they belong in. Read by scripts/import-wix-images.mjs. Sections are matched by page, type and heading. \"set\" applies other field values so the section matches the Wix layout. \"insert_after\" adds the section (once) right after the named one.",
+ "_about": "Photos, content and layout settings carried over from the old Wix site, read by scripts/import-wix-images.mjs. Sections are matched by page, type and heading (case-insensitive; a null heading means the first section of that type). \"image\"/\"gallery\"/\"photos\" place photos, \"set\" writes any other field ({\"$image\": file} inserts a photo id), \"insert_after\" adds a section once, \"faq\" replaces the placeholder FAQ, \"pages\" creates pages that do not exist yet.",
  "media": [
   {
    "file": "home-hero.jpg",
@@ -196,6 +196,111 @@
    "width": 1300,
    "height": 867,
    "wix_source": "11062b_fc499e7dc10e4d9b84e3140b6de5fbd9~mv2_d_4708_3139_s_4_2.jpg"
+  },
+  {
+   "file": "amenity-bed.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_0c46c392a3214f029cd4caa38872190e~mv2.png"
+  },
+  {
+   "file": "amenity-desk.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_0e6a4ae67e38471a8517fc7956ba25f0~mv2.png"
+  },
+  {
+   "file": "amenity-design.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_e04426396dbc4097b10261019715b42d~mv2.png"
+  },
+  {
+   "file": "amenity-bathtub.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_71e42e331918402695072ff87def7aae~mv2.png"
+  },
+  {
+   "file": "amenity-kitchen.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_24099ebc23f6470780c9c9ffeceb984b~mv2.png"
+  },
+  {
+   "file": "amenity-washer.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_85076b6890d34f32a920fc5d8c776f7f~mv2.png"
+  },
+  {
+   "file": "amenity-parking.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_ab8cb9853e174e8085fadd339652218f~mv2.png"
+  },
+  {
+   "file": "amenity-concierge.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_20f0e8eb988048cd9fc51a7f2359c79d~mv2.png"
+  },
+  {
+   "file": "amenity-air-conditioning.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_33c7d672a74b463db121d12a5b6fb4fa~mv2.png"
+  },
+  {
+   "file": "amenity-check-in.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_657d63d3c3b0421d99783cbf6963fe66~mv2.png"
+  },
+  {
+   "file": "amenity-tv.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_803dc39e27f84d4bab57c510474aaf79~mv2.png"
+  },
+  {
+   "file": "amenity-housekeeping.png",
+   "alt": "",
+   "width": 128,
+   "height": 128,
+   "wix_source": "46dd91_8b88d121b43647bab03519849836d999~mv2.png"
+  },
+  {
+   "file": "amenity-photo-tile.jpg",
+   "alt": "Apartment interior with red accents",
+   "width": 1200,
+   "height": 800,
+   "wix_source": "11062b_0bb7a95d51dd475c8666596576d894e9~mv2.jpg"
+  },
+  {
+   "file": "contact-building.jpg",
+   "alt": "Modern apartment complex",
+   "width": 800,
+   "height": 661,
+   "wix_source": "11062b_8764c64fe1bf490490b01ea65052e01d~mv2_d_3000_2477_s_4_2.jpg"
+  },
+  {
+   "file": "testimonial-background.png",
+   "alt": "",
+   "width": 1920,
+   "height": 482,
+   "wix_source": "46dd91_c4a7eb07fe1a409291bc16dbe3b242f0~mv2.png"
   }
  ],
  "placements": [
@@ -209,13 +314,52 @@
    "page": "home",
    "type": "traveler_grid",
    "heading": "Ideal Choice For",
-   "items": {
-    "Vacation Travelers": "icon-vacation-travelers.png",
-    "Travel Nurses": "icon-travel-nurses.png",
-    "Corporate Travelers": "icon-corporate-travelers.png",
-    "Military Travelers": "icon-military-travelers.png",
-    "Insurance": "icon-insurance.png",
-    "Relocations": "icon-relocations.png"
+   "set": {
+    "heading": "IDEAL CHOICE FOR",
+    "items": [
+     {
+      "title": "VACATION TRAVELERS",
+      "description": "",
+      "image": {
+       "$image": "icon-vacation-travelers.png"
+      }
+     },
+     {
+      "title": "TRAVEL NURSES",
+      "description": "",
+      "image": {
+       "$image": "icon-travel-nurses.png"
+      }
+     },
+     {
+      "title": "CORPORATE TRAVELERS",
+      "description": "",
+      "image": {
+       "$image": "icon-corporate-travelers.png"
+      }
+     },
+     {
+      "title": "MILITARY TRAVELERS",
+      "description": "",
+      "image": {
+       "$image": "icon-military-travelers.png"
+      }
+     },
+     {
+      "title": "Insurance",
+      "description": "",
+      "image": {
+       "$image": "icon-insurance.png"
+      }
+     },
+     {
+      "title": "Relocations",
+      "description": "",
+      "image": {
+       "$image": "icon-relocations.png"
+      }
+     }
+    ]
    }
   },
   {
@@ -228,13 +372,136 @@
    "page": "home",
    "type": "rich_text",
    "heading": "Home Living With Apartment Amenities",
-   "image": "loft-bedroom.jpg"
+   "image": "loft-bedroom.jpg",
+   "set": {
+    "heading_size": "small"
+   }
+  },
+  {
+   "page": "home",
+   "type": "amenity_grid",
+   "heading": "Thoughtfully Designed, Private Apartments",
+   "image": "amenity-photo-tile.jpg",
+   "set": {
+    "items": [
+     {
+      "icon": "workspace",
+      "image": {
+       "$image": "amenity-bed.png"
+      },
+      "label": "Tastefully Furnished",
+      "description": ""
+     },
+     {
+      "icon": "wifi",
+      "image": {
+       "$image": "amenity-desk.png"
+      },
+      "label": "In-Unit Workspace+WiFi",
+      "description": ""
+     },
+     {
+      "icon": "calendar",
+      "image": {
+       "$image": "amenity-design.png"
+      },
+      "label": "Contemporary Design",
+      "description": ""
+     },
+     {
+      "icon": "linens",
+      "image": {
+       "$image": "amenity-bathtub.png"
+      },
+      "label": "Luxury Bath Amenities",
+      "description": ""
+     },
+     {
+      "icon": "kitchen",
+      "image": {
+       "$image": "amenity-kitchen.png"
+      },
+      "label": "Fully Equipped Kitchen",
+      "description": ""
+     },
+     {
+      "icon": "laundry",
+      "image": {
+       "$image": "amenity-washer.png"
+      },
+      "label": "In-Unit Washer + Dryer",
+      "description": ""
+     },
+     {
+      "icon": "parking",
+      "image": {
+       "$image": "amenity-parking.png"
+      },
+      "label": "Parking Available",
+      "description": ""
+     },
+     {
+      "icon": "support",
+      "image": {
+       "$image": "amenity-concierge.png"
+      },
+      "label": "24-Hour Virtual Concierge",
+      "description": ""
+     },
+     {
+      "icon": "utilities",
+      "image": {
+       "$image": "amenity-air-conditioning.png"
+      },
+      "label": "Air Conditioning + Heating",
+      "description": ""
+     },
+     {
+      "icon": "security",
+      "image": {
+       "$image": "amenity-check-in.png"
+      },
+      "label": "Seamless Check-In Experience",
+      "description": ""
+     },
+     {
+      "icon": "tv",
+      "image": {
+       "$image": "amenity-tv.png"
+      },
+      "label": "TV + Free Streaming (Netflix, Hulu, etc.)",
+      "description": ""
+     },
+     {
+      "icon": "cleaning",
+      "image": {
+       "$image": "amenity-housekeeping.png"
+      },
+      "label": "Housekeeping Available",
+      "description": ""
+     }
+    ]
+   }
+  },
+  {
+   "page": "home",
+   "type": "contact_strip",
+   "heading": "Contact Info",
+   "image": "contact-building.jpg",
+   "set": {
+    "map_query": "Tacoma, WA",
+    "heading_size": "small",
+    "divider": "hide"
+   }
   },
   {
    "page": "about",
    "type": "hero",
    "heading": "About Us",
-   "image": "about-hero.jpg"
+   "image": "about-hero.jpg",
+   "set": {
+    "height": "tall"
+   }
   },
   {
    "page": "about",
@@ -242,20 +509,53 @@
    "heading": "Our Mission",
    "image": "balcony-city-view.jpg",
    "set": {
-    "image_side": "right"
+    "image_side": "right",
+    "heading_size": "large"
+   }
+  },
+  {
+   "page": "about",
+   "type": "rich_text",
+   "heading": "Our Start",
+   "set": {
+    "heading_size": "large"
    }
   },
   {
    "page": "about",
    "type": "rich_text",
    "heading": "5R Suites Now",
-   "image": "living-room-green-wall.jpg"
+   "image": "living-room-green-wall.jpg",
+   "set": {
+    "heading_size": "large"
+   }
+  },
+  {
+   "page": "about",
+   "type": "rich_text",
+   "heading": "Careers",
+   "set": {
+    "heading_size": "small",
+    "divider": "hide",
+    "body": "We are always on the lookout for reliable, motivated individuals to join the 5R Suites team.\n\n### Work with us\nAre you interested in property management? Have experience in real estate, customer service, hospitality, or sales? Handy? Self-starter? Looking for a flexible schedule? Let us know! We will get back to you with any opportunities.\n\n### DOD paid internships\nAs a veteran-owned company, we offer exclusive paid internship opportunities through the DOD SkillBridge and Hiring Our Heroes programs. Message us to learn more.\n\n### Partner with us\nBuilding owner or developer? For information on partnerships check out [our Partners page](/partners)."
+   }
   },
   {
    "page": "register-property",
    "type": "hero",
    "heading": "Register Property",
-   "image": "register-property-hero.jpg"
+   "image": "register-property-hero.jpg",
+   "set": {
+    "height": "tall"
+   }
+  },
+  {
+   "page": "register-property",
+   "type": "form",
+   "heading": null,
+   "set": {
+    "heading_size": "small"
+   }
   },
   {
    "page": "partners",
@@ -267,7 +567,18 @@
    "page": "partners",
    "type": "rich_text",
    "heading": "Your Dream Tenant",
-   "image": "balcony-city-view.jpg"
+   "image": "balcony-city-view.jpg",
+   "set": {
+    "heading": "YOUR DREAM TENANT",
+    "heading_size": "small",
+    "body": "- Proven Payments: Guaranteed monthly income; on time, every time. Incredibly strong balance sheet and large operating account. NO deferments or late payments during COVID-19.\n- Committed Insurance: All 5R Suites units are covered through commercial-grade $2 million premises liability and $6 million excess liability coverage.\n- No Vacancies: Immediately lease-up units. Say goodbye to vacancies, turnover, lease commissions, and credit loss."
+   }
+  },
+  {
+   "page": "partners",
+   "type": "quote",
+   "heading": null,
+   "image": "testimonial-background.png"
   },
   {
    "page": "partners",
@@ -284,26 +595,55 @@
     "logo-legacy-partners.png",
     "logo-summerfield-management.png",
     "logo-carino-and-associates.jpg"
-   ]
+   ],
+   "set": {
+    "heading_size": "small",
+    "divider": "hide"
+   }
   },
   {
    "page": "faq",
    "type": "hero",
    "heading": "Frequently Asked Question",
-   "image": "faq-hero.jpg"
+   "image": "faq-hero.jpg",
+   "set": {
+    "height": "short"
+   }
+  },
+  {
+   "page": "faq",
+   "type": "faq_list",
+   "heading": null,
+   "set": {
+    "heading": "",
+    "tabs": "FAQs - Corporate Suites Nationwide, Booking, Partners"
+   }
   },
   {
    "page": "contact",
    "type": "hero",
    "heading": "Get In Touch",
-   "image": "balcony-city-view.jpg"
+   "image": "balcony-city-view.jpg",
+   "set": {
+    "height": "short"
+   }
   },
   {
-   "page": "home",
+   "page": "contact",
    "type": "contact_strip",
    "heading": "Contact Info",
    "set": {
-    "map_query": "Tacoma, WA"
+    "heading_size": "small",
+    "divider": "hide"
+   },
+   "image": "contact-building.jpg"
+  },
+  {
+   "page": "contact",
+   "type": "form",
+   "heading": null,
+   "set": {
+    "heading_size": "small"
    }
   },
   {
@@ -337,6 +677,130 @@
    "set": {
     "background": "white"
    }
+  }
+ ],
+ "faq": [
+  {
+   "category": "FAQs - Corporate Suites Nationwide",
+   "question": "What Types Of Properties Do You Offer?",
+   "answer": "We offer a variety of housing options, including apartments, condominiums, and single-family homes, all fully furnished and equipped."
+  },
+  {
+   "category": "FAQs - Corporate Suites Nationwide",
+   "question": "What Is Included In The Rent?",
+   "answer": "Rent typically includes all utilities, furniture, appliances, internet, and access to amenities like fitness centers and pools (where available)."
+  },
+  {
+   "category": "FAQs - Corporate Suites Nationwide",
+   "question": "How Do I Make A Reservation?",
+   "answer": "Contact our dedicated corporate housing team to discuss your needs and availability."
+  },
+  {
+   "category": "Booking",
+   "question": "WHAT IS 5R SUITES?",
+   "answer": "5R Suites partners with luxury apartment communities to convert a portion of inventory into mid-long term furnished rentals. Our Suites are tastefully designed and catered to business travelers and the alike. Our guests enjoy the benefits of a fully equipped kitchen, in-unit washer & dryer, increased living space, ample privacy, full access to building amenities, and most importantly; the feeling of being home."
+  },
+  {
+   "category": "Booking",
+   "question": "WHERE DOES 5R SUITES OPERATE?",
+   "answer": "5R Suites is Tacoma based but offers furnished apartments in throughout the Silicon Valley and the Seattle-Tacoma Area. Want 5R Suites in your city? Let us know!"
+  },
+  {
+   "category": "Booking",
+   "question": "WHAT'S INCLUDED?",
+   "answer": "Our Suites offer an environment similar to home with a fully equipped kitchen, in-unit washer and dryer, high-speed WiFi, HDTV, coffee-maker, toaster, and kitchenware, just to name a few. Your Suite is furnished with a queen-sized memory foam bed, efficient work-space, and you’ll have full access to building amenities such as gyms, spas, pools, or community game rooms."
+  },
+  {
+   "category": "Booking",
+   "question": "DO YOU OFFER PARKING?",
+   "answer": "Yes! Did you know hotels and extended stays charge anywhere from $10-50/day to park? 5R Suites provides secure in-building parking for just $5/day or $100/month."
+  },
+  {
+   "category": "Booking",
+   "question": "ARE THERE ANY EXTRA FEES?",
+   "answer": "There are no hidden or extra fees when you book with 5R Suites. Everything is all-inclusive!"
+  },
+  {
+   "category": "Booking",
+   "question": "HOW FAR IN ADVANCE CAN I BOOK?",
+   "answer": "For stays of 30+ days, you may book up to 1-year in advance. Shorter term stays are subject to booking windows and can usually only be booked if filling in between long-term stays up to 6 months out."
+  },
+  {
+   "category": "Booking",
+   "question": "WHAT IS THE CANCELLATION POLICY?",
+   "answer": "We know how plans can change. We've designed one of the most flexible cancellation policies in the industry designed for the unreliability of business-travel schedules.\n\nFor short term stays under 28 days:\n\nIf you cancel 14-days prior to the start date of your reservation, you are eligible for a 100% refund.\n\nIf you cancel 13-days or less prior to the start date of your reservation, you are eligible for a 50% refund.\n\nIf you cancel after the start date of your reservation, you are not eligible for a refund, unless more than 14-days remain on your agreement.\n\nFor long term stays over 28 days:\n\nIf you cancel 30-days prior to the start date of your reservation, you are eligible for a 100% refund.\n\nIf you cancel 29-days or less prior to the start date of your reservation, or during your reservation, you are not eligible for a refund for the first 30 days. Any remaining days on the agreement after the first, or next 30 days will be refunded in full.\n*Higher rates may apply, and or additional city tax, depending on new total days of reservation after alteration of dates*Some exclusions apply."
+  },
+  {
+   "category": "Booking",
+   "question": "WHAT TIME IS CHECK-IN AND CHECK-OUT?",
+   "answer": "Check-in is anytime after 4:00PM, and check-out is anytime prior to 11:00AM. As we use a streamlined self-check-in process, a late check-in is not a problem!"
+  },
+  {
+   "category": "Booking",
+   "question": "ARE THE ROOMS CLEANED DAILY?",
+   "answer": "Our Suites are professionally cleaned every time a guest checks out, but in respect of your privacy, Suites are not cleaned daily. A housekeeping service may be easily arranged for a fee depending on your Suite size and cleaning type."
+  },
+  {
+   "category": "Booking",
+   "question": "IS THERE AN OFFICE WITHIN EACH APARTMENT BUILDING?",
+   "answer": "5R Suites has corporate offices in LA and Tacoma. However, we do not maintain offices within the individual apartment communities themselves.\n\nEach apartment community we’ve partnered with has its own office catering to “permanent building residents.\" Therefore, anything related to your experience with us can be handled by your 5R Suites concierge, not the local apartment staff."
+  },
+  {
+   "category": "Booking",
+   "question": "DO YOU ALLOW PETS?",
+   "answer": "In most of our units pets are allowed for a one time fee of $500 per cat/dog. Breed restrictions may apply so be sure to contact us first to verify your pet's eligibility!"
+  }
+ ],
+ "pages": [
+  {
+   "slug": "privacy-policy",
+   "title": "Privacy Policy",
+   "meta_description": "5R Suites privacy policy.",
+   "sections": [
+    {
+     "type": "rich_text",
+     "data": {
+      "heading": "PRIVACY POLICY",
+      "body": "This Privacy Policy describes how we collect and use personal data and your choices regarding use, access, and correction of personal information. It applies to our websites linking to this Privacy Policy and your use of our websites, applications, products, services, and properties (collectively, the “Services”). Please be aware that if our Services include links or references to third-party websites, the information practices of the provider of that website and not this Privacy Policy govern your engagement with such websites are governed by the privacy policies of their respective owners. We encourage you to review the privacy policies of other websites.\n\nIf you have questions about this Privacy Policy or our associated practices, please contact us at info@5rsuites.com\n\nIf you use our Services, you consent to the collection, use, and sharing of your personal data under this Privacy Policy (which includes our Cookie Policy and other documents referenced in this Privacy Policy).\n\nWe provide you choices that allow you to opt out of how we use and share your data.\n\nWe may modify this Privacy Policy, and if we make material changes to it, we will provide notice through our Services, or by other means, to provide you the opportunity to review the changes before they become effective. Your continued use of our Services after we publish or send a notice about our changes to this Privacy Policy means that you are consenting to the updated Privacy Policy.\n\n1. INFORMATION WE COLLECT\n\nGENERAL\n\nWhen you use our Services, you may be asked to provide and we may collect personal information which may uniquely identify an individual. Examples of this information include your name, email address, mailing address, phone number, credit card or other billing information. Personal information may also include information such as your date of birth, geographical location, or preferences.\n\nWe may acquire personal information about you from third parties, including but not limited to payment information, travel information, and background check information, and link that information to the personal information we collect.\n\nAs you use our Services, 5R Suites LLC may also collect information through the use of commonly used information-gathering tools, such as cookies and web beacons, as well as standard information from your web browser (such as browser type and browser language). Our Cookie Policy describes our use of cookies and other web tools.\n\nWe use data for analytics and measurement to understand how our Services are used. For example, we analyze data about your visits to our websites to do things like optimize product design. We use a variety of tools to do this, including Google Analytics. When you visit sites that use Google Analytics, we and Google may link information about your activity from that site with activity from other sites that use our Google Analytics services. For more information about our use of Google Analytics and your choices, please see our Cookie Policy.\n\nWe may combine the information we obtain through the use of cookies and web tools with the information we collect directly.\n\nIf you participate in community blogs or commenting features on our websites, we will collect your contact information and the other information you submit. This information, including your contact information, may be viewed by others who visit these forums. We are not responsible for the personal information you choose to submit in these forums and may delete or correct it at any time.\n\nIf you opt-in to particular features in our Services, we may also collect geographic and location information to provide product functionality. These features are specially identified in our Services.\n\nWe collect your billing information in connection with credit card payments initiated by you.\n\nWe collect your resume or C.V. when you apply for a job with us.\n\nINFORMATION COLLECTED - 5R SUITES LLC\n\nWhen you make a reservation with us, we collect your name, email address, physical address, telephone number, date of birth, and your purpose for travel. If your purpose of travel is business-related, we collect information relating to your employment, including but not limited to company name, location of that company and your role within that company. When you create an account with us, we collect and store the same information.\n\nThrough our “Share Your Reservation” feature option in our Services, we also collect personal contact information, such as the name and contact information of the individuals you choose to share your reservation with.\n\nPlease note that if you give us personal data on behalf of someone else (or someone else gives us personal data on your behalf), the person providing the personal data must have consent or other legal basis to do so.\n\n2. HOW WE USE INFORMATION COLLECTED\n\nGENERAL\n\nHow we use your personal data will depend on the Services you use, how you use those Services, and the choices you make in your settings. We use the data that we have about you to provide, support, personalize and make our Services more relevant and useful to you and others.\n\nWhen you access the Services, we use your data to authenticate you and authorize access to our Services. We will also use your data to provide you with the information about the Services. If you register to attend one of our events, we will use your personal information to authorize your attendance at the event provide you with information about the event.\n\nWe may also your personal information to contact you about products, services, or events that may interest you. For example, we may use your personal information to contact you to further discuss your interest in the Services or promote engagement with our Services.\n\nIf you pay us for Services by credit or other payment card, we use your billing and payment card information solely to check your financial qualifications and collect payment from you.\n\nWe use your resume and C.V. to evaluate your candidacy for a job with us.\n\nWe also use personal data to fulfill our contractual obligations, for our legitimate interests, or when we have a lawful basis to do so.\n\n​\n\nSOCIAL MEDIA FEATURES\n\nOur websites may use social media features, such as the Facebook “like” button. These features may collect some information about your use of our website. You may be given the option by social media providers to post information about your activities on our website to your profile page or on our site.\n\n3. HOW WE SHARE INFORMATION WE COLLECT\n\nWe do not share, sell, rent, or trade any of your personal information with third parties except as described in this Privacy Policy.\n\nSERVICE PROVIDERS\n\nWe share your personal information with service providers to enable our service providers to provide you with services on our behalf. We contractually restrict our service providers to use your personal information only as necessary to provide services to us.\n\nNote: In compliance with The Campaign Registry (TCR) regulations, we do not share your SMS consent information or phone numbers provided for texting purposes with third-party vendors. This information is strictly used for the purpose of delivering the services you have opted in for.\n\nAFFILIATES\n\nWe share information within our corporate family. For example, we may need to share your personal information with one of our subsidiaries in order to provide you with technical support or account management purposes in your region.\n\nBUSINESS PARTNERS\n\nWe may partner with other companies, such as our cloud provider partners, to jointly offer products, services, or programs (such as webinars or downloadable content). If you purchase, specifically express interest in, or register for a jointly offered product, service, or program from or through us, we may share your personal information with our partner.\n\nWe will also share information with our partners and event sponsors if you specifically opt in to such sharing via an event registration form or attend an event and allow us or our partners to scan your attendee badge.\n\nWe do not control our partners’ use of your personal information. If you do not wish for your personal information to be shared in this manner, you may opt not to purchase or specifically express interest in a jointly offered product or service.\n\nBILLING\n\n5R Suites LLC uses a third-party service provider to manage credit card processing for our Services. Our service provider is contractually prohibited from storing, retaining, or using your billing information except for the sole purpose of credit card processing on our behalf.\n\nCOMPELLED DISCLOSURE\n\nIt is possible that we will need to disclose information about you when required by law, subpoena, or other legal process or if we have a good faith belief that disclosure is reasonably necessary to (1) investigate, prevent, or take action regarding suspected or actual illegal activities or to assist government enforcement agencies; (2) enforce our agreements with you, (3) investigate and defend ourselves against any third-party claims or allegations, and (4) protect the security or integrity of our products and services (such as by sharing with companies facing similar threats). We attempt to notify customers about legal demands for their personal data when appropriate in our judgment, unless prohibited by law or court order or when the request is an emergency. We may dispute such demands when we believe, in our discretion, that the requests are overbroad, vague, or lack proper authority, but we do not promise to challenge every demand.\n\nCHANGE OF CONTROL\n\nWe can also share your personal data as part of a sale, merger, or change in control, or in preparation for any of these events. Any other entity which buys us or part of our business will have the right to continue to use your data, but only in the manner set out in this Privacy Policy unless you agree otherwise.\n\n4. CHILDREN'S PRIVACY\n\nOur websites and marketing are not directed to children under 13 years of age. We do not intentionally gather information about visitors who are under the age of 13. If our practice changes, we will obtain consent from a parent or guardian before we knowingly collect PII from anyone under the age of 13.\n\n5. INTERNATIONAL TRANSFER OF INFORMATION COLLECTED\n\nWe primarily store your information in the United States. To facilitate our global operations, we may transfer and access such information worldwide, including from other countries in which we have operations. We store your information in accordance with the data retention periods set forth in the terms of service or for as long as otherwise consented by you.\n\n5R Suites LLC makes available a Data Protection Addendum to customers of the Services with personal data originating from the E. U., which includes the E.U. Model Clauses, also known as Standard Contractual Clauses. To request a copy of our Data Processing Addendum, incorporating the E.U. Model Clauses, please contact your account representative or email info@5rsuites.com\n\n6. CORRECTING AND UPDATING YOUR PERSONAL INFORMATION; CHANGING YOUR PREFERENCES\n\nWe may retain your personal information for a period of time consistent with the original purpose of collection. For instance, we may retain your personal information during the time in which you have an account to use our websites or Services and for a reasonable period of time afterward. We also may retain your personal information for as long as we need it to conduct audits, comply with our legal obligations, resolve disputes, and enforce our agreements.\n\nYou may request to review, correct, delete, or otherwise modify any of the personal information that you have previously provided to us.\n\nMARKETING\n\nWe may use your personal information for invitations and communications promoting our Services. You may opt out of receiving all emails selecting the ‘Unsubscribe’ link in these marketing emails.\n\nUSER AND ACCOUNT SETTINGS\n\nIf you have registered for an account with us, you may update your user and account settings by logging into our website or Services with your username and password and editing your settings.\n\nBILLING INFORMATION\n\nTo update your billing information or request return or deletion of your account information, please contact your account representative.\n\nFor other requests to access, correct, modify, or delete your personal information, please contact us at info@5rsuites.com. Requests to access, change, or delete your personal information will be addressed within a reasonable timeframe.\n\n7. SECURITY\n\nWe maintain reasonable administrative, technical, and physical safeguards designed to protect the security, confidentiality and integrity of the personal information we collect. Our safeguards are not a guarantee against the loss, misuse, or unauthorized access, disclosure, alteration, and destruction of your personal information. In addition, we use standard security protocols and mechanisms to transmit sensitive data such as passwords and credit card details.\n\n8. CONTACTING US\n\nQuestions regarding this Privacy Policy or our data collection and use practices should be directed to our Privacy Team by contacting us at info@5rsuites.com or by mailing us at:\n\n5R Suites LLC\n\n9330 NE Van Mall Drive\n\nSuite 203 #122\n\nVancouver, WA 98662\n\nCOOKIE POLICY\n\nLAST UPDATED: 10/01/2020\n\nAs you navigate our websites, 5R Suites LLC may collect information through the use of commonly used information-gathering tools, such as cookies and web beacons (“Website Navigational Information”). Website Navigational Information includes standard information from your web browser (such as browser type and browser language), your Internet Protocol (“IP”) address, and the actions you take on 5R Suites LLC’s websites (such as the web pages viewed and the links clicked).\n\nCOOKIES, WEB BEACONS, AND IP ADDRESSES\n\n5R Suites LLC uses commonly-used information-gathering tools, such as cookies and web beacons, to collect information as you navigate our websites (“Website Navigational Information”). As described more fully below, we and our partners use these cookies or similar technologies to analyze trends, administer websites and Services, track users’ movements around our 5R Suites LLC’s websites and Services, serve targeted advertisements, and gather demographic information about our user base as a whole. This section describes the types of Website Navigational Information used on 5R Suites LLC’s websites and Services and how this information may be used.\n\nCOOKIES\n\n5R Suites LLC uses cookies to make interactions with 5R Suites LLC’s websites easy and meaningful. When you visit one of 5R Suites LLC’s websites, 5R Suites LLC’s servers send a cookie to your computer or device. Standing alone, cookies do not personally identify you; they merely recognize your web browser. Unless you choose to identify yourself to 5R Suites LLC, either by responding to a promotional offer, opening an account, or filling out a web form (such as a “Contact Me” or a “Request a Demo” web form) or have previously identified yourself to 5R Suites LLC, you remain anonymous to 5R Suites LLC.\n\n5R Suites LLC uses cookies that are session-based and persistent-based. Session cookies exist only during one session. They disappear from your computer or device when you close your browser software or turn off your computer. Persistent cookies remain on your computer or device after you close your browser or turn off your computer. You can control the use of cookies at the individual browser level, but if you choose to disable cookies, it may limit your use of certain features or functions on our websites or Services.\n\nThe following sets out how 5R Suites LLC uses different categories of cookies and your options for managing cookies’ settings:\n\nTYPES OF COOKIES\n\nRequired cookies enable you to navigate 5R Suites LLC websites and use its features, such as accessing secure areas of the websites and using 5R Suites LLC Services.\n\nIf you have chosen to identify yourself to 5R Suites LLC, 5R Suites LLC may place on your browser cookies containing an encrypted, unique identifier. These cookies allow 5R Suites LLC to uniquely identify you when you are logged into the websites and Services and to process your online transactions and requests.\n\nBecause required cookies are essential to operate 5R Suites LLC’s websites and the Services, there is no option to opt out of these cookies.\n\nFunctionality cookies allow 5R Suites LLC’s websites and Services to remember information you have entered or choices you make (such as your username, language, or your region) and provide enhanced, more personal features. These cookies also enable you to optimize your use of 5R Suites LLC’s websites and Services after logging in. These cookies can also be used to remember changes you have made to text size, fonts, and other parts of web pages that you can customize.\n\nFunctional cookies may also be used to improve how 5R Suites LLC’s websites and Services function and perform; to enhance and customize your interactions with 5R Suites LLC; and to help us provide you with more relevant messages, including marketing communications. These cookies collect information about how Visitors, Customers, and Attendees use our 5R Suites LLC’s websites and Services, including which pages they go to most often and if they receive error messages from certain pages.\n\n5R Suites LLC may use its technology (under 5R Suites LLC’s brand ) or third parties to track and analyze usage and volume statistical information from Visitors, Customers, and Attendees; to provide enhanced interactions and more relevant communications; and to track the performance of 5R Suites LLC’s advertisements.\n\n5R Suites LLC and its third-party partners may also utilize HTML5 local storage or Flash cookies for these purposes. Flash cookies and HTML local storage are different from browser cookies because of the amount of, type of, and how data is stored.",
+      "divider": "hide",
+      "heading_size": "small"
+     }
+    },
+    {
+     "type": "rich_text",
+     "data": {
+      "heading": "",
+      "body": "To learn more about how to control cookies using your browser settings click here.\n\nTo learn how to manage privacy and storage settings for Flash cookies click here.\n\nTo opt out of being tracked by Google Analytics across all websites visit http://tools.google.com/dlpage/gaoptout.\n\nTARGETING OR ADVERTISING COOKIES\n\n5R Suites LLC sometimes uses cookies delivered by third parties to show you ads for 5R Suites LLC products and services that we think may interest you on any devices you may use and to track the performance of 5R Suites LLC advertisements. For example, in these cases, cookies remember information such as which browsers have visited 5R Suites LLC’s websites. The information provided to third parties does not include personal information, but this information may be re-associated with personal information after 5R Suites receives it. If 5R Suites LLC is using one of its own cookie-related products on our own 5R Suites LLC website, then a cookie related to ads may appear on our website under the 5R Suites LLC name.\n\n5R Suites LLC also contracts with third-party advertising networks that collect IP addresses and other information from web beacons (see below) on 5R Suites LLC’s websites and Services, from emails, and on third-party websites. Ad networks follow your online activities over time and across different sites or other online services by collecting Website Navigational Information through automated means, including through the use of cookies. These technologies may recognize you across the different devices you use, such as a desktop or laptop computer, smartphone, or tablet. Third parties use this information to provide advertisements about products and services tailored to your interests. You may see these advertisements on other websites or mobile applications on any of your devices. This process also helps us manage and track the effectiveness of our marketing efforts. Third parties, with whom 5R Suites LLC partners to provide certain features on our 5R Suites LLC’s websites or to display advertising based upon your Web browsing activity, use Flash cookies to collect and store information. Flash cookies are different from browser cookies because of the amount of, type of, and how data is stored.\n\nTo learn more about these and other advertising networks and your ability to opt out of collection by certain third party, please visit the opt-out pages of the Network Advertising Initiative, here, and the Digital Advertising Alliance, here.\n\nTo learn how to manage privacy and storage settings for Flash cookies click here. Various browsers may offer their own management tools for removing HTML5 local storage.\n\nTo opt out of being tracked by Google Analytics across all websites visit http://tools.google.com/dlpage/gaoptout.\n\nWEB BEACONS\n\n5R Suites LLC uses web beacons alone or in conjunction with cookies to compile information about Visitors’, Customers’, and Attendees’ usage of 5R Suites LLC’s websites and interaction with emails from 5R Suites LLC. Web beacons are often transparent graphic images that can recognize certain types of information on your computer, such as cookies, when you view a particular website or Service tied to the web beacon, and a description of a website or Service tied to the web beacon. For example, 5R Suites LLC may place web beacons in marketing emails that notify 5R Suites LLC when you click on a link in the email that directs you to one of 5R Suites LLC’s websites. 5R Suites LLC uses web beacons to operate and improve COMPANY’s websites, Services, and email communications.\n\nLOG FILES, IP ADDRESSES, URLS, AND OTHER DATA\n\nAs is true of most websites, we gather certain information automatically to analyze trends in the aggregate and administer our websites and Services. This information may include your Internet Protocol (IP) address (or the proxy server you use to access the World Wide Web), device and application identification numbers, your location, your browser type, your Internet service provider and/or mobile carrier, the pages and files you viewed, your searches, your operating system and system configuration information, and date/time stamps associated with your usage. Due to Internet communications standards, when you visit or use 5R Suites LLC’s websites and Services, we automatically receive the URL of the website from which you came and the website to which you go when you leave our Website. This information is used to analyze overall trends, to help us improve our websites and Services, to track and aggregate non-personal information, and to provide the websites and Services. For example, 5R Suites LLC uses IP addresses to monitor the regions from which Visitors, Customers, and Attendees navigate 5R Suites LLC’s websites. 5R Suites LLC also collects IP addresses from Customers when they log into the Services as part of 5R Suites LLC’s “Identity Confirmation” and “IP Range Restrictions” security features.\n\nDO NOT TRACK\n\nCurrently, various browsers — including Chrome, Firefox, Internet Explorer, and Safari — offer a “do not track” or “DNT” option that relies on a technology known as a DNT header, which sends a signal to websites visited by you about your browser DNT preference setting. We do not currently commit to responding to browsers' DNT signals concerning our websites, in part, because no common industry standard for DNT has been adopted by industry groups, technology companies, or regulators, including no consistent standard of interpreting user intent. We will continue to monitor developments around DNT browser technology and the implementation of a standard.",
+      "divider": "hide",
+      "heading_size": "small"
+     }
+    }
+   ]
+  },
+  {
+   "slug": "terms-conditions",
+   "title": "Terms & Conditions",
+   "meta_description": "5R Suites terms & conditions.",
+   "sections": [
+    {
+     "type": "rich_text",
+     "data": {
+      "heading": "TERMS & CONDITIONS",
+      "body": "1. RENTAL UNIT: Subject to the terms and conditions of this Agreement, 5R Suites rents to Guest and Guest rents from 5R Suites, for residential use only, the Premises set forth on Page 2 of this Agreement.\n\n2. OCCUPANCY: Only the individuals listed in the Guest General Information above are authorized to reside in the Premises. Guest expressly agrees not to allow any other individual to reside in the Premises without first notifying 5R Suites and obtaining 5R Suites’s written consent. Should Guest allow additional unauthorized occupants to reside in the Premises without first notifying 5R Suites and obtaining 5R Suites’s written consent, 5R Suites may charge an additional fee of $75.00 per day for each guest that is unauthorized to stay. In all cases, no more than 4 persons shall occupy any 1-Bedroom Suite or Studio Suite, or 6 persons in any 2-bedroom Suite.\n\n3. PHYSICAL POSSESSION: If 5R Suites is unable to deliver possession of the Suite at the commencement of the Term, 5R Suites shall not be liable for any damage caused thereby, nor shall this Agreement be void or voidable. Guest shall not be liable for any Rent until possession is delivered. Should the Suite not be available for Guest to take possession at the commencement of the Term, 5R Suites reserves the right to substitute the Suite with an equivalent size or larger size Suite at the same monthly rental rate specified herein (“Substituted Premises”). 5R Suites agrees that upon delivery of the Substituted Premises, Guest shall be bound to all covenants and conditions contained herein.\n\n4. TERM: Guest’s occupancy shall commence on the Move In Date, specified on page 2 of this Agreement, and continue for the term until the “Move Out Date” specified on page 2 of this Agreement (“Term”), at which time this Lease shall terminate without further notice.\n\n5. NO RIGHT TO HOLDOVER: Upon the expiration of the Term, should Guest or Guest’s invitees, including but not limited to family, friends, associates, employees, consultants, and agents (hereinafter “Guest’s Invitees”), fail to vacate the Premises upon the Move Out Date, Guest shall be considered a holdover tenant and Guest shall be charged $200.00 for each day Guest remains on the Premises in addition to the prorated Rent due under this Agreement as permitted to the maximum amount allowed under California State law.\n\n6. RENT: The total Rent for the Premises is specified on page 2 of this Agreement, which Guest hereby agrees to pay to 5R Suites at 10250 Constellation, Los Angeles, CA, 90067, or such other place as 5R Suites may from time to time designate in writing to Guest. All payments shall be made by credit card, money order, electronic wire, or cash. Rent, Additional Rent as defined below, and any and all other monetary obligations of Guest to 5R Suites (except for the Security Deposit) are deemed to be Rent. All payments are to be made payable to 5R Suites or such other entity as 5R Suites may designate in writing to Guest from time to time. If Guest pays by credit card or electronic payment then Guest hereby agrees not to chargeback any rent payments made by electronic payment to 5R Suites, including but not limited to payments using ACH, credit card and debit card. Guest agrees that failure to abide by this Agreement may result as Additional Rent in applicable late fee charges as specified in this Agreement. Moreover, if Guest’s Rent payment made by electronic payment is charged back at any time during the Term, Guest may be required to pay all future Rent and other charges by money order, certified check or cash. 5R Suites may apply any payment made by Guest to any obligation of Guest under this Lease, notwithstanding any dates or other direction from Guest that accompanies any such payment. Any attempt by Guest to allocate a payment in any other way shall be null and void. All monies will be applied to past due amounts first and then to any outstanding Rent amounts unless otherwise specified. 5R Suites has provided Guest with the option of making payments to 5R Suites via certain electronic payment systems. If Guest submits an electronic payment to 5R Suites, then Guest is solely responsible for safeguarding their account information. Guest agrees, at Guest’s own expense, to indemnify, defend and hold 5R Suites harmless against any claim, suit, action or other proceeding brought against 5R Suites by a third party to the extent that such claim, suit, action or other proceeding is based on or arises in connection with the use of an electronic payment system. Guest acknowledges if a credit card is used to make payment, the card will be billed when applicable for future rent payments due per the terms listed on page 2 of the Rental Agreement.\n\n7. RENT FOR TWO MONTH TERMS AND LESS: If Guest’s Term is two months or less, then Guest shall pay the total amount of the Rent listed on page 2 of this Agreement prior to the occupancy of the Suite.\n\n8. RENT FOR THREE MONTH TERMS AND LONGER. If Guest’s Term is three months or longer, Guest hereby agrees to prorate its first month’s Rent in order that rental payments shall fall due on the first day of each month, and shall pay 5R Suites as its initial Rent the prorated first month and the month thereafter as specified on page 2 of this Agreement. Thereafter, Guest hereby agrees to pay Rent in advance on or before the first day of each and every month to 5R Suites or 5R Suites's authorized agent at the address specified above on Page 3 of this Agreement.\n\n9. LATE PAYMENTS & RETURNED CHECKS: If 5R Suites does not receive the Rent shown on page 2 of this Agreement by the end of the 3rd business day of the month, then 5R Suites may collect a one-time flat fee of $150.00 for that month. If any payment is returned for non-sufficient funds or because Guest stops payment, then after that, 5R Suites may, in writing, require Guest to pay Rent in cash, money order or cashier’s check. 5R Suites may terminate this Agreement for failure to pay late charges, and may terminate this Agreement for non-payment of Rent if not paid by the 7th business day of the month. 5R Suites may collect a fee of $25.00 on the first or any additional time a check is not honored for payment. The charges discussed in this paragraph shall be deemed Additional Rent. Both parties agree that these charges are presumed to be damages sustained because of Guest’s late payment of rent and not merely a penalty. Both parties further agree that it is impractical and/or extremely difficult to ascertain the actual damages sustained by 5R Suites as a result of Guest’s late payment of Rent.\n\n10. CANCELLATIONS: For short term stays 28 days and under, Guest must provide a 14-day written notice of cancellation to 5R Suites prior to move-in date to receive 100% of the total amount paid, 0% will be forfeited to 5R Suites. If Guest cancels 13-days or prior to the start of cancellation, they shall receive a 50% refund, 50% is forfeited to 5R Suites. Upon notice of cancellation during a reservation, the entire reservation amount will be forfeited if less than 14-days remain on the contract. If more than 14-days remain on the contract, all days beyond 14 days in the future shall be refunded and or not assessed as a future rent payment. For long term stays over 28 days, Guest must provide a 30-day written notice of cancellation to 5R Suites prior to move-in date to receive 100% of the total amount paid, 0% will be forfeited to 5R Suites. If Guest cancels up to 29-days prior to, and during a reservation, the first, or next 30 days of the reservation will be forfeited. If more than 30-days remain on the contract, all days beyond 30 days in the future shall be refunded and, or, not assessed as a future rent payment. If Guest term of occupancy was less than 30-days, a tax rate of 14.6% will be assessed even if the original booking was for 30+ days + sub-sequential nightly rate. If this cancellation policy is in conflict with the cancellation policy as outlined on the Guest’s booking platform, the cancellation policy outlined on the booking platform will supersede this clause.\n\n11. LOST KEY, REMOTE CONTROL OR PARKING PASS: Each Flat may contain at least one (1) remote control for the TV, one (1) parking pass for one car, and be issued up to 2 key(s) per Suite upon execution of this Agreement and payment of the First Month’s Rent. If at the time of the Move Out Date, the remote control is missing, or Guest fails to turn in the parking pass or key, or requests keys in addition to the 2 provided, than Guest shall be charged the non-refundable fees (“Additional Rent”) listed in the “Additional Rent Addendum” attached hereto.\n\n12. CREDIT CARD CHARGE: As a condition of this Agreement, Guest hereby authorizes 5R Suites to use Guest’s credit card for the payment of the Rent and Additional Rent. Guest further authorizes 5R Suites to automatically charge their credit card on file if payment of the Rent or Additional Rent is not received by 5R Suites by the date specified in this Agreement. Additionally, 5R Suites hereby reserves the right to charge the Guest’s credit card for any and all losses or damages sustained to the Premises caused by Guest or Guest’s Invitees.\n\n13. ACCOMMODATIONS: 5R Suites agrees to provide a suite fully furnished with water, gas, electricity, air conditioning, heating, refrigerator, oven, stove top, and internet (hereinafter “Services”). Failure to supply such Services shall not result in any liability whatsoever to 5R Suites. Notwithstanding the above, Rent for the Suite does not include additional services, including but not limited to in room phones, daily maid service, food and detergents.\n\n14. ENTRY: 5R Suites, through its agents, servants, and/or employees, has full right of access to the Suite to enforce the terms of this Agreement, to make necessary repairs and alterations, and to show the Suite for business purposes. Except to provide any agreed services, at any time, including but not limited to, the Services, such entry shall be made during normal business hours and upon at least twenty-four (24) hours' prior notice. Additionally, in the case of an emergency or Guest's abandonment or surrender of the Suite, 5R Suites or 5R Suites's agent may enter the Premises at any time, without obtaining Guest's prior consent.\n\n15. RELEASE OF LIABILITY AND ASSUMPTION OF RISK AS CONDITION FOR USE OF RECREATIONAL FACILITIES: Guest acknowledges that using the gym, pool, jacuzzi, or any and all other recreational facilities at the Property (“Recreational Facilities”) involves certain inherent risks, including (without limitation) the risk of death, serious personal injury and damage and /or loss to personal property. Guest IS HEREBY NOTIFIED THAT 5R Suites DOES NOT PROVIDE A LIFEGUARD OR ANY OTHER SUPERVISION WITHIN THE RECREATIONAL FACILITIES. Guest agrees to assume any and all such risks, as well as any other risks involved in using the Recreational Facilities. Guest also agrees to indemnify, hold harmless and defend 5R Suites from and against any loss, damage, liability, and expense, including attorneys’ fees and costs, incurred by 5R Suites while at or using the Recreational Facilities or any other recreational activity sponsored by or involving 5R Suites. Guest further agrees to release and discharge 5R Suites and all of its directors, officers, managers, members, employees, agents, representatives, contractors, partners, assignees and successors in interest from and against any and all damages, actions, claims and liabilities, whether known or unknown, anticipated or unanticipated, suspected or unsuspected, relating to or arising from any recreational activity, occurrence or event to the fullest extent permitted by law. This Release is intended to release and discharge 5R Suites from all damages, actions, claims and liabilities of any nature, specifically including, but not limited to, damages, actions, claims and liabilities arising from, or related to, product liability in connection with equipment furnished at the gym, the negligence of, and/or strict liability against 5R Suites. In addition, Guest acknowledges that 5R Suites makes no warranty with respect to the equipment or other products furnished at the gym, whether expressed or implied, including, but not limited to an implied warranty of merchantability or fitness for a particular purpose.\n\n16. RELEASE OF LIABILITY AND ASSUMPTION OF RISK AS CONDITION FOR USE OF VALET PARKING AND DROP OFF CAR SERVICES AT CERTAIN PROPERTIES: No invitee of Guest shall use the parking facilities at the Building. Guest acknowledges that using the valet or complimentary drop off car services provided at certain 5R Suites Properties (collectively “Vehicle Services”) are provided to the Guests listed on page 1 of this Agreement, and involve certain inherent risks, including (without limitation) the risk of serious personal injury, damage and/or loss to Guest’s vehicle, and/or damage and/or loss to Guest’s personal property within the vehicle. Guest agrees to assume any and all such risks, as well as any other risks involved in using the Vehicle Services. Guest also agrees to indemnify, hold harmless and defend 5R Suites from and against any loss, damage, liability, and expense, including attorneys’ fees and costs, incurred by 5R Suites as a result of Guest’s use of the Vehicle Services. Guest further agrees to release and discharge 5R Suites and all of its directors, officers, managers, members, employees, agents, representatives, contractors, partners, assignees and successors in interest from and against any and all damages, actions, claims and liabilities, whether known or unknown, anticipated or unanticipated, suspected or unsuspected, relating to or arising from Guest’s use of the Vehicle Services, to the fullest extent permitted by law. This Release is intended to release and discharge 5R Suites from any and all damages, actions, claims and liabilities of any nature, specifically including, but not limited to, damages, actions, claims and liabilities arising from, or related to, Guest’s use of the Vehicle Services.\n\n17. WAIVER/RELEASE: Guest’s personal property and vehicles are not insured by 5R Suites against loss or damage due to fire, theft, vandalism, rain, water, criminal or negligent acts, or any other cause. Guest specifically acknowledges and affirms that only Guest, and not 5R Suites, is responsible for all of Guest’s personal property, business documents, equipment, office supplies, and any other items kept within the Suite, and Guest specifically waives all claims relating to its personal and business property, and specifically releases 5R Suites from all such liability.\n\n18. DAMAGE OR DESTRUCTION: (a) Partial Damage: If partial damage occurs to the Premises, unless caused by a negligent or willful act of Guest or Guest’s Invitees (in which event Guest shall make the repairs at Guest’s own expense), 5R Suites may either: (i) repair such damage as soon as reasonably possible at 5R Suites’s own expense, in which event this Agreement shall continue in full force and effect, or in the event of a Term longer than 3 months, (ii) terminate this Agreement by giving written notice to Guest within 30 days after receipt by 5R Suites of knowledge of the occurrence of such damage. Such termination shall be effective 60 days following the date of such notice. In the event 5R Suites elects to terminate this Agreement, Guest shall have the right within 10 days after receipt of the termination notice to give written notice to 5R Suites of Guest’s commitment to pay for the repair of such damage without reimbursement from 5R Suites. Guest shall provide 5R Suites with said funds within 30 days after making such commitment. In such event, this Agreement shall continue in full force and effect, and 5R Suites shall proceed to make such repairs as soon as reasonably possible after the required funds are available. If Guest does not make the required commitment, this Agreement shall terminate as of the date as specified in the termination notice. (b) Total Destruction: If total destruction to the Premises occurs, this Agreement shall terminate following such destruction. If the damage of destruction was caused by the negligence or willful misconduct of Guest or Guest’s Invitees, 5R Suites shall have the right to recover 5R Suites’s damages from Guest.\n\n19. ASSIGNMENT AND SUBLETTING: Guest shall not voluntarily or by operation of law assign, transfer, mortgage or encumber (collectively, “assign or assignment”) or sublet all or any part of Guest’s interest in this Agreement. Any assignment or subletting without 5R Suitess consent shall, at 5R Suites’s option, be a non-curable breach of this Agreement without necessity of any notice and grace period. If 5R Suites elects to treat such unapproved assignment or subletting as a non-curable breach, 5R Suites may either: (i) terminate this Agreement, or (ii) increase the Rent to 110% of the Rent then in effect.",
+      "divider": "hide",
+      "heading_size": "small"
+     }
+    },
+    {
+     "type": "rich_text",
+     "data": {
+      "heading": "",
+      "body": "20. DEFAULT AND REMEDIES: In the event of Guest’s failure to timely pay Rent or breach any provisions of this Agreement, 5R Suites may, with or without further notice or demand, and without limiting 5R Suites in the exercise of any right or remedy which 5R Suites may have by reason of such breach, terminate this Agreement and/or Guest's right to possession of the Premises by any lawful means, and/or restrict or terminate Guest’s use of Additional Services and amenities. In such event, 5R Suites shall be entitled to recover from Guest: (i) the unpaid Rent which had been earned at the time of termination; (ii) the worth at the time of award of amount by which the unpaid Rent which would have been earned after termination until the time of award exceeds the amount of such rental loss that the Guest proves could have been reasonably avoided; (iii) the worth at the time of award of the amount by which the unpaid Rent for the balance of the term after the time of award exceeds the amount of such rental loss that the Guest proves could be reasonably avoided; and (iv) any other amount necessary to compensate 5R Suites for all the detriment proximately caused by the Guest's failure to perform its obligations under this Agreement, including but not limited to the cost of recovering possession of the Premises, expenses of reletting, leasing commissions, and reasonable attorneys' fees and costs. Such fees may be awarded in the same suit or recovered in a separate suit, whether or not such action or proceeding is pursued to decision or judgment. Efforts by 5R Suites to mitigate damages caused by Guest's breach of this Agreement shall not waive 5R Suites's right to recover damages.\n\n21. USE OF PREMISES: Guest or Guest’s Invitees shall not disturb, annoy, harass, endanger, or interfere with the peace and quiet enjoyment of any other tenant, occupant, or invitees at the Property. Guest or Guest’s Invitees shall not commit waste upon the Premises or Property, or maintain, commit, or permit the maintenance or commission of nuisance upon the Premises or Property, or use the Premises or Property for any unlawful purpose. Any violation of this section shall be deemed a material and incurable breach of this Agreement and shall entitle 5R Suites to serve Guest with a three-day notice to quit, terminating the tenancy and resulting in a forfeiture of this Agreement. Guest shall not make any structural or surface alterations to the interior of the Suite, including but not limited to painting, drilling, and/or nailing into the walls. Guest is liable and fully responsible for any and all damages incurred by 5R Suites, except reasonable wear and tear, whether caused by Guest or Guest's Invitees throughout the entire duration of their use or occupancy. This includes, but is not limited to, intentional and/or unintentional removal of 5R Suites’s property, willful and/or accidental damage to the Suite and/or Property, including but not limited to any and all fixtures, appliances and furniture, and/or any alterations to the interior of the Suite. Guest’s credit card may be charged at full cost of repair and/or current replacement costs, including labor and material, removal and disposal, plus any applicable taxes and surcharges. In addition to the repair and/or replacement costs, if the repair and or replacement costs exceed $500 than Guest shall also lose their Security Deposit and be charged a non-refundable fee of $500 for 5R Suites’s time and effort in restoring the Premises back to its original condition.\n\n22. NO PETS OR SMOKING: No pets are allowed in the Premises. No smoking of any substance is allowed on the Premises. If a pet is maintained in the Premises or if smoking does occur on the Premises: 1) Guest is responsible for all damage caused by the pet or smoking including, but not limited to, stains, burns, odors, and removal of debris; 2) Guest is in breach of this Agreement; 3) Guest and any Guest’s Invitees, may be required to leave the Premises; and 4) Guest acknowledges that in order to remove odor caused by a pet or smoking, 5R Suites may need to replace carpet and drapes and paint the entire premises regardless of when these items were last cleaned, replaced, or repainted. Such actions and other necessary steps will impact the return of any Security Deposit.\n\n23. RULES & REGULATIONS: Guest agrees to comply with all rules and regulations of 5R Suites which are at any time posted on the Property or delivered to Guest (“Rules & Regulations”). Guest acknowledges that they have received the most recent version of the Rules & Regulations, and that version, and all future versions, are incorporated herein as part of this Agreement. 5R Suites shall not be responsible to Guest for the non-compliance with the Rules & Regulations by other tenants. If Guest violates any of the Rules & Regulations, including but not limited to, use of the Pool outside of the hours permitted, than 5R Suites may, in its sole discretion, charge to Guest as Additional Rent, the fee listed in the Additional Rent Addendum below.\n\n24. CONSTRUCTION: Headings at the beginning of each section are solely for the convenience of the parties and are not a part of and shall not be used to interpret this Agreement. The singular form shall include plural, and vice versa. This Agreement shall not be construed as if it had been prepared by one of the parties, but rather as if both parties have prepared it. Unless otherwise indicated, all references to sections are to this Agreement.\n\n25. INDEMNITY AND LIMITATION OF LIABILITY: Guest shall fully indemnify, protect, defend and hold harmless 5R Suites and its directors, agents, managers, invitees, members, partners, contractors, lenders, employees, representatives, and assignees (“Indemnitees”), from and against any and all claims, loss of rents, costs, damages, liens, judgments, penalties, reasonable attorneys’ and/or consultants’ fees, actual out of pocket expenses and/or liabilities, however caused, directly or indirectly, arising out of, involving, or in connection with, the use or occupancy of the Suite, Recreational Facilities, and/or Property by Guest or Guest’s Invitees, including any alleged act, failure to act or negligence of Indemnitees, excluding claims arising from the sole gross negligence and willful misconduct of 5R Suites or its employees. Further, 5R Suites shall not be liable for any injury or damage to Guest or any Guest’s Invitees, or any damages to the property or any loss of personal property of Guest or Guest’s Invitees, occurring within the Suite or any portion of the Property. In addition, 5R Suites is not liable for any loss or damage to Guest’s vehicles, and/or the vehicles of Guest’s Invitees, due to fire, theft, vandalism, rain, water, criminal or negligent acts, or any other cause while parked at the Property. Each party waives the right of subrogation against the other party. 5R Suites’S LIABILITY ARISING OUT OF THIS AGREEMENT SHALL BE LIMITED TO THE TOTAL RENT AND FEES PAID BY Guest TO 5R Suites PURSUANT TO THIS AGREEMENT. IN NO EVENT SHALL 5R Suites BE LIABLE TO Guest OR Guest’s INVITEES FOR ANY CONSEQUENTIAL, INCIDENTAL, INDIRECT, SPECIAL, AND/OR PUNITIVE DAMAGES, HOWEVER CAUSED, AND ON ANY THEORY OF LAW. This Section shall survive the expiration or earlier termination of this Agreement.\n\n26. GENERAL PROVISIONS: Time is of the essence. This is the Parties’ entire Agreement and may be amended only be separate writing executed by both Parties. The validity, meaning, and effect of this Agreement shall be determined in accordance with California law. If any of the provisions of this Agreement are determined to be invalid, illegal, or unenforceable, such provisions shall be modified to the minimum extent necessary to make such provisions enforceable, and the validity, legality, and enforceability of the remaining provisions of this Agreement shall continue in full force and effect to the extent the economic benefits conferred upon the parties by this Agreement remain substantially unimpaired. If Guest is more than one person, each person shall be jointly and severally liable for the performance of Guest's obligations under this Agreement. This Agreement is binding upon and inures to the benefit of the heirs, assigns, successors, executors, and administrators of 5R Suites and Guest. This Agreement contains the entire agreement between the Parties regarding the lease of the Premises and Property and it expressly supersedes all previous or contemporaneous agreements, understandings, representations, or statements between the parties regarding those matters. By signing below, Guest hereby represents and warrants that it has full legal power and authority to enter into this Agreement.",
+      "divider": "hide",
+      "heading_size": "small"
+     }
+    }
+   ]
   }
  ]
 }

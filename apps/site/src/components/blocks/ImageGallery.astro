@@ -9,13 +9,17 @@ const logos = data.variant === 'logo_strip';
   <div class="container">
     <Title heading={data.heading} center />
     {images.length === 0 ? null : logos ? (
-      <div class="logo-strip" data-reveal>
-        {images.map((i) => (i.link ? <a href={i.link} rel="noopener"><Img id={i.image} media={ctx.media} alt={i.caption || undefined} /></a> : <Img id={i.image} media={ctx.media} alt={i.caption || undefined} />))}
+      <div class="logo-strip">
+        {images.map((i, n) => (
+          <div class="logo-card" data-reveal="logo" style={`--i:${n % 4}`}>
+            {i.link ? <a href={i.link} rel="noopener"><Img id={i.image} media={ctx.media} alt={i.caption || undefined} /></a> : <Img id={i.image} media={ctx.media} alt={i.caption || undefined} />}
+          </div>
+        ))}
       </div>
     ) : (
       <div class="gallery">
         {images.map((i, n) => (
-          <figure data-reveal="zoom" style={`--i:${n % 4}`}>
+          <figure data-reveal="photo" style={`--i:${n % 4}`}>
             {i.link ? <a href={i.link}><Img id={i.image} media={ctx.media} /></a> : <Img id={i.image} media={ctx.media} />}
             {i.caption && <figcaption>{i.caption}</figcaption>}
           </figure>

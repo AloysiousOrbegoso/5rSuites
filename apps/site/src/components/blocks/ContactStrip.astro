@@ -1,7 +1,8 @@
 ---
+import Img from '../Img.astro';
 import SocialIcon from '../SocialIcon.astro';
 import Title from '../Title.astro';
-const { data } = Astro.props;
+const { data, ctx } = Astro.props;
 const tel = data.phone ? `tel:${data.phone.replace(/[^\d+]/g, '')}` : '';
 const style = data.style || 'brown';
 // Google Maps embed built from a plain text query — no API key, no arbitrary HTML.
@@ -11,15 +12,16 @@ const map = data.map_query ? `https://maps.google.com/maps?q=${encodeURIComponen
   <div class="container">
     <Title heading={data.heading} center />
     <div class:list={['contact-layout', !map && 'no-map']} style={!map ? 'justify-content:center' : undefined}>
-      <div class:list={['contact-card', style]} data-reveal="left">
+      <div class:list={['contact-card', style]} data-reveal="text" data-side="left">
         <dl>
-          {data.address && <div class="row"><SocialIcon name="pin" /><div><dt>Address</dt><dd>{data.address}</dd></div></div>}
-          {data.phone && <div class="row"><SocialIcon name="phone" /><div><dt>Phone Number</dt><dd><a href={tel}>{data.phone}</a></dd></div></div>}
-          {data.email && <div class="row"><SocialIcon name="mail" /><div><dt>Email</dt><dd><a href={`mailto:${data.email}`}>{data.email}</a></dd></div></div>}
-          {data.hours && <div class="row"><SocialIcon name="phone" /><div><dt>Hours</dt><dd>{data.hours}</dd></div></div>}
+          {data.address && <div class="row"><SocialIcon name="pin" badge /><div><dt>Address</dt><dd>{data.address}</dd></div></div>}
+          {data.phone && <div class="row"><SocialIcon name="phone" badge /><div><dt>Phone Number</dt><dd><a href={tel}>{data.phone}</a></dd></div></div>}
+          {data.email && <div class="row"><SocialIcon name="mail" badge /><div><dt>Email</dt><dd><a href={`mailto:${data.email}`}>{data.email}</a></dd></div></div>}
+          {data.hours && <div class="row"><SocialIcon name="phone" badge /><div><dt>Hours</dt><dd>{data.hours}</dd></div></div>}
         </dl>
+        {data.image && ctx.media.get(data.image) && <div class="card-photo" data-reveal="photo"><Img id={data.image} media={ctx.media} sizes="372px" /></div>}
       </div>
-      {map && <iframe class="map" data-reveal="right" src={map} title={`Map of ${data.map_query}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>}
+      {map && <iframe class="map" data-reveal="text" data-side="right" src={map} title={`Map of ${data.map_query}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>}
     </div>
   </div>
 </section>

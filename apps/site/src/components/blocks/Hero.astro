@@ -5,8 +5,8 @@ const { data, ctx, isFirst, nextBg = '#fff' } = Astro.props;
 const Heading = isFirst ? 'h1' : 'h2';
 const full = data.variant !== 'title';
 ---
-<section class:list={['hero', full ? 'full' : 'title']}>
-  <Img id={data.image} media={ctx.media} class="hero-bg" eager={isFirst} alt="" />
+<section class:list={['hero', full ? 'full' : 'title', !full && data.height && `h-${data.height}`]}>
+  {data.image && <div class="bg-clip"><Img id={data.image} media={ctx.media} class="hero-bg" eager={isFirst} alt="" data-effect={data.bg_effect || 'parallax'} /></div>}
   <div class="container">
     {full && data.eyebrow && <p class="eyebrow-pill">{data.eyebrow}</p>}
     <Heading>{data.heading}</Heading>

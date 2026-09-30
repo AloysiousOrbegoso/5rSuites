@@ -28,10 +28,12 @@ export const BLOCKS = {
     description: 'Banner at the top of a page. "Full" is the tall home-page hero with text and buttons; "Title" is the shorter banner used on inner pages.',
     fields: [
       select('variant', 'Style', ['full', 'title']),
+      select('height', 'Height of a “title” banner', ['medium', 'tall', 'short']),
       text('eyebrow', 'Small label above heading', { max: 80 }),
       text('heading', 'Heading', { required: true }),
       textarea('subheading', 'Text under the heading', { max: 1000 }),
       image('image', 'Background image'),
+      select('bg_effect', 'Background photo motion while scrolling', ['parallax', 'fixed', 'none']),
       text('cta_label', 'Primary button label', { max: 60 }),
       url('cta_url', 'Primary button link'),
       text('secondary_label', 'Secondary button label', { max: 60 }),
@@ -73,6 +75,8 @@ export const BLOCKS = {
         image('image', 'Photo', { required: true }),
       ], { max: 3 }),
       select('background', 'Background behind the framed photos', ['white', 'cream']),
+      select('main_effect', 'Large photo: pan sideways while scrolling', ['pan', 'none']),
+      select('bottom_effect', 'Bottom framed photo: gently bob up and down', ['bob', 'none']),
     ],
   },
   traveler_grid: {
@@ -97,9 +101,11 @@ export const BLOCKS = {
       textarea('intro', 'Intro', { max: 800 }),
       list('items', 'Amenities', [
         select('icon', 'Icon', ICONS),
+        image('image', 'Icon image (replaces the icon above)'),
         text('label', 'Label', { required: true, max: 80 }),
         textarea('description', 'Description', { max: 300 }),
       ], { max: 32 }),
+      image('image', 'Photo tile after the cards (optional)'),
     ],
   },
   cta_banner: {
@@ -112,6 +118,7 @@ export const BLOCKS = {
       url('button_url', 'Button link'),
       select('tone', 'Background', ['gold', 'navy', 'brown', 'photo']),
       image('image', 'Background photo (for “photo”)'),
+      select('bg_effect', 'Background photo motion while scrolling', ['fixed', 'parallax', 'none']),
       select('size', 'Size', ['normal', 'large']),
     ],
   },
@@ -123,6 +130,7 @@ export const BLOCKS = {
       text('attribution', 'Name', { max: 120 }),
       text('role', 'Role / company', { max: 120 }),
       select('tone', 'Background', ['brown', 'white', 'navy']),
+      image('image', 'Decorative background image (optional)'),
     ],
   },
   contact_strip: {
@@ -135,6 +143,7 @@ export const BLOCKS = {
       text('email', 'Email', { max: 120 }),
       text('hours', 'Hours', { max: 120 }),
       select('style', 'Card colour', ['brown', 'white']),
+      image('image', 'Photo inside the card (optional)'),
       text('map_query', 'Show a map of (address or place, optional)', { max: 200 }),
     ],
   },
@@ -145,6 +154,7 @@ export const BLOCKS = {
       text('heading', 'Heading'),
       text('subheading', 'Subheading', { max: 200 }),
       text('category', 'Only show category (blank = all, with tabs per category)', { max: 80 }),
+      text('tabs', 'Tabs, in order, comma-separated (blank = one per category). A tab with no questions yet still shows.', { max: 300 }),
       number('limit', 'Max questions (0 = all)', { max: 200 }),
     ],
   },
@@ -168,6 +178,18 @@ export const BLOCKS = {
     ],
   },
 };
+
+// Every section can choose how its content animates in. "float" matches the old Wix site:
+// photos float up, buttons fold down, logos slide in, text stays put.
+export const ANIMATIONS = ['float', 'fade', 'slide', 'zoom', 'none'];
+for (const [type, block] of Object.entries(BLOCKS)) {
+  // Section headings on the old site came in three sizes: 50px (small), 60px, 70px (large).
+  if (type !== 'hero' && block.fields.some((f) => f.name === 'heading')) {
+    block.fields.push(select('heading_size', 'Heading size', ['medium', 'small', 'large']));
+    block.fields.push(select('divider', 'Double line under the heading', ['show', 'hide']));
+  }
+  block.fields.push(select('animation', 'Entrance animation (“float” matches the old site)', ANIMATIONS));
+}
 
 export const BLOCK_TYPES = Object.keys(BLOCKS);
 

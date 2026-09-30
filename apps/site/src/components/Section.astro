@@ -31,4 +31,8 @@ const RENDERERS = {
 const { section, ctx, isFirst, prevBg, nextBg } = Astro.props;
 const Renderer = RENDERERS[section.type];
 ---
-{Renderer && <Renderer data={section.data} ctx={ctx} isFirst={isFirst} prevBg={prevBg} nextBg={nextBg} />}
+{Renderer && (
+  <div class="anim" data-anim={section.data?.animation || 'float'} data-hs={section.data?.heading_size || 'medium'} data-divider={section.data?.divider || 'show'}>
+    <Renderer data={section.data} ctx={ctx} isFirst={isFirst} prevBg={prevBg} nextBg={nextBg} />
+  </div>
+)}

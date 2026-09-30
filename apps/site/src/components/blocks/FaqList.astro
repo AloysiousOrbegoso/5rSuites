@@ -4,7 +4,10 @@ const { data, ctx } = Astro.props;
 let items = data.category ? ctx.faqs.filter((f) => f.category === data.category) : ctx.faqs;
 if (data.limit > 0) items = items.slice(0, data.limit);
 // Without a fixed category, show one tab per category (like the previous site).
-const categories = data.category ? [] : [...new Set(items.map((f) => f.category).filter(Boolean))];
+// Staff can fix the tab list and order (the old site had an empty "Partners" tab); any other
+// category that has questions is added after the listed ones.
+const listed = String(data.tabs || '').split(',').map((t) => t.trim()).filter(Boolean);
+const categories = data.category ? [] : [...new Set([...listed, ...items.map((f) => f.category).filter(Boolean)])];
 const tabbed = categories.length > 1;
 ---
 <section class="section">
@@ -15,7 +18,7 @@ const tabbed = categories.length > 1;
         {categories.map((c, i) => <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-cat={c}>{c}</button>)}
       </div>
     )}
-    <div class="faq" data-reveal>
+    <div class="faq" data-reveal="text">
       {items.map((f) => (
         <details data-cat={f.category} hidden={tabbed && f.category !== categories[0]}>
           <summary>{f.question}</summary>

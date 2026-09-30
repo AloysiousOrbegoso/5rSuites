@@ -9,12 +9,12 @@ const [main, top, bottom] = (data.photos || []).map((p) => p?.image);
 {main && (
   <section class:list={['collage', data.background === 'cream' && 'on-cream']}>
     <div class="collage-band">
-      <div class="collage-main" data-reveal="left"><Img id={main} media={ctx.media} sizes="(min-width: 1000px) 50vw, 100vw" /></div>
+      <div class="collage-main" data-reveal="text" data-side="left"><Img id={main} media={ctx.media} sizes="(min-width: 1000px) 60vw, 100vw" data-effect={data.main_effect || 'pan'} /></div>
     </div>
     {(top || bottom) && (
       <div class="collage-frames">
-        {top && <div class="frame top" data-reveal="right"><Img id={top} media={ctx.media} sizes="(min-width: 1000px) 473px, 50vw" /></div>}
-        {bottom && <div class="frame bottom" data-reveal="right" style="--i:3"><Img id={bottom} media={ctx.media} sizes="(min-width: 1000px) 348px, 50vw" /></div>}
+        {top && <div class="frame top" data-reveal="photo" data-side="right"><Img id={top} media={ctx.media} sizes="(min-width: 1000px) 473px, 50vw" /></div>}
+        {bottom && <div class:list={['frame bottom', (data.bottom_effect || 'bob') === 'bob' && 'bob']} data-reveal="photo" data-side="right"><Img id={bottom} media={ctx.media} sizes="(min-width: 1000px) 348px, 50vw" /></div>}
       </div>
     )}
   </section>

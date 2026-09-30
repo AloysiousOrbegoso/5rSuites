@@ -1,14 +1,16 @@
 ---
+import Img from '../Img.astro';
 import Wave from '../Wave.astro';
-const { data, prevBg = '#fff', nextBg = '#fff' } = Astro.props;
+const { data, ctx, prevBg = '#fff', nextBg = '#fff' } = Astro.props;
 const tone = data.tone || 'brown';
 const band = tone !== 'white';
 ---
 <section class:list={['quote-band', `tone-${tone}`]}>
+  {data.image && <Img id={data.image} media={ctx.media} class="deco" alt="" data-effect="pan" data-pan="0.04" />}
   {band && <Wave position="top" color={prevBg} />}
   <div class="container">
-    <figure data-reveal>
-      <blockquote>“{data.quote}”</blockquote>
+    <figure data-reveal="text">
+      <blockquote>"{data.quote}"</blockquote>
       {(data.attribution || data.role) && (
         <figcaption>- {[data.attribution, data.role].filter(Boolean).join(', ')}</figcaption>
       )}
