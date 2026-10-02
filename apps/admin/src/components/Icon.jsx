@@ -19,6 +19,10 @@ const PATHS = {
   history: 'M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2',
   analytics: 'M4 20V4M4 20h16M8 16l4-5 3 3 5-7',
   settings: 'M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4',
+  sun: 'M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
+  moon: 'M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z',
+  arrow: 'M7 17 17 7M8 7h9v9',
+  edit: 'M4 20h4L19 9l-4-4L4 16zM13 7l4 4',
   download: 'M12 4v11M7 10l5 5 5-5M4 20h16',
 };
 

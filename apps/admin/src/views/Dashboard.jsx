@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { api } from '../api.js';
 import { useSession } from '../App.jsx';
 import Icon from '../components/Icon.jsx';
@@ -22,84 +23,120 @@ export function timeAgo(sqlDate) {
   return '';
 }
 
+// Counts up to its value once on mount; skips the motion for reduced-motion users.
+function CountUp({ value }) {
+  const [shown, setShown] = useState(0);
+  useEffect(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !value) { setShown(value); return undefined; }
+    let raf;
+    const start = performance.now();
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / 900);
+      setShown(Math.round(value * (1 - (1 - t) ** 3)));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  return shown.toLocaleString('en-US');
+}
+
+function Stat({ to, icon, label, value, note, good, attention, i }) {
+  return (
+    <Link to={to} className={`stat rise${attention ? ' attention' : ''}`} style={{ '--i': i + 1 }}>
+      <span className="stat-top">
+        <span className="stat-icon"><Icon name={icon} /></span>
+        <Icon name="arrow" size={16} className="stat-arrow" />
+      </span>
+      <span className="stat-label">{label}</span>
+      <strong><CountUp value={value} /></strong>
+      <span className={`stat-note${good ? ' good' : ''}`}>{note}</span>
+    </Link>
+  );
+}
+
+function DashboardSkeleton() {
+  return (
+    <div className="dash" aria-busy="true">
+      <div className="skeleton" style={{ minHeight: 150, borderRadius: 18 }} />
+      <div className="stats">{[0, 1, 2, 3].map((n) => <div key={n} className="skeleton" />)}</div>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const { user } = useSession();
   const { data, error } = useLoad(() => api('/dashboard'), []);
 
   if (error) return <ErrorNote error={error} />;
-  if (!data) return <Loading />;
+  if (!data) return <DashboardSkeleton />;
   const unreadTotal = Object.values(data.unread).reduce((a, b) => a + b, 0);
   const firstName = (user.name || '').split(' ')[0];
+  const today = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
 
   return (
-    <div>
-      <header className="page-head">
+    <div className="dash">
+      <header className="hero rise">
         <div>
-          <h1>Dashboard</h1>
-          <p className="subtitle">Welcome back{firstName ? `, ${firstName}` : ''}. Here’s what’s happening across the site.</p>
+          <span className="hero-eyebrow"><i />{today}</span>
+          <h1>Welcome back{firstName ? `, ${firstName}` : ''}.</h1>
+          <p>
+            {unreadTotal
+              ? `You have ${unreadTotal} unread submission${unreadTotal === 1 ? '' : 's'} waiting. Here’s what’s happening across the site.`
+              : 'You’re all caught up. Here’s what’s happening across the site.'}
+          </p>
         </div>
-        <Link to="/pages" className="btn primary">Edit a Page</Link>
+        <div className="hero-actions">
+          {unreadTotal > 0 && <Link to="/submissions" className="btn">Review submissions</Link>}
+          <Link to="/pages" className="btn gold">Edit a Page</Link>
+        </div>
       </header>
 
       <div className="stats">
-        <Link to="/analytics" className="stat">
-          <span className="stat-label">Visitors, last 7 days</span>
-          <strong>{(data.visitors?.week ?? 0).toLocaleString('en-US')}</strong>
-          <span className="stat-note">{data.visitors?.views ? `${data.visitors.views.toLocaleString('en-US')} page views · see Analytics` : 'Counting starts when the site is live'}</span>
-        </Link>
-        <Link to="/submissions" className="stat">
-          <span className="stat-label">Unread Submissions</span>
-          <strong>{unreadTotal}</strong>
-          <span className={`stat-note${unreadTotal ? ' good' : ''}`}>
-            {unreadTotal ? Object.entries(data.unread).map(([k, n]) => `${n} ${FORM_LABELS[k]}`).join(' · ') : 'All caught up'}
-          </span>
-        </Link>
-        <Link to="/pages" className="stat">
-          <span className="stat-label">Published Pages</span>
-          <strong>{data.pages.count}</strong>
-          <span className="stat-note">Last edit {timeAgo(data.pages.lastEdit)}{data.pages.lastEditor ? ` by ${data.pages.lastEditor}` : ''}</span>
-        </Link>
-        <Link to="/units" className="stat">
-          <span className="stat-label">Units Listed</span>
-          <strong>{data.units.count}</strong>
-          <span className="stat-note">{data.units.active} shown on site · {data.units.count - data.units.active} hidden</span>
-        </Link>
+        <Stat i={0} to="/analytics" icon="analytics" label="Visitors, last 7 days" value={data.visitors?.week ?? 0}
+          note={data.visitors?.views ? `${data.visitors.views.toLocaleString('en-US')} page views · see Analytics` : 'Counting starts when the site is live'} />
+        <Stat i={1} to="/submissions" icon="submissions" label="Unread Submissions" value={unreadTotal} attention={unreadTotal > 0} good={!unreadTotal}
+          note={unreadTotal ? Object.entries(data.unread).map(([k, n]) => `${n} ${FORM_LABELS[k]}`).join(' · ') : 'All caught up'} />
+        <Stat i={2} to="/pages" icon="pages" label="Published Pages" value={data.pages.count}
+          note={`Last edit ${timeAgo(data.pages.lastEdit)}${data.pages.lastEditor ? ` by ${data.pages.lastEditor}` : ''}`} />
+        <Stat i={3} to="/units" icon="units" label="Units Listed" value={data.units.count}
+          note={`${data.units.active} shown on site · ${data.units.count - data.units.active} hidden`} />
         {data.users && (
-          <Link to="/staff" className="stat">
-            <span className="stat-label">Staff Accounts</span>
-            <strong>{data.users.owner + data.users.staff}</strong>
-            <span className="stat-note">{data.users.owner} owner · {data.users.staff} staff</span>
-          </Link>
+          <Stat i={4} to="/staff" icon="staff" label="Staff Accounts" value={data.users.owner + data.users.staff}
+            note={`${data.users.owner} owner · ${data.users.staff} staff`} />
         )}
       </div>
 
       <div className="dash-grid">
-        <section className="panel">
-          <h2 className="panel-title">Recent Activity</h2>
+        <section className="panel rise" style={{ '--i': 5 }}>
+          <div className="panel-head-row"><h2>Recent Activity</h2></div>
           {data.activity.length === 0 ? (
-            <p className="muted panel-pad">Nothing yet. Edits and form submissions will show up here.</p>
+            <p className="muted empty-pad">Nothing yet. Edits and form submissions will show up here.</p>
           ) : (
             <ul className="activity">
               {data.activity.map((a, i) => (
                 <li key={i}>
                   <Link to={a.link} className="activity-row">
-                    <span>{a.kind === 'edit' ? <>{a.who} edited <strong>{a.what}</strong></> : a.who}</span>
-                    <span className="muted-dark">{a.detail}</span>
-                    <span className="muted when">{timeAgo(a.at)}</span>
+                    <span className={`activity-ico${a.kind === 'edit' ? '' : ' sub'}`}><Icon name={a.kind === 'edit' ? 'edit' : 'submissions'} size={16} /></span>
+                    <span className="activity-text">
+                      <span>{a.kind === 'edit' ? <>{a.who} edited <strong>{a.what}</strong></> : a.who}</span>
+                      {a.detail && <span className="detail">{a.detail}</span>}
+                    </span>
+                    <span className="when">{timeAgo(a.at)}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           )}
         </section>
-        <section className="panel panel-pad">
-          <h2>Quick Links</h2>
+        <section className="panel rise" style={{ '--i': 6 }}>
+          <div className="panel-head-row"><h2>Quick Actions</h2></div>
           <div className="quick-links">
-            <Link to="/pages"><Icon name="pages" />Edit Pages</Link>
-            <Link to="/submissions"><Icon name="submissions" />View Submissions</Link>
-            <Link to="/units"><Icon name="units" />Manage Units</Link>
-            <Link to="/media"><Icon name="media" />Upload Photos</Link>
-            {user.role === 'owner' && <Link to="/staff"><Icon name="staff" />Manage Staff</Link>}
+            <Link to="/pages"><span className="qi"><Icon name="pages" /></span>Edit Pages</Link>
+            <Link to="/submissions"><span className="qi"><Icon name="submissions" /></span>View Submissions</Link>
+            <Link to="/units"><span className="qi"><Icon name="units" /></span>Manage Units</Link>
+            <Link to="/media"><span className="qi"><Icon name="media" /></span>Upload Photos</Link>
+            {user.role === 'owner' && <Link to="/staff"><span className="qi"><Icon name="staff" /></span>Manage Staff</Link>}
           </div>
         </section>
       </div>

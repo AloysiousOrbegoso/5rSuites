@@ -12,7 +12,10 @@ export default function Pages() {
   return (
     <div>
       <header className="page-head">
-        <h1>Pages</h1>
+        <div>
+          <h1>Pages</h1>
+          <p className="subtitle">Every page on the public site. Open one to edit its sections.</p>
+        </div>
         {user.role === 'owner' && <button className="btn primary" onClick={() => setCreating(true)}>New page</button>}
       </header>
       <ErrorNote error={error} />

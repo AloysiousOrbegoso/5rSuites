@@ -10,7 +10,10 @@ export default function MediaLibrary() {
   return (
     <div>
       <header className="page-head">
-        <h1>Media</h1>
+        <div>
+          <h1>Media</h1>
+          <p className="subtitle">Photos used across the site. Add alt text so every image is accessible.</p>
+        </div>
         <UploadButton label="Upload images" onUploaded={() => {}} />
       </header>
       <p className="muted small">JPEG, PNG, WebP, GIF or AVIF, up to 10 MB. Add alt text so the images are accessible and help search rankings.</p>

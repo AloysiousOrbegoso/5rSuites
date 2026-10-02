@@ -26,10 +26,12 @@ export default function Units() {
   return (
     <div>
       <header className="page-head">
-        <h1>Units</h1>
+        <div>
+          <h1>Units</h1>
+          <p className="subtitle">Shown wherever a page has a “Unit grid” section. Booking happens on the external reservation site.</p>
+        </div>
         <button className="btn primary" onClick={() => setEditing({ is_active: 1, bedrooms: 1, bathrooms: 1, sleeps: 2, position: 0 })}>Add unit</button>
       </header>
-      <p className="muted small">Shown wherever a page has a “Unit grid” section. Booking happens on the external reservation site.</p>
       <table className="table">
         <thead><tr><th /><th>Unit</th><th>Location</th><th>Beds / baths / sleeps</th><th>Status</th><th /></tr></thead>
         <tbody>

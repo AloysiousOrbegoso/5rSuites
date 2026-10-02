@@ -3,6 +3,7 @@ import { api, setUnauthorizedHandler } from './api.js';
 import Icon from './components/Icon.jsx';
 import { Loading } from './components/ui.jsx';
 import { Link, match, navigate, useLocation } from './router.jsx';
+import { currentTheme, setTheme } from './theme.js';
 import Account from './views/Account.jsx';
 import Analytics from './views/Analytics.jsx';
 import Dashboard from './views/Dashboard.jsx';
@@ -109,6 +110,12 @@ function Shell({ path, children }) {
   const { user, siteUrl } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
   const [crumb, setCrumb] = useState(null);
+  const [theme, setThemeState] = useState(currentTheme);
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    setThemeState(next);
+  };
   const active = (to) => (to === '/' ? path === '/' : path === to || path.startsWith(`${to}/`));
   const section = '/' + (path.split('/')[1] || '');
 
@@ -122,8 +129,8 @@ function Shell({ path, children }) {
       <div className={`shell${menuOpen ? ' menu-open' : ''}`}>
         <aside className="sidebar">
           <div className="sidebar-brand">
-            <img className="brand-logo" src="/logo.png" alt="" width="40" height="40" />
-            <span>5R Suites Admin</span>
+            <span className="brand-tile"><img className="brand-logo" src="/logo.png" alt="" width="28" height="28" /></span>
+            <span>5R Suites<small>Admin</small></span>
           </div>
           <nav onClick={() => setMenuOpen(false)}>
             {NAV.map(([group, items]) => (
@@ -161,6 +168,9 @@ function Shell({ path, children }) {
               )}
             </div>
             <div className="topbar-right">
+              <button type="button" className="square-btn theme-btn" onClick={toggleTheme} aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'} title={theme === 'dark' ? 'Light mode' : 'Dark mode'}>
+                <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
+              </button>
               {siteUrl && <a className="btn ghost small" href={siteUrl} target="_blank" rel="noopener"><Icon name="external" size={16} />View site</a>}
               <Link to="/account" className="avatar" title="Account">{initials(user)}</Link>
             </div>

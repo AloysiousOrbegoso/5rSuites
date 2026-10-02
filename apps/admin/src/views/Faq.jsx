@@ -37,7 +37,10 @@ export default function Faq() {
   return (
     <div>
       <header className="page-head">
-        <h1>FAQ</h1>
+        <div>
+          <h1>FAQ</h1>
+          <p className="subtitle">Questions guests ask most, shown wherever a page has an FAQ list.</p>
+        </div>
         <button className="btn primary" onClick={() => setEditing({})}>Add question</button>
       </header>
       <p className="muted small">These appear wherever a page has an “FAQ list” section. Use a category to show a subset on a particular page.</p>

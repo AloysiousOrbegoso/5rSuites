@@ -5,12 +5,27 @@ import { Link } from '../router.jsx';
 
 function AuthCard({ title, children }) {
   return (
-    <div className="center-screen">
-      <div className="auth-card">
-        <div className="auth-brand"><img className="brand-logo" src="/logo.png" alt="" width="40" height="40" /><span>5R Suites Admin</span></div>
-        <h1>{title}</h1>
-        {children}
-      </div>
+    <div className="auth">
+      <aside className="auth-hero">
+        <div className="auth-brand"><span className="brand-tile"><img className="brand-logo" src="/logo.png" alt="" width="28" height="28" /></span><span>5R Suites<small className="brand-sub">Admin</small></span></div>
+        <div className="auth-pitch">
+          <span className="auth-eyebrow"><i />Welcome back</span>
+          <h2>Run every suite from one place.</h2>
+          <p>Update pages, answer guest inquiries and keep your listings fresh, all in one calm workspace.</p>
+          <ul className="auth-points">
+            <li><strong>Pages</strong><span>Edit live</span></li>
+            <li><strong>Units</strong><span>Always current</span></li>
+            <li><strong>Inbox</strong><span>Never miss a guest</span></li>
+          </ul>
+        </div>
+      </aside>
+      <main className="auth-form">
+        <div className="auth-card">
+          <h1>{title}</h1>
+          {children}
+          <p className="auth-foot"><i />Secure staff area. Authorized users only.</p>
+        </div>
+      </main>
     </div>
   );
 }
@@ -35,12 +50,13 @@ export function Login({ onSignedIn }) {
 
   return (
     <AuthCard title="Sign in">
+      <p className="muted auth-sub">Enter your details to open the dashboard.</p>
       <form onSubmit={submit} className="stack">
         <label className="field">Email<input name="email" type="email" autoComplete="username" required autoFocus /></label>
         <label className="field">Password<input name="password" type="password" autoComplete="current-password" required /></label>
+        <Link to="/forgot" className="small auth-forgot">Forgot your password?</Link>
         <ErrorNote error={error} />
         <button className="btn primary" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
-        <Link to="/forgot" className="small">Forgot your password?</Link>
       </form>
     </AuthCard>
   );

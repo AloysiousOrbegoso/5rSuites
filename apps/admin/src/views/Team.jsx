@@ -26,7 +26,10 @@ export default function Team() {
   return (
     <div>
       <header className="page-head">
-        <h1>Team</h1>
+        <div>
+          <h1>Team</h1>
+          <p className="subtitle">Who can sign in to this admin.</p>
+        </div>
         <button className="btn primary" onClick={() => setInviting(true)}>Invite someone</button>
       </header>
       <p className="muted small">Staff can edit sections and restore history. Only owners can create or delete pages, change URLs and manage logins.</p>

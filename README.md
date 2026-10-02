@@ -1,7 +1,6 @@
 # 5R Suites
 
 The 5R Suites website and CMS run on a fully owned stack (Astro, Cloudflare Workers/Pages, D1, R2).
-Read [`CLAUDE.md`](CLAUDE.md) for the architecture and the rules behind it.
 
 | App          | What                                   | Hosting           | Domain             |
 | ------------ | -------------------------------------- | ----------------- | ------------------ |
