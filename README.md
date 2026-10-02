@@ -3,10 +3,10 @@
 The 5R Suites website and CMS run on a fully owned stack (Astro, Cloudflare Workers/Pages, D1, R2).
 Read [`CLAUDE.md`](CLAUDE.md) for the architecture and the rules behind it.
 
-| App | What | Hosting | Domain |
-|---|---|---|---|
-| `apps/site` | Public site (Astro SSR, reads D1) | Cloudflare Worker | www.5rsuites.com |
-| `apps/admin` | CMS (React) + `/api/*` Pages Functions | Cloudflare Pages | admin.5rsuites.com |
+| App          | What                                   | Hosting           | Domain             |
+| ------------ | -------------------------------------- | ----------------- | ------------------ |
+| `apps/site`  | Public site (Astro SSR, reads D1)      | Cloudflare Worker | www.5rsuites.com   |
+| `apps/admin` | CMS (React) + `/api/*` Pages Functions | Cloudflare Pages  | admin.5rsuites.com |
 
 Shared code lives in `packages/blocks` (the 10 section types), `packages/design` (CSS tokens and styles) and `packages/server` (email and rate limiting). The database schema is in `migrations/`.
 
@@ -54,18 +54,3 @@ Run the unit tests with `npm test` (block validation, Markdown escaping, auth ha
 - The FAQ list and Units are managed on their own screens and appear wherever a page has an FAQ-list or Unit-grid section.
 - Forms are placed with the **Form** section type (Contact, Register Property, Careers).
 - Owners also manage pages (create, delete, URL, menu) and logins (Team → Invite).
-
-## Open items before launch
-
-- [ ] **Partners page:** confirm with the client whether it stays. It's seeded; an owner can delete it in the admin.
-- [ ] **AirROI:** create an account (starts from $10 credit) and set `AIRROI_API_KEY`. Submit one real Register Property test and check the admin submission shows property and city figures; if a figure is blank, adjust the field names in `apps/site/src/lib/report/airroi.js`.
-- [ ] **Report quality gate:** confirm the "hold weak reports for review" behaviour and the thresholds with the client. This is a mitigation for the flagged no-human-review risk.
-- [ ] **Logo:** replace the placeholder `apps/site/public/logo.svg` (and `favicon.svg`) with the real 5R Suites logo.
-- [ ] **Photos:** the Wix images couldn’t be copied here. Download them from Wix, upload in Media Library, and pick them in each section (hero backgrounds, PNW band, “Ideal choice for” icons, partner logos, text-section photos).
-- [ ] **FAQ answers:** only the questions were in the saved Wix pages; fill in answers under FAQ Items.
-- [ ] **Privacy Policy / Terms:** create them as pages and set `PRIVACY_URL` / `TERMS_URL` in `apps/site/wrangler.jsonc`.
-- [ ] **GA4:** create the property under the client's Google account and set `GA4_MEASUREMENT_ID`.
-- [ ] **Search Console:** verify via DNS TXT and submit `/sitemap.xml`.
-- [ ] **Wix migration:** DNS audit, email routing continuity, and old-URL redirects (not built yet).
-- [ ] **Ownership transfer gate:** repo, Cloudflare account and nameservers (see CLAUDE.md).
-- [ ] Confirm edge-cache purge on the live zone: save a section and reload the page.
