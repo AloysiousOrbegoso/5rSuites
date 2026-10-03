@@ -1,6 +1,7 @@
 import { isSafeUrl } from '@5rsuites/blocks';
 import { SETTINGS, loadSettings } from '@5rsuites/server/settings';
 import { published } from '../../lib/content.js';
+import { requireMediaId } from '../../lib/media.js';
 import { HttpError, cleanString, json, readJson, requireOwner } from '../../lib/http.js';
 
 // Site settings (contact details, links, social media, default share image). Anyone signed in
@@ -17,12 +18,7 @@ export async function onRequestPut({ request, env, data }) {
     if (!(s.key in body)) continue;
     let value;
     if (s.kind === 'image') {
-      const id = body[s.key] == null || body[s.key] === '' ? null : Number(body[s.key]);
-      if (id !== null) {
-        if (!Number.isInteger(id) || id <= 0) throw new HttpError(400, `${s.label} is not a valid image.`);
-        if (!(await env.DB.prepare('SELECT 1 FROM media WHERE id = ?').bind(id).first())) throw new HttpError(400, `${s.label}: that image no longer exists.`);
-      }
-      value = id === null ? '' : String(id);
+      value = String((await requireMediaId(env.DB, body[s.key], s.label)) ?? '');
     } else {
       value = cleanString(body[s.key], { max: s.max, label: s.label });
       if (value && s.kind === 'url' && !isSafeUrl(value)) throw new HttpError(400, `${s.label} must be a full https:// link or a site path like /privacy-policy.`);

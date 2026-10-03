@@ -4,7 +4,7 @@ import { initials, useSession } from '../App.jsx';
 import { ErrorNote, useToast } from '../components/ui.jsx';
 
 export default function Account() {
-  const { user } = useSession();
+  const { user, setUser } = useSession();
   const toast = useToast();
   const [nameError, setNameError] = useState(null);
   const [pwError, setPwError] = useState(null);
@@ -14,9 +14,8 @@ export default function Account() {
     e.preventDefault();
     setNameError(null);
     try {
-      await account.rename(new FormData(e.currentTarget).get('name'));
+      setUser((await account.rename(new FormData(e.currentTarget).get('name'))).user);
       toast('Name updated.');
-      setTimeout(() => location.reload(), 600);
     } catch (err) {
       setNameError(err);
     }

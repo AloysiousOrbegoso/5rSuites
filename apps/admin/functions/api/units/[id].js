@@ -3,7 +3,7 @@ import { HttpError, intParam, readJson } from '../../lib/http.js';
 import { COLUMNS, cleanUnit } from './index.js';
 
 export async function onRequestPut({ request, env, params }) {
-  const u = cleanUnit(await readJson(request));
+  const u = await cleanUnit(env.DB, await readJson(request));
   const row = await env.DB.prepare(
     `UPDATE units SET ${COLUMNS.map((c) => `${c} = ?`).join(', ')}, updated_at = datetime('now') WHERE id = ? RETURNING *`,
   )

@@ -1,4 +1,14 @@
 import { collectImageIds } from '@5rsuites/blocks';
+import { HttpError } from './http.js';
+
+export async function requireMediaId(db, value, label) {
+  if (value == null || value === '') return null;
+  const id = Number(value);
+  if (!Number.isInteger(id) || id <= 0 || !(await db.prepare('SELECT 1 FROM media WHERE id = ?').bind(id).first())) {
+    throw new HttpError(400, `${label}: that image doesn’t exist.`);
+  }
+  return id;
+}
 
 export function pagesUsingImage(sectionRows, id) {
   const pages = new Map();

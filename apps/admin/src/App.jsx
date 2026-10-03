@@ -77,7 +77,7 @@ export default function App() {
   }
 
   return (
-    <SessionContext.Provider value={session}>
+    <SessionContext.Provider value={{ ...session, setUser: (user) => setSession((s) => ({ ...s, user })) }}>
       <Shell path={path}>{content}</Shell>
     </SessionContext.Provider>
   );

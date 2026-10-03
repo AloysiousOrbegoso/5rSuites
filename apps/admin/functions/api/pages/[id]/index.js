@@ -1,4 +1,5 @@
 import { loadPage, published, publishedPage, snapshotStatements } from '../../../lib/content.js';
+import { requireMediaId } from '../../../lib/media.js';
 import { HttpError, cleanSlug, cleanString, intParam, json, readJson, requireOwner } from '../../../lib/http.js';
 
 export async function onRequestGet({ env, params }) {
@@ -25,7 +26,7 @@ export async function onRequestPatch({ request, env, params, data }) {
     show_in_nav: body.show_in_nav === undefined ? page.show_in_nav : body.show_in_nav ? 1 : 0,
     nav_order: body.nav_order === undefined ? page.nav_order : Number(body.nav_order) | 0,
     // Image for link previews; null = use the site default from Settings.
-    share_image: body.share_image === undefined ? page.share_image : await cleanImageId(db, body.share_image),
+    share_image: body.share_image === undefined ? page.share_image : await requireMediaId(db, body.share_image, 'Share image'),
   };
 
   const structural = next.slug !== page.slug || next.show_in_nav !== page.show_in_nav || next.nav_order !== page.nav_order;
@@ -41,15 +42,6 @@ export async function onRequestPatch({ request, env, params, data }) {
 
   // Titles and slugs appear in the nav on every page.
   return publishedPage(env, id, ['all']);
-}
-
-async function cleanImageId(db, value) {
-  if (value == null || value === '') return null;
-  const id = Number(value);
-  if (!Number.isInteger(id) || id <= 0 || !(await db.prepare('SELECT 1 FROM media WHERE id = ?').bind(id).first())) {
-    throw new HttpError(400, 'That share image no longer exists.');
-  }
-  return id;
 }
 
 // Owner only. The home page can't be deleted.

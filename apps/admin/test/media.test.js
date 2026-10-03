@@ -24,3 +24,14 @@ test('numbers that merely equal the id in non-image fields do not count', () => 
   const rows = [row(1, 'Home', 'faq_list', { heading: 'FAQ', limit: 7 })];
   assert.deepEqual(pagesUsingImage(rows, 7), []);
 });
+
+import { requireMediaId } from '../functions/lib/media.js';
+
+const dbWith = (row) => ({ prepare: () => ({ bind: () => ({ first: async () => row }) }) });
+
+test('requireMediaId accepts blank, rejects junk and missing images', async () => {
+  assert.equal(await requireMediaId(dbWith(null), '', 'Photo'), null);
+  assert.equal(await requireMediaId(dbWith({ 1: 1 }), '5', 'Photo'), 5);
+  await assert.rejects(requireMediaId(dbWith({ 1: 1 }), 'abc', 'Photo'), /Photo/);
+  await assert.rejects(requireMediaId(dbWith(null), 7, 'Photo'), /doesn’t exist/);
+});
