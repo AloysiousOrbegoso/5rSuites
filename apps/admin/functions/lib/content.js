@@ -1,6 +1,11 @@
 // Page revisions and public-site cache purging.
 
+import { BLOCKS, validateSection } from '@5rsuites/blocks';
+import { json } from './http.js';
+
 export const MAX_REVISIONS = 20;
+
+export const SNAPSHOT_VERSION = 1;
 
 // Snapshot the page's *current* state (as of the end of the batch it runs in).
 // Built entirely in SQL so it can run inside the same atomic db.batch() as the edit.
@@ -11,6 +16,7 @@ export function snapshotStatements(db, pageId, userId, note) {
         `INSERT INTO page_revisions (page_id, snapshot, note, created_by)
          SELECT p.id,
                 json_object(
+                  'v', ${SNAPSHOT_VERSION},
                   'page', json_object('title', p.title, 'slug', p.slug, 'meta_description', p.meta_description),
                   'sections', (SELECT json_group_array(json_object('type', s.type, 'data', json(s.data)))
                                  FROM (SELECT type, data FROM sections WHERE page_id = p.id ORDER BY position) s)
@@ -54,6 +60,32 @@ export async function purgeSite(env, tags) {
   } catch (err) {
     return { purged: false, purgeError: `Purge failed: ${err?.message || err}` };
   }
+}
+
+export async function published(env, tags, body, init) {
+  return json({ ...body, ...(await purgeSite(env, tags)) }, init);
+}
+
+export async function publishedPage(env, pageId, tags, init) {
+  return published(env, tags, { page: await loadPage(env.DB, pageId) }, init);
+}
+
+export function restorableSections(snapshot) {
+  const sections = [];
+  const problems = [];
+  snapshot.sections.forEach((s, i) => {
+    const where = `Section ${i + 1} (${BLOCKS[s.type]?.label ?? s.type})`;
+    if (!BLOCKS[s.type]) {
+      problems.push(`${where} is a section type that no longer exists.`);
+      return;
+    }
+    try {
+      sections.push({ type: s.type, data: validateSection(s.type, s.data) });
+    } catch (err) {
+      problems.push(`${where}: ${err.message}`);
+    }
+  });
+  return { sections, problems };
 }
 
 export async function loadPage(db, pageId) {

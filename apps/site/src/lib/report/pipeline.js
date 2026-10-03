@@ -18,9 +18,9 @@ import { assessQuality, buildReport } from './template.js';
 // Failures are never retried automatically, so nothing is billed twice.
 
 export async function runRegisterPropertyPipeline(env, { id, data }) {
-  // “Book a call” link: Settings screen first, wrangler var as fallback.
+  // “Book a call” link from the Settings screen.
   const settings = await loadSettings(env.DB, env).catch(() => ({}));
-  const schedulingUrl = settings.scheduling_url || env.SCHEDULING_URL || '';
+  const schedulingUrl = settings.scheduling_url || '';
   const address = `${data.street}, ${data.city}, ${data.state} ${data.zip}`;
   let metrics = null;
   let city = null;

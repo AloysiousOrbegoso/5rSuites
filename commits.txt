@@ -1,0 +1,6 @@
+  98948cd Admin client: one resources.js API layer; opening a submission no longer writes inside its GET loader
+  358eddd Media delete guard: find image uses via the block schema, not a JSON key name
+  b860630 Restore: refuse sections that fail validation instead of bypassing the validator
+  9be21ce Remove dead code; stop tracking the 187 MB wix-images export
+  d63cbbd One source of truth for form types; share the submissions list/export filter
+  2dd41bc Admin API: one published()/publishedPage() helper for the save→purge→respond tail

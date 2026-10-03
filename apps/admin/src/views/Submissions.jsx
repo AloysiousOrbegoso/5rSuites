@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { api } from '../api.js';
+import { FORM_TYPES, formLabel } from '@5rsuites/blocks';
+import { useEffect, useState } from 'react';
 import Icon from '../components/Icon.jsx';
 import { ErrorNote, Loading, formatDate, useLoad, useToast } from '../components/ui.jsx';
+import { submissions } from '../resources.js';
 import { Link } from '../router.jsx';
 
 const money = (n) => (typeof n === 'number' ? n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }) : '—');
 const percent = (n) => (typeof n === 'number' ? `${Math.round(n * 100)}%` : '—');
 
-const TYPE_LABELS = { contact: 'Contact', register_property: 'Register Property', careers: 'Careers' };
 const REPORT_LABELS = {
   pending: 'Report generating',
   sent: 'Report sent',
@@ -19,23 +19,22 @@ export default function Submissions() {
   const [type, setType] = useState('');
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(0);
-  const qs = new URLSearchParams({ ...(type && { type }), ...(status && { status }), page: String(page) });
-  const { data, error } = useLoad(() => api(`/submissions?${qs}`), [qs.toString()]);
+  const { data, error } = useLoad(() => submissions.list({ type, status, page }), [type, status, page]);
 
   return (
     <div>
       <header className="page-head">
         <h1>Form submissions</h1>
         {/* Same filters as the list; "Inbox" exports new + read. */}
-        <a className="btn" href={`/api/submissions/export?${new URLSearchParams({ ...(type && { type }), ...(status && { status }) })}`} download>
+        <a className="btn" href={submissions.exportUrl({ type, status })} download>
           <Icon name="download" size={16} />Export CSV
         </a>
       </header>
       <div className="row filters">
         <select value={type} onChange={(e) => { setType(e.target.value); setPage(0); }}>
           <option value="">All forms</option>
-          {Object.entries(TYPE_LABELS).map(([k, v]) => (
-            <option key={k} value={k}>{v}{data?.newCounts?.[k] ? ` (${data.newCounts[k]} new)` : ''}</option>
+          {Object.entries(FORM_TYPES).map(([k, { label }]) => (
+            <option key={k} value={k}>{label}{data?.newCounts?.[k] ? ` (${data.newCounts[k]} new)` : ''}</option>
           ))}
         </select>
         <select value={status} onChange={(e) => { setStatus(e.target.value); setPage(0); }}>
@@ -54,7 +53,7 @@ export default function Submissions() {
               {data.submissions.map((s) => (
                 <tr key={s.id} className={s.status === 'new' ? 'unread' : ''}>
                   <td>{formatDate(s.created_at)}</td>
-                  <td>{TYPE_LABELS[s.form_type]}{s.has_attachment ? ' 📎' : ''}</td>
+                  <td>{formLabel(s.form_type)}{s.has_attachment ? ' 📎' : ''}</td>
                   <td><Link to={`/submissions/${s.id}`}>{s.name || s.email || '(no name)'}</Link><div className="muted small">{s.email}</div></td>
                   <td>
                     <span className={`badge${s.status === 'new' ? ' accent' : ''}`}>{s.status}</span>
@@ -77,22 +76,26 @@ export default function Submissions() {
 }
 
 export function SubmissionDetail({ params }) {
-  const { data, error, reload } = useLoad(async () => {
-    const d = await api(`/submissions/${params.id}`);
-    if (d.submission.status === 'new') {
-      await api(`/submissions/${params.id}`, { method: 'PATCH', body: { status: 'read' } });
-      d.submission.status = 'read';
-    }
-    return d;
-  }, [params.id]);
+  const { data, error, reload, setData } = useLoad(() => submissions.get(params.id), [params.id]);
   const toast = useToast();
+
+  // Opening a new submission marks it read.
+  const id = data?.submission.id;
+  const isNew = data?.submission.status === 'new';
+  useEffect(() => {
+    if (!isNew) return;
+    submissions
+      .setStatus(id, 'read')
+      .then(() => setData((d) => ({ ...d, submission: { ...d.submission, status: 'read' } })))
+      .catch((e) => toast(`Couldn’t mark this as read: ${e.message}`, 'error'));
+  }, [id, isNew]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) return <ErrorNote error={error} />;
   if (!data) return <Loading />;
   const s = data.submission;
 
   const setStatus = async (status) => {
-    await api(`/submissions/${s.id}`, { method: 'PATCH', body: { status } }).catch((e) => toast(e.message, 'error'));
+    await submissions.setStatus(s.id, status).catch((e) => toast(e.message, 'error'));
     reload();
   };
 
@@ -101,7 +104,7 @@ export function SubmissionDetail({ params }) {
       <header className="page-head">
         <div>
           <Link to="/submissions" className="muted small">← Submissions</Link>
-          <h1>{TYPE_LABELS[s.form_type]} · {s.name || s.email}</h1>
+          <h1>{formLabel(s.form_type)} · {s.name || s.email}</h1>
           <p className="muted small">{formatDate(s.created_at)}</p>
         </div>
         <div className="row">
@@ -116,7 +119,7 @@ export function SubmissionDetail({ params }) {
         ))}
       </dl>
 
-      {s.attachment_key && <p><a className="btn" href={`/api/submissions/${s.id}/attachment`}>Download attachment</a></p>}
+      {s.attachment_key && <p><a className="btn" href={submissions.attachmentUrl(s.id)}>Download attachment</a></p>}
 
       {s.notify_status === 'failed' && (
         <p className="warn-box">The notification email for this submission failed to send ({s.notify_error}). The submission itself was saved.</p>

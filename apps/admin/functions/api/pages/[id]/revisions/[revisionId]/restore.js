@@ -1,6 +1,5 @@
-import { BLOCKS, validateSection } from '@5rsuites/blocks';
-import { loadPage, pageTag, purgeSite, snapshotStatements } from '../../../../../lib/content.js';
-import { HttpError, intParam, json } from '../../../../../lib/http.js';
+import { publishedPage, restorableSections, snapshotStatements } from '../../../../../lib/content.js';
+import { HttpError, intParam } from '../../../../../lib/http.js';
 
 // Restoring never deletes history: it writes the old content back and records that as a
 // brand-new revision. Slug and navigation are not restored (those are owner-only settings).
@@ -12,14 +11,10 @@ export async function onRequestPost({ env, params, data }) {
   if (!row) throw new HttpError(404, 'Revision not found.');
 
   const snapshot = JSON.parse(row.snapshot);
-  // Skip anything that no longer validates (e.g. a block type retired since the snapshot).
-  const sections = snapshot.sections.filter((s) => BLOCKS[s.type]).map((s) => {
-    try {
-      return { type: s.type, data: validateSection(s.type, s.data) };
-    } catch {
-      return { type: s.type, data: s.data };
-    }
-  });
+  const { sections, problems } = restorableSections(snapshot);
+  if (problems.length) {
+    throw new HttpError(422, `This version can’t be restored as is. ${problems.join(' ')}`);
+  }
 
   await db.batch([
     db.prepare('DELETE FROM sections WHERE page_id = ?').bind(pageId),
@@ -35,6 +30,5 @@ export async function onRequestPost({ env, params, data }) {
   ]);
 
   // Title may have changed, and it appears in the nav everywhere.
-  const purge = await purgeSite(env, ['all']);
-  return json({ page: await loadPage(db, pageId), ...purge });
+  return publishedPage(env, pageId, ['all']);
 }
