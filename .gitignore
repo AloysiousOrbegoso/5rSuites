@@ -6,6 +6,4 @@ dist/
 .env
 *.log
 .DS_Store
-
-# One-off Wix export (scripts/wix-export-images.mjs); regenerate rather than commit.
 wix-images/
